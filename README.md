@@ -39,6 +39,14 @@ Append the related issue ID to the branch name to make it easier to identity and
 3. **Provide Details**: Include as much detail as possible in the issue description, including steps to reproduce the issue, expected behavior, and actual behavior.
 4. **Label the Issue**: Apply appropriate labels to the issue to help categorize and prioritize it.
 
+## Development
+### 1. Prerequisites
+- PHP 8.4 or higher
+- Laravel Herd 1.14.0 or higher
+
+### 2. Steps
+TDB
+
 ## Comments
 TBD
 
