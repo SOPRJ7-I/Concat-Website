@@ -39,6 +39,53 @@ Append the related issue ID to the branch name to make it easier to identity and
 3. **Provide Details**: Include as much detail as possible in the issue description, including steps to reproduce the issue, expected behavior, and actual behavior.
 4. **Label the Issue**: Apply appropriate labels to the issue to help categorize and prioritize it.
 
+## Development
+### 1. Prerequisites
+- PHP 8.4 or higher
+- Laravel Herd 1.14.0 or higher
+
+### 2. Steps
+1. Clone the repository by running:  
+   ```sh
+   git clone https://github.com/N1TROGUE/concat-website.git
+   ```  
+2. Navigate to the application folder using the `cd` command in your terminal.  
+3. Install dependencies by running:  
+   ```sh
+   composer install
+   ```  
+4. Set up the environment file:  
+   - In the project’s root folder, create a `.env` file and copy the contents of `.env.example` into it manually,  
+     **OR** run the following command in your terminal:  
+     ```sh
+     copy .env.example .env
+     ```  
+5. Configure database credentials:  
+   - Open the `.env` file and update the following fields with the correct credentials:  
+     ```env
+     DB_DATABASE=your_database_name
+     DB_USERNAME=your_username
+     DB_PASSWORD=your_password
+     ```  
+6. Run the following commands:  
+   ```sh
+   php artisan key:generate
+   php artisan migrate
+   ```  
+   - When prompted, enter `yes`.
+   <br>
+   
+   ```sh
+   php artisan serve
+   npm install
+   ```  
+7. Ensure Laravel Herd has access to the application folder:  
+   - Within Laravel Herd navigate to **General → Add Path** and add the folder containing the project.  
+8. Access the application by visiting:  
+   ```
+   http://concat-website.test
+   ```
+
 ## Comments
 TBD
 
