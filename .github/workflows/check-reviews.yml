@@ -1,0 +1,25 @@
+name: Require 2 Reviews
+on:
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  check-reviews:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for 2 Approvals
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const reviews = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+            });
+            const approvers = new Set(reviews.data
+              .filter(review => review.state === 'APPROVED')
+              .map(review => review.user.login)
+            );
+            if (approvers.size < 2) {
+              core.setFailed('At least 2 unique approvals required.');
+            }
