@@ -1,7 +1,7 @@
 name: Require 2 Reviews
 on:
-  pull_request:
-    branches: [main, dev]
+  pull_request_target:
+    branches: [main, Dev]
 
 jobs:
   check-reviews:
@@ -16,10 +16,14 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.payload.pull_request.number,
             });
-            const approvers = new Set(reviews.data
-              .filter(review => review.state === 'APPROVED')
-              .map(review => review.user.login)
+
+            const approvers = new Set(
+              reviews.data
+                .filter(review => review.state === 'APPROVED')
+                .map(review => review.user.login)
             );
+
+            // Block if fewer than 2 approvals
             if (approvers.size < 2) {
-              core.setFailed('At least 2 unique approvals required.');
+              core.setFailed('At least 2 unique approvals required. Merging blocked.');
             }
