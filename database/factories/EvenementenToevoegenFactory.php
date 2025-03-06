@@ -12,7 +12,7 @@ class EvenementenToevoegenFactory extends Factory
     public function definition(): array
     {
         return [
-            'titel' => 'Evenement: ' . fake()->word(),
+            'titel' => fake()->word(),
             'datum' => fake()->date(),
             'starttijd' => fake()->time(),
             'eindtijd' => fake()->time(),
