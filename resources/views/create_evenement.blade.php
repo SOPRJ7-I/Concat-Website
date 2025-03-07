@@ -11,7 +11,7 @@
         <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1">
             Evenement toevoegen
         </h1>
-        <form action="{{ route('evenement.store') }}" method="post" class="mt-4 space-y-4">
+        <form action="//todo" method="post" class="mt-4 space-y-4">
             @csrf
             <div>
                 <label for="naam" class="block text-sm font-semibold">Titel:</label>
@@ -68,6 +68,12 @@
             <input type="submit" value="Toevoegen" 
                 class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer">
         </form>
+
+        <a href="{{ route('show_evenement') }}" class="block text-center mt-4 text-sm text-purple-700 hover:underline">
+            Terug naar de lijst van evenementen
+        </a>
+
+
     </div>
 </body>
 </html>
