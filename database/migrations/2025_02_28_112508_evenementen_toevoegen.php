@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('betaal_link')->nullable();
             $table->string('categorie');
             $table->timestamps();
+            $table->string('afbeelding')->nullable();
         });
     }
 

@@ -11,23 +11,34 @@
         <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1">
             Evenement toevoegen
         </h1>
-        <form method="POST" action="index_evenement" class="mt-4 space-y-4">
+        <form method="POST" action="/create_evenement" class="mt-4 space-y-4">
             @csrf
             <div>
-                <label for="naam" class="block text-sm font-semibold">Titel:</label>
-                <input type="text" name="naam" id="naam" placeholder="Titel van het evenement"
+                <label for="afbeelding" class="block text-sm font-semibold">Afbeelding uploaden:</label>
+                <input type="file" name="afbeelding" id="afbeelding" accept="image/*"
+                    class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
+            </div>
+            
+            <div>
+                <label for="titel" class="block text-sm font-semibold">Titel:</label>
+                <input type="text" name="titel" id="titel" placeholder="Titel van het evenement"
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label for="datum" class="block text-sm font-semibold">Datum:</label>
                     <input type="date" name="datum" id="datum"
                         class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                 </div>
+            <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <label for="tijd" class="block text-sm font-semibold">Tijd:</label>
-                    <input type="time" name="tijd" id="tijd"
+                    <label for="starttijd" class="block text-sm font-semibold">Starttijd:</label>
+                    <input type="time" name="starttijd" id="starttijd"
+                        class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
+                </div>
+                <div>
+                    <label for="eindtijd" class="block text-sm font-semibold">Eindtijd:</label>
+                    <input type="time" name="eindtijd" id="eindtijd"
                         class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                 </div>
             </div>
@@ -45,8 +56,8 @@
             </div>
 
             <div>
-                <label for="plekken" class="block text-sm font-semibold">Aantal plekken:</label>
-                <input type="number" name="plekken" id="plekken" placeholder="0" min="0"
+                <label for="aantal_beschikbare_plekken" class="block text-sm font-semibold">Aantal plekken:</label>
+                <input type="number" name="aantal_beschikbare_plekken" id="aantal_beschikbare_plekken" placeholder="0" min="0"
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
             </div>
 
@@ -69,11 +80,9 @@
                 class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer">
         </form>
 
-        <a href="{{ route('index_evenement') }}" class="block text-center mt-4 text-sm text-purple-700 hover:underline">
+        <a href="/index_evenement" class="block text-center mt-4 text-sm text-purple-700 hover:underline">
             Terug naar de lijst van evenementen
         </a>
-
-
     </div>
 </body>
 </html>
