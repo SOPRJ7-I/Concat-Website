@@ -1,15 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EvenementToevoegenController;
 
 Route::get('/', function () {
-    return view('evenement_toevoegen');
+    return view('create_evenement');
 });
 
-Route::post('/evenement_toevoegen', function(){
-    return view('show_evenement');
+Route::post('/create_evenement', function(){
+    return view('index_evenement');
 });
 
-Route::view('/show_evenement', 'show_evenement')->name('show_evenement');
-
+Route::view('/index_evenement', 'index_evenement')->name('index_evenement');
