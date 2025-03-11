@@ -21,13 +21,13 @@
             
             <div>
                 <label for="titel" class="block text-sm font-semibold">Titel:</label>
-                <input type="text" name="titel" id="titel" placeholder="Titel van het evenement"
+                <input type="text" name="titel" id="titel" placeholder="Titel van het evenement" required
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
             </div>
 
                 <div>
                     <label for="datum" class="block text-sm font-semibold">Datum:</label>
-                    <input type="date" name="datum" id="datum"
+                    <input type="date" name="datum" id="datum" required
                         class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                 </div>
             <div class="grid grid-cols-2 gap-4">
@@ -69,7 +69,7 @@
 
             <div>
                 <label for="categorie" class="block text-sm font-semibold">Categorie:</label>
-                <select name="categorie" id="categorie"
+                <select name="categorie" id="categorie" required
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                     <option value="1">Evenement</option>
                     <option value="2">Community avond</option>

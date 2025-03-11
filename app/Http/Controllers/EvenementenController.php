@@ -37,7 +37,7 @@ class EvenementenController extends Controller
         // Evenement opslaan in de database
         EvenementenToevoegen::create($data);
 
-        return redirect('/index_evenement')->with('success', 'Evenement toegevoegd!');
+        return redirect('/index_evenement');
     }
 
     // 🔹 Methode om alle evenementen op te halen en weer te geven
