@@ -9,24 +9,24 @@
 <body class="bg-gray-100 p-6">
     <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
         <h1 class="text-2xl font-bold mb-4">Lijst van Evenementen</h1>
-
-        @if ($evenementen->count())
-            <ul class="space-y-4">
-                @foreach ($evenementen as $evenement)
-                    <li class="p-4 bg-purple-100 rounded-lg shadow-sm">
-                        <h2 class="text-xl font-semibold">{{ $evenement->titel }}</h2>
-                        <p><strong>Datum:</strong> {{ $evenement->datum }}</p>
-                        <p><strong>Locatie:</strong> {{ $evenement->locatie }}</p>
-                    </li>
-                @endforeach
-            </ul>
-        @else
-            <p class="text-gray-600">Geen evenementen gevonden.</p>
+        
+        @if(session('success'))
+            <p class="text-green-600">{{ session('success') }}</p>
         @endif
 
-        <a href="/" class="block text-center mt-4 text-sm text-purple-700 hover:underline">
-            Terug naar het formulier
-        </a>
+        @foreach ($evenementen as $evenement)
+            <div class="border-b pb-4 mb-4">
+                <h2 class="text-xl font-semibold">{{ $evenement->naam }}</h2>
+                <p><strong>Datum:</strong> {{ $evenement->datum }}</p>
+                <p><strong>Locatie:</strong> {{ $evenement->locatie }}</p>
+                
+                @if ($evenement->foto)
+                    <img src="{{ asset('storage/' . $evenement->foto) }}" alt="Evenement Foto" class="w-32 h-32 object-cover mt-2 rounded-lg">
+                @endif
+            </div>
+        @endforeach
+
+        <a href="/create_evenement" class="text-blue-500 hover:underline">Evenement toevoegen</a>
     </div>
 </body>
 </html>
