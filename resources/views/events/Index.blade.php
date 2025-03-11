@@ -17,20 +17,24 @@
                 <option value="asc" {{ request('sort', 'asc') == 'asc' ? 'selected' : '' }}>Oplopend (Startdatum)</option>
                 <option value="desc" {{ request('sort', 'asc') == 'desc' ? 'selected' : '' }}>Aflopend (Startdatum)</option>
             </select>
-            
         </div>
 
         <div id="events-container" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            @foreach ($events as $event)
+            @foreach ($evenementen as $evenement)
                 <div class="bg-white shadow-md rounded-lg p-6">
-                    <h2 class="text-xl font-semibold mb-2">{{ $event->name }}</h2>
-                    <p class="text-gray-700 mb-3">{{ $event->description }}</p>
-                    <p class="text-sm text-gray-600"><strong>Locatie:</strong> {{ $event->location }}</p>
-                    <p class="text-sm text-gray-600"><strong>Start:</strong> {{ $event->start_date }}</p>
-                    <p class="text-sm text-gray-600"><strong>Einde:</strong> {{ $event->end_date }}</p>
-                    <a href="{{ $event->ticket_link }}" target="_blank" class="mt-3 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Lees meer...</a>
+                    <h2 class="text-xl font-semibold mb-2">{{ $evenement->naam }}</h2>
+                    <p class="text-gray-700 mb-3">{{ $evenement->beschrijving }}</p>
+                    <p class="text-sm text-gray-600"><strong>Locatie:</strong> {{ $evenement->locatie }}</p>
+                    <p class="text-sm text-gray-600"><strong>Start:</strong> {{ $evenement->start_datum }}</p>
+                    <p class="text-sm text-gray-600"><strong>Einde:</strong> {{ $evenement->eind_date }}</p>
+                    <a href="{{ $evenement->ticket_link }}" target="_blank" class="mt-3 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Lees meer...</a>
                 </div>
             @endforeach
+        </div>
+
+        <!-- Pagination Links -->
+        <div id="pagination-container" class="mt-6 text-center">
+            {{ $evenementen->appends(request()->query())->links() }}
         </div>
     </div>
 
