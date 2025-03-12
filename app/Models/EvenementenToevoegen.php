@@ -9,7 +9,7 @@ class EvenementenToevoegen extends Model
 {
     use HasFactory;
 
-    protected $table = 'evenementen_toevoegen';
+    protected $table = 'evenementen';
 
     protected $guarded = [];
 }
