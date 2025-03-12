@@ -1,84 +1,83 @@
-<x-Layout>
-</x-Layout>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+</head>
+<body style="background-color:rgb(236 235 255)">
 
-<style>
+<nav>
+  <a href="/CreateCommunityNight">Create</a>
+  <a href="/ReadCommunityNight">Reade</a>
+</nav>
 
-  .form-container {
-    max-width: 32rem;
-    margin-left: auto;
-    margin-right: auto;
-    background-color:#e4e2ff;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
 
-.form-title {
-    display:flex;
-    justify-content:center;
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-.form-label {
-    /* display:flex;
-    justify-content:center; */
-    display: block;
-    margin-bottom: 0.5rem;
-}
-
-.form-input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 0.25rem; 
-    margin-bottom: 1rem;
-}
-
-.form-button {
-    background-color: #3b82f6;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    border: none;
-    cursor: pointer;
-}
-
-.form-button:hover {
-    background-color: #2563eb;
-}
-
-</style>
-
-<form class="form-container" method="POST" action="/ReadCommunityNight">
+<form class="max-w-lg mx-auto bg-purple-100 p-6 rounded-lg shadow-md space-y-4" method="POST" action="/ReadCommunityNight" enctype="multipart/form-data">
   
   @csrf
-    <h2 class="form-title">Create a Community Night</h2>
+
+    <h2 class="text-center text-xl font-bold mb-4 text-purple-700">Community avond toevoegen</h2>
     
-    <label class="form-label">Title</label>
-    <input type="text" name="title" class="form-input" required>
+    <div>
+        <label for="title" class="block text-sm font-semibold">Titel:</label>
+        <input type="text" name="title" id="title" placeholder="Titel van het evenement"
+            class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
+            
+            @error('title')
+              <div class="text-red-500 text-sm mt-1 font-bold">{{$message}}</div>
+            @enderror
+    </div>
     
-    <label class="form-label">Image (optional)</label>
-    <input type="file" name="image" class="form-input">
+    <div>
+        <label for="image" class="block text-sm font-semibold">Afbeelding (optioneel):</label>
+        <input type="file" name="image" id="image"
+            class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
+    </div>
     
-    <label class="form-label">Description</label>
-    <textarea name="description" class="form-input"></textarea>
+    <div>
+        <label for="description" class="block text-sm font-semibold">Beschrijving:</label>
+        <textarea name="description" id="description" placeholder="Beschrijving van het evenement"
+            class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500"></textarea>
+    </div>
     
-    <label class="form-label">Start Time</label>
-    <input type="datetime-local" name="start_time" class="form-input" required>
+    <div class="grid grid-cols-2 gap-4">
+        <div>
+            <label for="start_time" class="block text-sm font-semibold">Starttijd:</label>
+            <input type="datetime-local" name="start_time" id="start_time"
+                class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500" >
+        </div>
+        <div>
+            <label for="end_time" class="block text-sm font-semibold">Eindtijd:</label>
+            <input type="datetime-local" name="end_time" id="end_time"
+                class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
+        </div>
+    </div>
     
-    <label class="form-label">End Time</label>
-    <input type="datetime-local" name="end_time" class="form-input">
+    <div>
+        <label for="location" class="block text-sm font-semibold">Locatie:</label>
+        <input type="text" name="location" id="location" placeholder="Locatie van het evenement"
+            class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
+    </div>
     
-    <label class="form-label">Location</label>
-    <input type="text" name="location" class="form-input">
+    <div>
+        <label for="link" class="block text-sm font-semibold">Event Link:</label>
+        <input type="url" name="link" id="link" placeholder="Link naar het evenement"
+            class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
+    </div>
     
-    <label class="form-label">Event Link</label>
-    <input type="url" name="link" class="form-input">
+    <div>
+        <label for="capacity" class="block text-sm font-semibold">Capaciteit:</label>
+        <input type="number" name="capacity" id="capacity" placeholder="0" min="0"
+            class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
+    </div>
     
-    <label class="form-label">Capacity</label>
-    <input type="number" name="capacity" class="form-input">
     
-    <button type="submit" class="form-button">Create</button>
+    <input type="submit" value="Toevoegen" 
+        class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer mt-4">
 </form>
+</html>
+

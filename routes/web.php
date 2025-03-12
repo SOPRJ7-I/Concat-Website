@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Models\CommunityNight;
 
+use Illuminate\Http\Request;
+
 Route::get('/CreateCommunityNight', function(){
   return view("CommunityNight.CreateCommunityNight");
 });
@@ -16,14 +18,25 @@ Route::get('/ReadCommunityNight', function(){
   return view('CommunityNight.ReadCommunityNight', ['communityNights' => $communities]);
 });
 
-Route::Post('/ReadCommunityNight', function(){
+Route::Post('/ReadCommunityNight', function(Request $request){
 
-  //validation
+  $request->validate([
+
+    'title' => 'required',
+
+  ]);
+
+  $imagePath = null;
+
+  if($request->hasFile('image')){
+
+    $imagePath = $request->file('image')->store('community_images','public');
+  }
 
   CommunityNight::Create([
 
     'title' => request('title'),
-    'image' => request('image'),
+    'image' => $imagePath,
     'description' => request('description'),
     'start_time' => request('start_time'),
     'end_time' => request('end_time'),
