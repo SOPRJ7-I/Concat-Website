@@ -11,7 +11,7 @@
         <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1">
             Evenement toevoegen
         </h1>
-        <form method="POST" action="{{ url('/create_evenement') }}" class="mt-4 space-y-4">
+        <form method="POST" action="{{ url('/create_evenement') }}" enctype="multipart/form-data" class="mt-4 space-y-4">
             @csrf
             <div>
                 <label for="afbeelding" class="block text-sm font-semibold">Afbeelding uploaden:</label>

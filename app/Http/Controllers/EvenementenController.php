@@ -7,13 +7,11 @@ use App\Models\EvenementenToevoegen;
 
 class EvenementenController extends Controller
 {
-    // 🔹 Methode om het formulier te tonen
     public function create()
     {
         return view('create_evenement');
     }
 
-    // 🔹 Methode om evenement op te slaan
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -26,21 +24,18 @@ class EvenementenController extends Controller
             'aantal_beschikbare_plekken' => 'nullable|integer',
             'betaal_link' => 'nullable|string',
             'categorie' => 'required|string',
-            'afbeelding' => 'nullable|image|max:2048' // Max 2MB afbeelding
+            'afbeelding' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' //Max 2MB en juiste extensies
         ]);
 
-        // Als er een bestand is geüpload, sla het op
-        if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')->store('evenementen_fotos', 'public');
+        if ($request->hasFile('afbeelding')) {
+            $data['afbeelding'] = $request->file('afbeelding')->store('evenementen_fotos', 'public');
         }
 
-        // Evenement opslaan in de database
         EvenementenToevoegen::create($data);
 
-        return redirect('/index_evenement');
+        return redirect('/index_evenement')->with('success', 'Evenement succesvol toegevoegd!');
     }
 
-    // 🔹 Methode om alle evenementen op te halen en weer te geven
     public function index()
     {
         $evenementen = EvenementenToevoegen::all();
