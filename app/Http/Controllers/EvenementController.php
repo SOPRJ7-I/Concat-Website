@@ -16,7 +16,7 @@ class EvenementController extends Controller
         // Paginate events and apply sorting
         $evenementen = Evenementen::orderBy('start_datum', $sortOrder)->paginate(6); // Change the number '6' for the number of items per page
 
-        return view('events.index', compact('evenementen', 'sortOrder'));
+        return view('evenementen.index', compact('evenementen', 'sortOrder'));
     }
 }
 

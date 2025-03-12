@@ -21,15 +21,18 @@
 
         <div id="events-container" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             @foreach ($evenementen as $evenement)
-                <div class="bg-white shadow-md rounded-lg p-6">
-                    <h2 class="text-xl font-semibold mb-2">{{ $evenement->naam }}</h2>
-                    <p class="text-gray-700 mb-3">{{ $evenement->beschrijving }}</p>
-                    <p class="text-sm text-gray-600"><strong>Locatie:</strong> {{ $evenement->locatie }}</p>
-                    <p class="text-sm text-gray-600"><strong>Start:</strong> {{ $evenement->start_datum }}</p>
-                    <p class="text-sm text-gray-600"><strong>Einde:</strong> {{ $evenement->eind_date }}</p>
-                    <a href="{{ $evenement->ticket_link }}" target="_blank" class="mt-3 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Lees meer...</a>
-                </div>
-            @endforeach
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-2">{{ $evenement->naam }}</h2>
+                <p class="text-gray-700 mb-3">{{ \Illuminate\Support\Str::limit(strip_tags($evenement->beschrijving), 150, '...') }}</p>
+                <p class="text-sm text-gray-600"><strong>Locatie:</strong> {{ $evenement->locatie }}</p>
+                <p class="text-sm text-gray-600"><strong>Startdatum:</strong> {{ \Carbon\Carbon::parse($evenement->start_datum)->format('d-m-Y') }}</p>
+                <p class="text-sm text-gray-600"><strong>Starttijd:</strong> {{ \Carbon\Carbon::parse   ($evenement->start_datum)->format('H:i') }}</p>
+                <p class="text-sm text-gray-600"><strong>Einddatum:</strong> {{ \Carbon\Carbon::parse($evenement->eind_date)->format('d-m-Y') }}</p>
+                <p class="text-sm text-gray-600"><strong>Eindtijd:</strong> {{ \Carbon\Carbon::parse($evenement->eind_date)->format('H:i') }}</p>
+                <a href="{{ $evenement->ticket_link }}" target="_blank" class="mt-3 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Lees meer...</a>
+            </div>
+        @endforeach
+        
         </div>
 
         <!-- Pagination Links -->
