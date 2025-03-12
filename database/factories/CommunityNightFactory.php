@@ -18,7 +18,7 @@ class CommunityNightFactory extends Factory
     {
         return [
             'title' => 'Community Avond: ' . fake()->word(),
-            'description' => fake()->paragraph(250),
+            'description' => fake()->paragraph(20),
             'start_time' => fake()->dateTime(),
             'end_time' => fake()->dateTime(),
             'location' => fake()->address(),
