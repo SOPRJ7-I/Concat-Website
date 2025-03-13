@@ -10,21 +10,43 @@
     --white: #fff;
     --black: #000;
 }
+* {
+    box-sizing: border-box;
+    font-family: "Quicksand", sans-serif;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+}
+
+#content {
+    position: fixed;
+    top: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
 
 #main-nav {
     position: fixed; /* Zorgt ervoor dat de navbar blijft plakken */
-    top: 0;
+    top: 100px;
     left: 50%;
     transform: translateX(-50%);
     background: var(--blue);
     padding: 15px 30px;
     border-radius: 20px;
-    box-shadow: 0px 4px 12px var(--blue-shadow);
+    box-shadow: 10px 10px 12px 10px var(--blue-shadow);
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
     z-index: 1000;
+    white-space: nowrap;
+    gap : 20px;
 }
 
 #main-nav .flex {
@@ -59,4 +81,116 @@
     height: 3px;
     background: var(--red);
     border-radius: 10px;
+}
+
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1000;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger:hover {
+    transform: scale(1.1);
+}
+
+.close-btn {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.close-btn:hover {
+    transform: rotate(90deg) scale(1.1);
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.4s ease;
+}
+
+.overlay.active {
+    display: block;
+    opacity: 1;
+    backdrop-filter: blur(12px);
+}
+
+@media (max-width: 768px) {
+    #main-nav {
+        top: 20px;
+        left: 20px;
+        right: auto;
+        transform: none;
+        padding: 1px;
+        gap: 0;
+    }
+
+    .hamburger {
+        display: block;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #menu-links {
+        position: fixed;
+        top: 0;
+        left: -100%;  /* Start buiten beeld aan linkerkant */
+        width: 250px;
+        height: 100vh;
+        background: var(--blue);
+        flex-direction: column;
+        gap: 15px;
+        padding: 80px 20px 20px;
+        transition: left 0.5s ease;  /* Animaties op left property */
+        z-index: 1001;
+        box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1); /* Schaduw rechts */
+    }
+
+    #menu-links.active {
+        left: 0;  /* Schuif in vanaf links */
+        right: auto;
+    }
+
+    #menu-links a {
+        width: 100%;
+        padding: 15px;
+        text-align: left;
+        white-space: nowrap; /* Voorkomt afbreken van tekst */
+    }
+
+    .close-btn {
+        display: block;
+        right: 20px; /* Behoud positie aan rechterkant van menu */
+        left: auto;
+    }
+
+    .overlay.active {
+        display: block;
+    }
+
+    .flex.horizontal.spaced.centered {
+        display: none;
+    }
 }
