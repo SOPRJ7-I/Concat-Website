@@ -12,7 +12,9 @@ class CommunityNightController extends Controller
      */
     public function index()
     {
-
+        return view('community-nights.index', [
+           'communityNights' => CommunityNight::all()
+        ]);
     }
 
     /**
@@ -36,7 +38,7 @@ class CommunityNightController extends Controller
      */
     public function show(CommunityNight $communityNight)
     {
-        return view('community-nights.detail' , ['communityNight' => $communityNight,]);
+        return view('community-nights.detail' , ['communityNight' => $communityNight]);
     }
 
     /**
