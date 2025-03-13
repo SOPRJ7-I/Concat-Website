@@ -1,3 +1,62 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+    --blue: #3129FF;
+    --blue-shadow: rgba(49, 41, 255, 0.2);
+    --red: #FE4040;
+    --red-shadow: rgba(254, 64, 64, 0.2);
+    --pink: #E39FF6;
+    --pink-shadow: rgba(227, 159, 246, 0.2);
+    --cyan: #08E8DE;
+    --cyan-shadow: rgba(8, 232, 222, 0.2);
+    --white: #fff;
+    --black: #000;
+}
+
+#main-nav {
+    position: fixed; /* Zorgt ervoor dat de navbar blijft plakken */
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--blue);
+    padding: 15px 30px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 12px var(--blue-shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    z-index: 1000;
+}
+
+#main-nav .flex {
+    display: flex;
+    gap: 25px;
+}
+
+#main-nav a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px 20px;
+    transition: color 0.3s ease-in-out;
+}
+
+#main-nav a:hover {
+    color: var(--pink);
+}
+
+#main-nav a.current {
+    position: relative;
+    color: var(--white);
+}
+
+#main-nav a.current::after {
+    content: "";
+    position: absolute;
+    left: 10%;
+    bottom: -3px;
+    width: 80%;
+    height: 3px;
+    background: var(--red);
+    border-radius: 10px;
+}
