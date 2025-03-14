@@ -11,8 +11,7 @@
 <body>
 <div class="overlay"></div>
 
-<!-- Mobile Menu Button (separate from desktop nav) -->
-<button id="mobile-menu-button" class="hamburger">☰</button>
+<button id="nav-button" class="hamburger"></button>
 
 <!-- Desktop Navigation -->
 <nav id="main-nav" class="sticky">
@@ -53,7 +52,7 @@
         document.body.classList.toggle('menu-active');
     }
 
-    document.getElementById('mobile-menu-button').addEventListener('click', toggleMenu);
+    document.getElementById('nav-button').addEventListener('click', toggleMenu);
     document.querySelector('.close-btn').addEventListener('click', toggleMenu);
     document.querySelector('.overlay').addEventListener('click', toggleMenu);
 
@@ -61,7 +60,7 @@
     document.addEventListener('click', (event) => {
         const mobileMenu = document.getElementById('mobile-menu');
         const isClickInside = mobileMenu.contains(event.target);
-        const isMenuButton = event.target.closest('#mobile-menu-button');
+        const isMenuButton = event.target.closest('#nav-button');
 
         if (!isClickInside && !isMenuButton && mobileMenu.classList.contains('active')) {
             toggleMenu();
