@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
 :root {
     --blue: #3129FF;
     --blue-shadow: rgba(49, 41, 255, 0.2);
@@ -9,9 +11,15 @@
     --cyan-shadow: rgba(8, 232, 222, 0.2);
     --white: #fff;
     --black: #000;
+
     --link-shadow: 0px 4px 6px 2px rgba(254, 64, 64, 0.3);
     --link-shadow-hover: 0px 8px 12px 4px rgba(254, 64, 64, 0.3);
+
     --nav-shadow: 0px 4px 20px 2px #3129ff52;
+
+    --page-background-color-1: #ECEBFF;
+    --page-background-color-2: var(--white); /* Used for card backgrounds etc, things that need to be seperate from the pinkish page back */
+    --page-background-color-3: #e4e2ff;
 }
 
 * {
@@ -27,36 +35,44 @@ html, body {
 
 #content {
     position: fixed;
-    top: 200px;
+    top: 250px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 20px;
+    background: var(--page-background-color-1);
+    width: 75%;
+    border-radius: 20px;
 }
 
 /* Desktop Navigation */
 #main-nav {
-    position: fixed;
+    height: 4em;
+    position: sticky;
+    max-width: 60%;
+    min-width: fit-content;
+    flex-wrap: nowrap;
     top: 100px;
     left: 50%;
     transform: translateX(-50%);
     background: var(--blue);
     padding: 15px 30px;
-    border-radius: 20px;
+    border-radius: 1.6em;
     box-shadow: 10px 10px 12px 10px var(--blue-shadow);
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     z-index: 1000;
     white-space: nowrap;
-    gap: 20px;
 }
 
 #main-nav .flex {
     display: flex;
     gap: 25px;
+    width: 100%; /* Ensures links spread out */
+    justify-content: space-between; /* Distributes links equally */
 }
 
 #main-nav a {
@@ -248,7 +264,6 @@ html, body {
     #nav-button.active::after {
         width: 0%;
     }
-
 
     #main-nav {
         display: none;
