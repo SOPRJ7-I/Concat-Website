@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('evenementen', function (Blueprint $table) {
             $table->id();
-            $table->string('titel');
-            $table->date('datum');
+            $table->string('titel')->nullable();
+            $table->date('datum')->nullable();
             $table->time('starttijd')->nullable();
             $table->time('eindtijd')->nullable();
             $table->text('beschrijving')->nullable();
-            $table->string('locatie');
+            $table->string('locatie')->nullable();
             $table->integer('aantal_beschikbare_plekken')->nullable();
             $table->string('betaal_link')->nullable();
-            $table->string('categorie');
             $table->timestamps();
             $table->string('afbeelding')->nullable();
         });

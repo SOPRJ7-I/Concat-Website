@@ -21,13 +21,13 @@
             
             <div>
                 <label for="titel" class="block text-sm font-semibold">Titel:</label>
-                <input type="text" name="titel" id="titel" placeholder="Titel van het evenement" required
+                <input type="text" name="titel" id="titel" placeholder="Titel van het evenement"
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
             </div>
 
                 <div>
                     <label for="datum" class="block text-sm font-semibold">Datum:</label>
-                    <input type="date" name="datum" id="datum" required
+                    <input type="date" name="datum" id="datum"
                         class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                 </div>
             <div class="grid grid-cols-2 gap-4">
@@ -65,15 +65,6 @@
                 <label for="betaal_link" class="block text-sm font-semibold">Betaal link:</label>
                 <input type="text" name="betaal_link" id="betaal_link" placeholder="Betaal link van het evenement"
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
-            </div>
-
-            <div>
-                <label for="categorie" class="block text-sm font-semibold">Categorie:</label>
-                <select name="categorie" id="categorie" required
-                    class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
-                    <option value="1">Evenement</option>
-                    <option value="2">Community avond</option>
-                </select>
             </div>
 
             <input type="submit" value="Toevoegen" 
