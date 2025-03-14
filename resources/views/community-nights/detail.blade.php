@@ -22,16 +22,16 @@
     <div class="p-6 md:p-14">
         <div class="mb-8">
             @if(isset($communityNight->image))
-                <h1 class="text-2xl font-bold text-gray-800 mb-2">{{ $communityNight->title ?? 'TITEL' }}</h1>
+                <h1 class="text-2xl font-bold text-gray-800 mb-5">{{ $communityNight->title ?? 'TITEL' }}</h1>
             @endif
 
             <div class="flex items-center text-gray-500 mb-4">
-                <i class="fa-fw fa-solid fa-calendar text-3xl mr-3"></i>
+                <i class="flex flex-shrink-0 fa-fw fa-solid fa-calendar text-3xl"></i>
                 <span class="text-lg font-bold">{{ $communityNight->date }}, {{ $communityNight->start_time }} - {{ $communityNight->end_time }}</span>
             </div>
 
             <div class="flex items-center text-gray-500 mb-4">
-                <i class="fa-fw fa-solid fa-location-dot text-3xl mr-3"></i>
+                <i class="flex flex-shrink-0 fa-fw fa-solid fa-location-dot text-3xl"></i>
                 <span class="text-lg font-bold">{{ $communityNight->location ?? 'Locatie TBD' }}</span>
             </div>
 

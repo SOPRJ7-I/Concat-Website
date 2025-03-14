@@ -8,7 +8,7 @@
     <div class="flex flex-wrap">
         <div class="lg:my-12 p-6 grid sm:grid-cols-2 gap-8 lg:gap-20 mx-auto">
             @foreach($communityNights as $communityNight)
-                <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden transform transition-transform hover:-translate-y-4">
+                <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
 
 
                     <a href="{{ route('community-nights.show', $communityNight) }}">
