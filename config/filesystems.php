@@ -60,6 +60,11 @@ return [
             'report' => false,
         ],
 
+        'community-nights' => [
+            'driver' => 'scoped',
+            'disk' => 'public',
+            'prefix' => 'community-nights',
+        ]
     ],
 
     /*

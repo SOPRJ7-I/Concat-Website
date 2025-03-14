@@ -7,10 +7,9 @@
 <div class="lg:my-12 max-w-4xl border-2 mx-auto shadow-xl rounded-lg overflow-hidden">
     <!-- Header with cover image (if available) -->
     <div class="relative bg-gray-200 overflow-hidden">
-        @if(isset($communityNight->cover_image))
+        @if(isset($communityNight->image))
             <div class="lg:h-64">
-                <img src="{{ $communityNight->cover_image }}" alt="{{ $communityNight->title }}"
-                     class="w-full h-full object-cover">
+                <img src="{{ $communityNight->image }}" alt="{{ $communityNight->title }}" class="w-full h-full object-cover">
             </div>
         @else
             <div class="p-6 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
@@ -22,7 +21,7 @@
     <!-- Content -->
     <div class="p-6 md:p-14">
         <div class="mb-8">
-            @if(isset($communityNight->cover_image))
+            @if(isset($communityNight->image))
                 <h1 class="text-2xl font-bold text-gray-800 mb-2">{{ $communityNight->title ?? 'TITEL' }}</h1>
             @endif
 

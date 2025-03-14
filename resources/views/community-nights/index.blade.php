@@ -12,13 +12,17 @@
 
 
                     <a href="{{ route('community-nights.show', $communityNight) }}">
-                        <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
-                            <h1 class="text-white text-3xl font-bold">{{ $communityNight->title ?? 'Community Night' }}</h1>
-                        </div>
+                        @if(isset($communityNight->image))
+                            <img src="{{ $communityNight->image }}" alt="{{ $communityNight->title }}" class="h-44 w-full object-cover">
+                        @else
+                            <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
+                                <h1 class="text-white text-3xl font-bold">{{ $communityNight->title ?? 'Community Night' }}</h1>
+                            </div>
+                        @endif
                     </a>
 
                     <div class="p-5">
-                        @if("1")
+                        @if(isset($communityNight->image))
                             <a href="{{ route('community-nights.show', $communityNight) }}">
                                 <h5 class="text-2xl font-bold tracking-tight text-gray-900 mb-4">{{ $communityNight->title }}</h5>
                             </a>
