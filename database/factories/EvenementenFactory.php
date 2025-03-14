@@ -12,12 +12,15 @@ class EvenementenFactory extends Factory
     public function definition()
     {
         return [
-            'naam' => $this->faker->sentence(3),
-            'beschrijving' => $this->faker->paragraph(),
-            'locatie' => $this->faker->city(),
-            'start_datum' => $this->faker->date(),
-            'eind_date' => $this->faker->date(),
-            'ticket_link' => $this->faker->url(),
+            'titel' => fake()->word(),
+            'datum' => fake()->date(),
+            'starttijd' => fake()->time(),
+            'eindtijd' => fake()->time(),
+            'beschrijving' => fake()->paragraph(250),
+            'locatie' => fake()->address(),
+            'aantal_beschikbare_plekken' => fake()->numberBetween(10, 100),
+            'betaal_link' => fake()->url(),
+            'categorie' => fake()->word(),
         ];
     }
 }
