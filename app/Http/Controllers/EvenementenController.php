@@ -35,10 +35,16 @@ class EvenementenController extends Controller
         return redirect('/index_evenement')->with('success', 'Evenement succesvol toegevoegd!');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $evenementen = EvenementenToevoegen::all();
-        return view('index_evenement', compact('evenementen'));
+        // Check if the sorting query is valid
+        $validSortOrders = ['asc', 'desc'];
+        $sortOrder = in_array($request->query('sort'), $validSortOrders) ? $request->query('sort') : 'asc';
+
+        // Paginate events and apply sorting
+        $evenementen = EvenementenToevoegen::orderBy('datum', $sortOrder)->paginate(6); // Change the number '6' for the number of items per page
+
+        return view('index_evenement', compact('evenementen', 'sortOrder'));
     }
 }
 

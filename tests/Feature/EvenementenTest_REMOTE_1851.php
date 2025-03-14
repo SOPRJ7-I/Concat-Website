@@ -3,37 +3,14 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\Models\EvenementenToevoegen;
+use App\Models\Evenementen;
+use PHPUnit\Framework\Attributes\Test;
 
 class EvenementenTest extends TestCase
 {
-    use RefreshDatabase; // Zorgt ervoor dat de database wordt geleegd na elke test
-
-    /** @test */
-    public function een_evenement_kan_worden_aangemaakt()
-    {
-        // Simuleer een POST request met testdata
-        $response = $this->post('/create_evenement', [
-            'titel' => 'Test Evenement',
-            'datum' => '2025-03-07',
-            'starttijd' => '18:00',
-            'eindtijd' => '22:00',
-            'beschrijving' => 'Dit is een testbeschrijving.',
-            'locatie' => 'Test Locatie',
-            'aantal_beschikbare_plekken' => 50,
-            'betaal_link' => 'https://test-betaal-link.com',
-            'categorie' => 'Evenement'
-        ]);
-
-        // Controleer of het evenement in de database staat
-        $this->assertDatabaseHas('evenementen_toevoegen', [
-            'titel' => 'Test Evenement'
-        ]);
-
-        // Controleer of de gebruiker wordt doorgestuurd naar de juiste pagina
-        $response->assertRedirect('/index_evenement');
-    }
+    use RefreshDatabase; // Reset de database na elke test
 
     #[Test] // PHP 8 attribute
     public function it_displays_events_sorted_by_start_date()

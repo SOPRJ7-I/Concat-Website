@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+<<<<<<< HEAD
 use Tests\TestCase;
 use App\Models\EvenementenToevoegen;
 
@@ -33,7 +34,15 @@ class EvenementenTest extends TestCase
 
         // Controleer of de gebruiker wordt doorgestuurd naar de juiste pagina
         $response->assertRedirect('/index_evenement');
-    }
+=======
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
+use App\Models\Evenementen;
+use PHPUnit\Framework\Attributes\Test;
+
+class EvenementenTest extends TestCase
+{
+    use RefreshDatabase; // Reset de database na elke test
 
     #[Test] // PHP 8 attribute
     public function it_displays_events_sorted_by_start_date()
@@ -80,5 +89,6 @@ class EvenementenTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewHas('evenementen'); // Check of de variabele bestaat
         $this->assertCount(6, $response->viewData('evenementen')); // Paginate moet 6 items per pagina geven
+>>>>>>> origin/67-Evenementen-pagina
     }
 }
