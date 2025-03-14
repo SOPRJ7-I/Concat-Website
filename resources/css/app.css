@@ -9,7 +9,11 @@
     --cyan-shadow: rgba(8, 232, 222, 0.2);
     --white: #fff;
     --black: #000;
+    --link-shadow: 0px 4px 6px 2px rgba(254, 64, 64, 0.3);
+    --link-shadow-hover: 0px 8px 12px 4px rgba(254, 64, 64, 0.3);
+    --nav-shadow: 0px 4px 20px 2px #3129ff52;
 }
+
 * {
     box-sizing: border-box;
     font-family: "Quicksand", sans-serif;
@@ -32,8 +36,9 @@ html, body {
     gap: 20px;
 }
 
+/* Desktop Navigation */
 #main-nav {
-    position: fixed; /* Zorgt ervoor dat de navbar blijft plakken */
+    position: fixed;
     top: 100px;
     left: 50%;
     transform: translateX(-50%);
@@ -46,7 +51,7 @@ html, body {
     align-items: center;
     z-index: 1000;
     white-space: nowrap;
-    gap : 20px;
+    gap: 20px;
 }
 
 #main-nav .flex {
@@ -60,16 +65,27 @@ html, body {
     font-weight: bold;
     font-size: 18px;
     padding: 10px 20px;
-    transition: color 0.3s ease-in-out;
+    transition: all 0.3s ease;
+    background-image: linear-gradient(90deg, var(--red), var(--red));
+    background-size: 0 3px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    filter: drop-shadow(var(--link-shadow));
 }
 
 #main-nav a:hover {
     color: var(--pink);
+    background-size: 100% 3px;
+    filter: drop-shadow(var(--link-shadow-hover));
 }
 
 #main-nav a.current {
     position: relative;
     color: var(--white);
+    background-image: linear-gradient(90deg, var(--red), var(--red));
+    background-size: 100% 3px; /* Ensure the underline is always visible */
+    background-position: left bottom;
+    filter: drop-shadow(var(--link-shadow));
 }
 
 #main-nav a.current::after {
@@ -81,24 +97,75 @@ html, body {
     height: 3px;
     background: var(--red);
     border-radius: 10px;
+    box-shadow: var(--link-shadow);
 }
 
-.hamburger {
+/* Mobile Menu Button */
+#mobile-menu-button {
     display: none;
-    background: none;
-    border: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: var(--blue);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: var(--nav-shadow);
     color: var(--white);
     font-size: 24px;
     cursor: pointer;
-    padding: 10px;
-    z-index: 1000;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.hamburger:hover {
+#mobile-menu-button:hover {
     transform: scale(1.1);
 }
 
+/* Mobile Menu */
+#mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 250px;
+    height: 100vh;
+    background: var(--blue);
+    z-index: 1002;
+    transition: left 0.5s ease;
+    padding: 80px 20px 20px;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+}
+
+#mobile-menu.active {
+    left: 0;
+}
+
+#menu-links-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#menu-links-mobile a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 15px;
+    transition: all 0.3s ease;
+    background-image: linear-gradient(90deg, var(--red), var(--red));
+    background-size: 0 3px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    filter: drop-shadow(var(--link-shadow));
+}
+
+#menu-links-mobile a:hover {
+    color: var(--pink);
+    background-size: 100% 3px;
+    filter: drop-shadow(var(--link-shadow-hover));
+}
+
+/* Close Button */
 .close-btn {
     display: none;
     position: absolute;
@@ -116,6 +183,7 @@ html, body {
     transform: rotate(90deg) scale(1.1);
 }
 
+/* Overlay */
 .overlay {
     display: none;
     position: fixed;
@@ -136,61 +204,28 @@ html, body {
     backdrop-filter: blur(12px);
 }
 
+/* Responsive Styles */
 @media (max-width: 768px) {
     #main-nav {
-        top: 20px;
-        left: 20px;
-        right: auto;
-        transform: none;
-        padding: 1px;
-        gap: 0;
+        display: none;
     }
 
-    .hamburger {
+    #mobile-menu-button {
         display: block;
-        position: relative;
-        align-items: center;
-        justify-content: center;
-    }
-
-    #menu-links {
-        position: fixed;
-        top: 0;
-        left: -100%;  /* Start buiten beeld aan linkerkant */
-        width: 250px;
-        height: 100vh;
-        background: var(--blue);
-        flex-direction: column;
-        gap: 15px;
-        padding: 80px 20px 20px;
-        transition: left 0.5s ease;  /* Animaties op left property */
-        z-index: 1001;
-        box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1); /* Schaduw rechts */
-    }
-
-    #menu-links.active {
-        left: 0;  /* Schuif in vanaf links */
-        right: auto;
-    }
-
-    #menu-links a {
-        width: 100%;
-        padding: 15px;
-        text-align: left;
-        white-space: nowrap; /* Voorkomt afbreken van tekst */
     }
 
     .close-btn {
         display: block;
-        right: 20px; /* Behoud positie aan rechterkant van menu */
-        left: auto;
+    }
+
+    #menu-links-mobile a {
+        width: 100%;
+        padding: 15px;
+        text-align: left;
+        white-space: nowrap;
     }
 
     .overlay.active {
         display: block;
-    }
-
-    .flex.horizontal.spaced.centered {
-        display: none;
     }
 }
