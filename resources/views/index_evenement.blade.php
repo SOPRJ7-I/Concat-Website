@@ -26,7 +26,7 @@
         <div id="events-container" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             @foreach ($evenementen as $evenement)
             <div class="bg-white p-6 rounded-xl shadow-lg border border-purple-300">
-                <h2 class="text-xl font-semibold text-purple-700 mb-2">{{ $evenement->naam }}</h2>
+                <h2 class="text-xl font-semibold text-purple-700 mb-2">{{ $evenement->titel }}</h2>
                 <p class="text-gray-700 mb-3">{{ \Illuminate\Support\Str::limit(strip_tags($evenement->beschrijving), 150, '...') }}</p>
                 <p class="text-sm text-purple-700"><strong>Locatie:</strong> {{ $evenement->locatie }}</p>
                 <p class="text-sm text-purple-700"><strong>Beschrijving:</strong> {{ $evenement->beschrijving }}</p>

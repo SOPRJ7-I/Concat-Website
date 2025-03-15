@@ -39,12 +39,28 @@ class EvenementenController extends Controller
     {
         // Check if the sorting query is valid
         $validSortOrders = ['asc', 'desc'];
-        $sortOrder = in_array($request->query('sort'), $validSortOrders) ? $request->query('sort') : 'asc';
+        $sortOrder = $request->query('sort', 'asc');
 
-        // Paginate events and apply sorting
-        $evenementen = EvenementenToevoegen::orderBy('datum', $sortOrder)->paginate(6); // Change the number '6' for the number of items per page
 
-        return view('index_evenement', compact('evenementen', 'sortOrder'));
+    // Validate sorting order
+    if (!in_array($sortOrder, $validSortOrders)) {
+        $sortOrder = 'asc';
+    }
+    // Filter out events with missing (null) values
+    $evenementen = EvenementenToevoegen::whereNotNull('titel')->where('titel', '!=', '')
+    ->whereNotNull('datum')
+    ->whereNotNull('starttijd')
+    ->whereNotNull('eindtijd')
+    ->whereNotNull('beschrijving')->where('beschrijving', '!=', '')
+    ->whereNotNull('locatie')->where('locatie', '!=', '')
+    ->whereNotNull('aantal_beschikbare_plekken')
+    ->whereNotNull('betaal_link')
+    ->whereNotNull('afbeelding')
+    ->orderBy('datum', $sortOrder)
+    ->orderBy('starttijd', $sortOrder)
+    ->paginate(6);
+    
+    return view('index_evenement', compact('evenementen', 'sortOrder'));
     }
 }
 
