@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Browser\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\Browser\TestCase;
 use App\Models\EvenementenToevoegen;
 
 class EvenementenTest extends TestCase
@@ -51,7 +51,7 @@ class EvenementenTest extends TestCase
         $response->assertSeeInOrder([$event2->naam, $event3->naam, $event1->naam]);
     }
 
-    #[Test] 
+    #[Test]
     public function it_displays_events_in_descending_order_when_sorted_desc()
     {
         // Arrange: Maak testdata
@@ -67,7 +67,7 @@ class EvenementenTest extends TestCase
         $response->assertSeeInOrder([$event1->naam, $event3->naam, $event2->naam]);
     }
 
-    #[Test] 
+    #[Test]
     public function it_paginates_the_events_correctly()
     {
         // Arrange: Maak 10 test-evenementen
