@@ -41,7 +41,7 @@ class EvenementenController extends Controller
         $validSortOrders = ['asc', 'desc'];
         $sortOrder = $request->query('sort', 'asc');
 
-
+        
     // Validate sorting order
     if (!in_array($sortOrder, $validSortOrders)) {
         $sortOrder = 'asc';
