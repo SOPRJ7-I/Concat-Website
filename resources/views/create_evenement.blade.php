@@ -1,5 +1,5 @@
 <x-layout>
-        <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-lg">
+    <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl">
             <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1">
                 Evenement toevoegen
             </h1>
