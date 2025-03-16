@@ -22,15 +22,36 @@ class CommunityNightController extends Controller
      */
     public function create()
     {
-        //
+        return view('community-nights.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $communityNight)
     {
-        //
+        $communityNight->validate([
+            'title' => 'required',
+        ]);
+
+        $imagePath = null;
+
+        if($communityNight->hasFile('image')){
+            $imagePath = $communityNight->file('image')->store('community_images', 'public');
+        }
+
+        CommunityNight::create([
+            'title' => $communityNight->input('title'),
+            'image' => $imagePath,
+            'description' => $communityNight->input('description'),
+            'start_time' => $communityNight->input('start_time'),
+            'end_time' => $communityNight->input('end_time'),
+            'location' => $communityNight->input('location'),
+            'link' => $communityNight->input('link'),
+            'capacity' => $communityNight->input('capacity')
+        ]);
+
+        return redirect()->route('community-nights.index');
     }
 
     /**
