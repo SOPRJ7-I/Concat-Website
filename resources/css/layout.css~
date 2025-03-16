@@ -1,59 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-    --blue: #3129FF;
-    --blue-shadow: rgba(49, 41, 255, 0.2);
-    --red: #FE4040;
-    --red-shadow: rgba(254, 64, 64, 0.2);
-    --pink: #E39FF6;
-    --pink-shadow: rgba(227, 159, 246, 0.2);
-    --cyan: #08E8DE;
-    --cyan-shadow: rgba(8, 232, 222, 0.2);
-    --white: #fff;
-    --black: #000;
-    --background: #ecebff;
-
-    --link-shadow: 0px 4px 6px 2px rgba(254, 64, 64, 0.3);
-    --link-shadow-hover: 0px 8px 12px 4px rgba(254, 64, 64, 0.3);
-
-    --nav-shadow: 0px 4px 20px 2px #3129ff52;
-
-    --page-background-color-1: #ECEBFF;
-    --page-background-color-2: var(--white); /* Used for card backgrounds etc, things that need to be seperate from the pinkish page back */
-    --page-background-color-3: #e4e2ff;
-}
-
-* {
-    font-family: "Quicksand", sans-serif;
-    font-size: 15px;
-}
-
-body {
-    background: linear-gradient(to bottom, #dcdaff, #ecebff);    margin: 0;
-    min-height: 100vh; /* Full viewport height */
-    display: flex;
-    flex-direction: column;
-}
-
-main {
-    flex: 1; /* Takes all available space */
-}
-
-footer {
-    background: #3129FF; /* Your color */
-    color: white;
-    padding: 1rem;
-    /* Add other footer styles */
-}
 
 /* Desktop Navigation */
 #main-nav {
     height: 4em;
-    position: fixed;
+    position: sticky;
     max-width: 60%;
     min-width: fit-content;
     flex-wrap: nowrap;
@@ -68,7 +18,6 @@ footer {
     align-items: center;
     z-index: 1000;
     white-space: nowrap;
-    top: 2%;
 }
 
 #main-nav .flex {
