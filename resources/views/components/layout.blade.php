@@ -23,11 +23,12 @@
             <div class="flex space-x-8" id="menu-links">
                 <a href="/" class="flex items-center mr-8">
                     <img src="{{ asset('') }}"
-                         alt="CONCAT Logo"
+                         alt="<CONCAT_LOGO>"
                          class="h-8 w-auto">
                 </a>
-                <x-nav-link href="/create_evenement">Evenementen</x-nav-link>
-                <x-nav-link href="/index_evenement">index_evenement</x-nav-link>
+                <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
+                <x-nav-link href="/create_evenement">Evenement Aanmaken</x-nav-link>
+                <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
             </div>
         </div>
     </nav>
@@ -35,12 +36,15 @@
     <!-- Mobile Menu -->
     <div id="mobile-menu">
         <div id="menu-links-mobile">
+            <a href="/" class="flex items-center mr-8">
+                <img src="{{ asset('') }}"
+                     alt="<CONCAT_LOGO>"
+                     class="h-8 w-auto">
+            </a>
             <button class="close-btn">✕</button>
             <x-nav-link href="/create_evenement">Evenementen</x-nav-link>
-            <x-nav-link href="/over-ons">Over ons</x-nav-link>
-            <x-nav-link href="/contact">Contact</x-nav-link>
-            <x-nav-link href="/login">Login</x-nav-link>
-            <x-nav-link href="/register">Registreren</x-nav-link>
+            <x-nav-link href="/create_evenement">Evenement Aanmaken</x-nav-link>
+            <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
         </div>
     </div>
 
