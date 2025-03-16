@@ -93,7 +93,7 @@ footer {
     content: "";
     position: absolute;
     left: 10%;
-    bottom: 1px;
+    bottom: 5px;
     width: 0;
     height: 5px;
     background: var(--red);
@@ -112,7 +112,7 @@ footer {
 
 #main-nav a:hover::after {
     width: 80%; /* Expand the underline on hover */
-    box-shadow:0 4px 6px 2px rgba(254, 64, 64, 0.3); /* Use box-shadow instead of filter */
+    box-shadow:0 0px 6px 2px rgba(254, 64, 64, 0.4); /* Use box-shadow instead of filter */
     transition: ease-in-out 0.3s;
 }
 
@@ -137,7 +137,7 @@ footer {
     background: var(--red);
     border-radius: 10px;
     box-shadow: var(--link-shadow);
-    filter: drop-shadow(0px 4px 6px rgba(254, 64, 64, 0.3)); /* Shadow for current page */
+    filter: drop-shadow(0px 0px 6px rgba(254, 64, 64, 0.4)); /* Shadow for current page */
 }
 
 /* Mobile Menu */
