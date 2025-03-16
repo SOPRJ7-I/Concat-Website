@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EvenementenController;
 
+// routes/web.php
+Route::get('/example', function () {
+    return view('example');
+});
+
 Route::get('/', function () {
     return redirect('/create_evenement');
 });

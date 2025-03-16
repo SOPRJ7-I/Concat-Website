@@ -1,4 +1,293 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import 'custom.css';
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+:root {
+    --blue: #3129FF;
+    --blue-shadow: rgba(49, 41, 255, 0.2);
+    --red: #FE4040;
+    --red-shadow: rgba(254, 64, 64, 0.2);
+    --pink: #E39FF6;
+    --pink-shadow: rgba(227, 159, 246, 0.2);
+    --cyan: #08E8DE;
+    --cyan-shadow: rgba(8, 232, 222, 0.2);
+    --white: #fff;
+    --black: #000;
+
+    --link-shadow: 0px 4px 6px 2px rgba(254, 64, 64, 0.3);
+    --link-shadow-hover: 0px 8px 12px 4px rgba(254, 64, 64, 0.3);
+
+    --nav-shadow: 0px 4px 20px 2px #3129ff52;
+
+    --page-background-color-1: #ECEBFF;
+    --page-background-color-2: var(--white); /* Used for card backgrounds etc, things that need to be seperate from the pinkish page back */
+    --page-background-color-3: #e4e2ff;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: "Quicksand", sans-serif;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+}
+
+#content {
+    position: fixed;
+    top: 250px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background: var(--page-background-color-1);
+    width: 75%;
+    border-radius: 20px;
+}
+
+/* Desktop Navigation */
+#main-nav {
+    height: 4em;
+    position: sticky;
+    max-width: 60%;
+    min-width: fit-content;
+    flex-wrap: nowrap;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--blue);
+    padding: 15px 30px;
+    border-radius: 1.6em;
+    box-shadow: 10px 10px 12px 10px var(--blue-shadow);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+    white-space: nowrap;
+}
+
+#main-nav .flex {
+    display: flex;
+    gap: 25px;
+    width: 100%; /* Ensures links spread out */
+    justify-content: space-between; /* Distributes links equally */
+}
+
+#main-nav a {
+    color: var(--white);
+    opacity: 0.8;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+#main-nav a::after {
+    content: "";
+    position: absolute;
+    left: 10%;
+    bottom: 1px;
+    width: 0;
+    height: 5px;
+    background: var(--red);
+    border-radius: 10px;
+    transition: width 0.3s ease-in-out;
+    box-shadow:0px 4px 6px 2px rgba(254, 64, 64, 0); /* Use box-shadow instead of filter */
+    z-index: -1;
+}
+
+#main-nav a:hover {
+    opacity: 1;
+    background-size: 100% 3px;
+    filter: drop-shadow(var(--link-shadow-hover));
+
+}
+
+#main-nav a:hover::after {
+    width: 80%; /* Expand the underline on hover */
+    box-shadow:0px 4px 6px 2px rgba(254, 64, 64, 0.3); /* Use box-shadow instead of filter */
+    transition: ease-in-out 0.3s;
+}
+
+#main-nav a.current {
+    position: relative;
+    color: var(--white);
+    opacity: 1;
+    background-image: linear-gradient(90deg, var(--red), var(--red));
+    background-size: 100% 3px; /* Ensure the underline is always visible */
+    background-position: left bottom;
+    filter: drop-shadow(var(--link-shadow));
+    transform: scale(1.1);
+}
+
+#main-nav a.current::after {
+    content: "";
+    position: absolute;
+    left: 10%;
+    bottom: -3px;
+    width: 80%;
+    height: 3px;
+    background: var(--red);
+    border-radius: 10px;
+    box-shadow: var(--link-shadow);
+    filter: drop-shadow(0px 4px 6px rgba(254, 64, 64, 0.3)); /* Shadow for current page */
+}
+
+/* Mobile Menu Button */
+
+
+/* Mobile Menu */
+#mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 250px;
+    height: 100vh;
+    background: var(--blue);
+    z-index: 1002;
+    transition: left 0.5s ease;
+    padding: 80px 20px 20px;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+}
+
+#mobile-menu.active {
+    left: 0;
+}
+
+#menu-links-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#menu-links-mobile a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 15px;
+    transition: all 0.3s ease;
+    background-image: linear-gradient(90deg, var(--red), var(--red));
+    background-size: 0 3px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    filter: drop-shadow(var(--link-shadow));
+}
+
+/* Close Button */
+.close-btn {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.close-btn:hover {
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* Overlay */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.4s ease;
+}
+
+.overlay.active {
+    display: block;
+    opacity: 1;
+    backdrop-filter: blur(12px);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    #nav-button {
+        position: fixed;
+        top: 2em;
+        right: 2em;
+        width: 5em;
+        height: 5em;
+        border-radius: 1.4em;
+        border: none;
+        box-shadow: var(--nav-shadow);
+        background-color: var(--blue);
+        z-index: 20;
+        cursor: pointer;
+    }
+
+    #nav-button::before, #nav-button::after {
+        display: block;
+        position: absolute;
+        content: '';
+        height: 4px;
+        background-color: var(--white);
+        max-width: calc(100% - 2em);
+        border-radius: 999px;
+        right: 1em;
+        /* transform: translateY(-50%); */
+        transition: top .3s ease, bottom .3s ease, width .3s ease;
+    }
+
+    #nav-button::before {
+        top: 35%;
+        width: 100%;
+    }
+
+    #nav-button::after {
+        bottom: 35%;
+        width: 50%;
+    }
+
+    #nav-button.active::before {
+        top: 50%;
+        width: 100%;
+    }
+
+    #nav-button.active::after {
+        width: 0%;
+    }
+
+    #main-nav {
+        display: none;
+    }
+
+    #nav-button {
+        display: block;
+    }
+
+    .close-btn {
+        display: block;
+    }
+
+    #menu-links-mobile a {
+        width: 100%;
+        padding: 15px;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .overlay.active {
+        display: block;
+    }
+}
