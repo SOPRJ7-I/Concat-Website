@@ -12,15 +12,14 @@ class EvenementenToevoegenFactory extends Factory
     public function definition(): array
     {
         return [
-            'titel' => fake()->word(),
-            'datum' => fake()->date(),
-            'starttijd' => fake()->time(),
-            'eindtijd' => fake()->time(),
-            'beschrijving' => fake()->paragraph(250),
-            'locatie' => fake()->address(),
-            'aantal_beschikbare_plekken' => fake()->numberBetween(10, 100),
-            'betaal_link' => fake()->url(),
-            'categorie' => fake()->word(),
+            'title' => 'Community Avond: ' . fake()->word(),
+            'image' => fake()->imageUrl(),
+            'description' => fake()->paragraph(20),
+            'start_time' => fake()->dateTime(),
+            'end_time' => fake()->dateTime(),
+            'location' => fake()->address(),
+            'link' => fake()->url(),
+            'capacity' => fake()->numberBetween(10, 100)
         ];
     }
 }
