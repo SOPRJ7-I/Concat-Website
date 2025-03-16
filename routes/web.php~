@@ -7,11 +7,7 @@ use App\Http\Controllers\EvenementenController;
 
 
 Route::get('/example', function () {
-    return view('example');
-});
-
-Route::get('/', function () {
-    return redirect('/create_evenement');
+    return ('/example');
 });
 
 Route::get('/create_evenement', [EvenementenController::class, 'create']);

@@ -22,12 +22,15 @@
         <div class="flex horizontal spaced centered">
             <div class="flex space-x-8" id="menu-links">
                 <a href="/" class="flex items-center mr-8">
-                    <img src="{{ asset('') }}"
+                    <img src="{{ asset('storage/app/public/logo-white.png') }}"
                          alt="CONCAT Logo"
-                         class="h-8 w-auto">
+                         class="h-8 w-auto"> <!-- Adjust height as needed -->
                 </a>
                 <x-nav-link href="/create_evenement">Evenementen</x-nav-link>
                 <x-nav-link href="/index_evenement">index_evenement</x-nav-link>
+                <x-nav-link href="/contact">Contact</x-nav-link>
+                <x-nav-link href="/login">Login</x-nav-link>
+                <x-nav-link href="/register">Registreren</x-nav-link>
             </div>
         </div>
     </nav>
