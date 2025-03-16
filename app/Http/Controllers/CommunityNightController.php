@@ -13,7 +13,7 @@ class CommunityNightController extends Controller
     public function index()
     {
         return view('community-nights.index', [
-           'communityNights' => CommunityNight::all()
+           'communityNights' => CommunityNight::paginate(10)
         ]);
     }
 

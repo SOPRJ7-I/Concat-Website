@@ -5,7 +5,7 @@
     <title>Community Nights</title>
 </head>
 <div class="mx-auto">
-    <div class="flex flex-wrap">
+    <div class="flex flex-col flex-wrap">
         <div class="lg:my-12 p-6 grid sm:grid-cols-2 gap-8 lg:gap-20 mx-auto">
             @foreach($communityNights->sortByDesc('created_at') as $communityNight)
                 <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
@@ -60,6 +60,9 @@
                     </div>
                 </div>
             @endforeach
+        </div>
+        <div class="flex justify-center my-5">
+            {{ $communityNights->links('vendor.pagination.tailwind') }}
         </div>
     </div>
 </div>
