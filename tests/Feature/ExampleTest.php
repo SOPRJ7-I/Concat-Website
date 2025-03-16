@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Browser\Feature;
+namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Browser\TestCase;
+use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {

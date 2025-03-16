@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Browser;
+namespace Tests\Browser;
 
 use Illuminate\Contracts\Console\Kernel;
 
