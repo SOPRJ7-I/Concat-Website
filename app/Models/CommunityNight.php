@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 
 class CommunityNight extends Model
 {
+    protected $guarded = [];
+    
     use HasFactory;
 
     // TODO: Fix this function
