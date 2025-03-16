@@ -5,6 +5,8 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
     <title>Example Page</title>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
@@ -26,8 +28,10 @@
                          alt="<LOGO>"
                          class="h-8 w-auto">
                 </a>
-                <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
-                <x-nav-link href="/create_evenement">Evenement Aanmaken</x-nav-link>
+                <x-nav-link href="/create_evenement">Evenementen</x-nav-link>
+                <x-nav-link href="/index_evenement">index_evenement</x-nav-link>
+                <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
+
                 <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
             </div>
         </div>
