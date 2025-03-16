@@ -153,3 +153,7 @@ fabric.properties
 # Ignore all local history of files
 .history
 .ionide
+resources/js/app.js~
+*.css~
+resources/js/app.js~
+*.php~
