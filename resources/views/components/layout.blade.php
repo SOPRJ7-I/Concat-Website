@@ -22,10 +22,10 @@
     <!-- Desktop Navigation -->
     <nav id="main-nav" class="sticky">
         <div class="flex horizontal spaced centered">
-            <div class="flex space-x-8" id="menu-links">
-                <a href="/" class="flex items-center mr-8">
+            <div class="flex" id="menu-links">
+                <a href="/" class="flex items-center mr-2">
                     <img src="{{ asset('') }}"
-                         alt="<CONCAT_LOGO>"
+                         alt="<LOGO>"
                          class="h-8 w-auto">
                 </a>
                 <x-nav-link href="/create_evenement">Evenementen</x-nav-link>
@@ -42,7 +42,7 @@
         <div id="menu-links-mobile">
             <a href="/" class="flex items-center mr-8">
                 <img src="{{ asset('') }}"
-                     alt="<CONCAT_LOGO>"
+                     alt="<LOGO>"
                      class="h-8 w-auto">
             </a>
             <button class="close-btn">✕</button>
