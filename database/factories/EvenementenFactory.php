@@ -2,12 +2,12 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\EvenementenToevoegen;
+use App\Models\Evenementen;
 
 
-class EvenementenToevoegenFactory extends Factory
+class EvenementenFactory extends Factory
 {
-    protected $model = EvenementenToevoegen::class;
+    protected $model = Evenementen::class;
 
     public function definition(): array
     {

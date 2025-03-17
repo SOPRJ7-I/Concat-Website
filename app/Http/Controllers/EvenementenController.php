@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\EvenementenToevoegen;
+use App\Models\Evenementen;
 
 class EvenementenController extends Controller
 {
@@ -30,7 +30,7 @@ class EvenementenController extends Controller
             $data['afbeelding'] = $request->file('afbeelding')->store('evenementen_fotos', 'public');
         }
 
-        EvenementenToevoegen::create($data);
+        Evenementen::create($data);
 
         return redirect('/index_evenement')->with('success', 'Evenement succesvol toegevoegd!');
     }
@@ -47,7 +47,7 @@ class EvenementenController extends Controller
         $sortOrder = 'asc';
     }
     // Filter out events with missing (null) values
-    $evenementen = EvenementenToevoegen::whereNotNull('titel')->where('titel', '!=', '')
+    $evenementen = Evenementen::whereNotNull('titel')->where('titel', '!=', '')
     ->whereNotNull('datum')
     ->whereNotNull('starttijd')
     ->whereNotNull('eindtijd')
@@ -59,8 +59,16 @@ class EvenementenController extends Controller
     ->orderBy('datum', $sortOrder)
     ->orderBy('starttijd', $sortOrder)
     ->paginate(6);
-    
+
     return view('index_evenement', compact('evenementen', 'sortOrder'));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Evenementen $event)
+    {
+        return view('events.detail' , ['event' => $event]);
     }
 }
 

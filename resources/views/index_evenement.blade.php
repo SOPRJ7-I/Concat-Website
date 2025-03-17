@@ -55,7 +55,7 @@
                             <p class="text-sm text-black">{{ \Carbon\Carbon::parse($evenement->eind_date)->format('H:i') }}</p>
                         </div>
                     </div>
-                    <a href="{{ $evenement->ticket_link }}" target="_blank" class="mt-3 inline-block bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold">
+                    <a href="{{ route('evenementen.show', $evenement->id) }}" target="_blank" class="mt-3 inline-block bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold">
                         Lees meer...
                     </a>
                 </div>

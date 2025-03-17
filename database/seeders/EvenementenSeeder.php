@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Evenement;
-use App\Models\EvenementenToevoegen;
+use App\Models\Evenementen;
 use Illuminate\Database\Seeder;
 
 class EvenementenSeeder extends Seeder
@@ -13,7 +13,7 @@ class EvenementenSeeder extends Seeder
      */
     public function run()
     {
-        EvenementenToevoegen::create([
+        Evenementen::create([
             'titel' => 'Tech Conferentie 2025',
             'beschrijving' => 'Een wereldwijde technologieconferentie met de nieuwste ontwikkelingen op het gebied van technologie, AI en innovatie.',
             'locatie' => 'Utrecht',
@@ -25,7 +25,7 @@ class EvenementenSeeder extends Seeder
             'afbeelding' => 'tech_conferentie.jpg',
         ]);
 
-        EvenementenToevoegen::create([
+        Evenementen::create([
             'titel' => 'Food Festival Amsterdam',
             'beschrijving' => 'Een viering van eten van over de hele wereld, met livemuziek en kookdemonstraties.',
             'locatie' => 'Amsterdam',
@@ -37,7 +37,7 @@ class EvenementenSeeder extends Seeder
             'afbeelding' => 'food_festival.jpg',
         ]);
 
-        EvenementenToevoegen::create([
+        Evenementen::create([
             'titel' => 'Kunst Expo 2025',
             'beschrijving' => 'Een tentoonstelling met hedendaagse kunst, met werken van zowel bekende als opkomende kunstenaars.',
             'locatie' => 'Rotterdam',
@@ -49,7 +49,7 @@ class EvenementenSeeder extends Seeder
             'afbeelding' => 'kunst_expo.jpg',
         ]);
 
-        EvenementenToevoegen::create([
+        Evenementen::create([
             'titel' => 'Filmfestival Leiden',
             'beschrijving' => 'Een internationaal filmfestival met vertoningen van onafhankelijke en buitenlandse films.',
             'locatie' => 'Leiden',
@@ -61,7 +61,7 @@ class EvenementenSeeder extends Seeder
             'afbeelding' => 'film_festival.jpg',
         ]);
 
-        EvenementenToevoegen::create([
+        Evenementen::create([
             'titel' => 'Muziekfestival Den Haag',
             'beschrijving' => 'Een bruisend muziekfestival met optredens van zowel lokale als internationale artiesten.',
             'locatie' => 'Den Haag',
@@ -73,7 +73,7 @@ class EvenementenSeeder extends Seeder
             'afbeelding' => 'muziek_festival.jpg',
         ]);
 
-        EvenementenToevoegen::create([
+        Evenementen::create([
             'titel' => 'Kerstmarkt Maastricht',
             'beschrijving' => 'Een magische kerstmarkt met feestelijke verlichting, eetkraampjes en kerstliederen.',
             'locatie' => 'Maastricht',
@@ -85,7 +85,7 @@ class EvenementenSeeder extends Seeder
             'afbeelding' => 'kerstmarkt.jpg',
         ]);
 
-        EvenementenToevoegen::create([
+        Evenementen::create([
             'titel' => 'Zomerstrandfeest',
             'beschrijving' => 'Doe mee voor een dag vol plezier in de zon met strandspellen, muziek en heerlijk eten.',
             'locatie' => 'Scheveningen',
@@ -97,7 +97,7 @@ class EvenementenSeeder extends Seeder
             'afbeelding' => 'strandfeest.jpg',
         ]);
 
-        EvenementenToevoegen::create([
+        Evenementen::create([
             'titel' => 'Internationaal Dansfestival',
             'beschrijving' => 'Een festival voor dansliefhebbers, met workshops, optredens en wedstrijden.',
             'locatie' => 'Rotterdam',
