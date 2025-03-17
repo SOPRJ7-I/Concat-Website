@@ -8,9 +8,9 @@
     <div class="lg:my-12 max-w-4xl border-2 mx-auto shadow-xl rounded-lg overflow-hidden bg-white">
         <!-- Header with cover image (if available) -->
         <div class="relative bg-gray-200 overflow-hidden">
-            @if(isset($event->afbeelding))
+            @if(isset($event->afbeelding) && file_exists(public_path($event->afbeelding)))
                 <div class="lg:h-64">
-                    <img src="{{ $event->afbeelding }}" alt="{{ $event->titel }}" class="w-full h-full object-cover">
+                    <img src="{{ asset($event->afbeelding) }}" alt="{{ $event->titel }}" class="w-full h-full object-cover">
                 </div>
             @else
                 <div class="p-6 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
