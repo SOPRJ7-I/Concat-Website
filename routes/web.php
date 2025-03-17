@@ -22,3 +22,4 @@ Route::get('/', function () {
 Route::get('/create_evenement', [EvenementenController::class, 'create']);
 Route::post('/create_evenement', [EvenementenController::class, 'store']);
 Route::get('/index_evenement', [EvenementenController::class, 'index']);
+Route::get('/comunity-nights/create', [CommunityNightController::class, 'create']);

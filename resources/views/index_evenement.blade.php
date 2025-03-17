@@ -11,7 +11,9 @@
                 <option value="asc" {{ request('sort', 'asc') == 'asc' ? 'selected' : '' }}>Oplopend (Startdatum)</option>
                 <option value="desc" {{ request('sort', 'asc') == 'desc' ? 'selected' : '' }}>Aflopend (Startdatum)</option>
             </select>
+            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-auto" onclick="window.location.href='/create_evenement'">Nieuw Evenement</button>
         </div>
+
 
         <!-- Evenementen Grid -->
         <div id="events-container" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
