@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\EvenementenToevoegen;
+use App\Models\Evenementen;
 
 class EvenementenTest extends TestCase
 {
@@ -37,7 +38,7 @@ class EvenementenTest extends TestCase
     public function het_toont_evenementen_geordend_op_startdatum_oplopend()
     {
         // Maak voorbeeld evenementen aan met verschillende datums
-        $evenement1 = EvenementenToevoegen::create([
+        $evenement1 = evenementen::create([
             'titel' => 'Evenement 1', 
             'datum' => '2025-03-07',
             'starttijd' => '12:00',
@@ -49,7 +50,7 @@ class EvenementenTest extends TestCase
             'afbeelding' => 'evenement1.jpg'
         ]);
 
-        $evenement2 = EvenementenToevoegen::create([
+        $evenement2 = evenementen::create([
             'titel' => 'Evenement 2', 
             'datum' => '2025-03-07',
             'starttijd' => '12:00',
@@ -61,7 +62,7 @@ class EvenementenTest extends TestCase
             'afbeelding' => 'evenement2.jpg'
         ]);
 
-        $evenement3 = EvenementenToevoegen::create([
+        $evenement3 = evenementen::create([
             'titel' => 'Evenement 3', 
             'datum' => '2025-03-09',
             'starttijd' => '12:00',
