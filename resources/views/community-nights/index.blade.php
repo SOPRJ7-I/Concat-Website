@@ -4,11 +4,6 @@
             Community Avonden
         </h1>
 
-        <!-- Sorteeropties voor community avonden -->
-        <div class="mt-4 mb-6 text-center">
-            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-auto" onclick="window.location.href='/comunity-nights/create'">Nieuwe Community Avond</button>
-        </div>
-
         <div class="flex flex-col flex-wrap my-4">
             <div class="grid sm:grid-cols-2 gap-8 lg:gap-6 mx-auto">
                 @foreach($communityNights->sortByDesc('created_at') as $communityNight)
