@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\EvenementenToevoegen;
+use App\Models\Evenementen;
 
 class EvenementenTest extends TestCase
 {

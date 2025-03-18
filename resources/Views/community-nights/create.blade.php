@@ -1,14 +1,6 @@
-﻿<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community avond toevoegen</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body style="background-color:rgb(236 235 255)">
-
-<x-layout>
-    <form class="max-w-lg mx-auto bg-purple-100 p-6 rounded-lg shadow-md space-y-4" method="POST"
-          action="{{ route('community-nights.store') }}"  enctype="multipart/form-data">
+﻿<x-layout>
+    <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl mt-5 mb-5">
+    <form method="POST" action="{{ route('community-nights.store') }}"  enctype="multipart/form-data" class="mt-4 space-y-4">
 
         @csrf
 
@@ -70,5 +62,6 @@
 
         <input type="submit" value="Toevoegen" class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer mt-4">
     </form>
+    </div>
 </x-layout>
 

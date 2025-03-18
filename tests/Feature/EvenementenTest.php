@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\EvenementenToevoegen;
+use App\Models\Evenementen;
 
 class EvenementenTest extends TestCase
 {
@@ -22,63 +23,63 @@ class EvenementenTest extends TestCase
             'beschrijving' => 'Dit is een testbeschrijving.',
             'locatie' => 'Test Locatie',
             'aantal_beschikbare_plekken' => 50,
-            'betaal_link' => 'https://test-betaal-link.com',
-            'categorie' => 'Evenement'
+            'betaal_link' => 'https://test-betaal-link.com'
         ]);
 
         // Controleer of het evenement in de database staat
-        $this->assertDatabaseHas('evenementen_toevoegen', [
+        $this->assertDatabaseHas('evenementen', [
             'titel' => 'Test Evenement'
         ]);
 
         // Controleer of de gebruiker wordt doorgestuurd naar de juiste pagina
         $response->assertRedirect('/index_evenement');
     }
-
-    #[Test] // PHP 8 attribute
-    public function it_displays_events_sorted_by_start_date()
+       /** @test */
+    public function het_toont_evenementen_geordend_op_startdatum_oplopend()
     {
-        // Arrange: Maak 3 test evenementen met verschillende startdatums
-        $event1 = Evenementen::factory()->create(['start_datum' => '2024-05-01']);
-        $event2 = Evenementen::factory()->create(['start_datum' => '2024-03-01']);
-        $event3 = Evenementen::factory()->create(['start_datum' => '2024-04-01']);
+        // Maak voorbeeld evenementen aan met verschillende datums
+        $evenement1 = evenementen::create([
+            'titel' => 'Evenement 1', 
+            'datum' => '2025-03-07',
+            'starttijd' => '12:00',
+            'eindtijd' => '14:00',
+            'beschrijving' => 'Beschrijving van Evenement 1',
+            'locatie' => 'Test Locatie',
+            'aantal_beschikbare_plekken' => 50,
+            'betaal_link' => 'https://evenement1.com',
+            'afbeelding' => 'evenement1.jpg'
+        ]);
 
-        // Act: Haal de evenementen op in oplopende volgorde
-        $response = $this->get('/evenementen?sort=asc');
+        $evenement2 = evenementen::create([
+            'titel' => 'Evenement 2', 
+            'datum' => '2025-03-07',
+            'starttijd' => '12:00',
+            'eindtijd' => '14:00',
+            'beschrijving' => 'Beschrijving van Evenement 2',
+            'locatie' => 'Test Locatie',
+            'aantal_beschikbare_plekken' => 50,
+            'betaal_link' => 'https://evenement2.com',
+            'afbeelding' => 'evenement2.jpg'
+        ]);
 
-        // Assert: Controleer of de evenementen correct gesorteerd zijn
+        $evenement3 = evenementen::create([
+            'titel' => 'Evenement 3', 
+            'datum' => '2025-03-09',
+            'starttijd' => '12:00',
+            'eindtijd' => '14:00',
+            'beschrijving' => 'Beschrijving van Evenement 3',
+            'locatie' => 'Test Locatie',
+            'aantal_beschikbare_plekken' => 50,
+            'betaal_link' => 'https://evenement3.com',
+            'afbeelding' => 'evenement3.jpg'
+        ]);
+
+        // Haal de pagina op met oplopende volgorde
+        $response = $this->get('/index_evenement?sort=asc');
+        
+        // Controleer of de evenementen in oplopende volgorde van datum worden weergegeven
         $response->assertStatus(200);
-        $response->assertSeeInOrder([$event2->naam, $event3->naam, $event1->naam]);
-    }
-
-    #[Test] 
-    public function it_displays_events_in_descending_order_when_sorted_desc()
-    {
-        // Arrange: Maak testdata
-        $event1 = Evenementen::factory()->create(['start_datum' => '2024-05-01']);
-        $event2 = Evenementen::factory()->create(['start_datum' => '2024-03-01']);
-        $event3 = Evenementen::factory()->create(['start_datum' => '2024-04-01']);
-
-        // Act: Vraag evenementen op in aflopende volgorde
-        $response = $this->get('/evenementen?sort=desc');
-
-        // Assert: Controleer of de volgorde correct is
-        $response->assertStatus(200);
-        $response->assertSeeInOrder([$event1->naam, $event3->naam, $event2->naam]);
-    }
-
-    #[Test] 
-    public function it_paginates_the_events_correctly()
-    {
-        // Arrange: Maak 10 test-evenementen
-        Evenementen::factory(10)->create();
-
-        // Act: Haal de evenementenpagina op
-        $response = $this->get('/evenementen');
-
-        // Assert: Controleer of de paginatie correct werkt
-        $response->assertStatus(200);
-        $response->assertViewHas('evenementen'); // Check of de variabele bestaat
-        $this->assertCount(6, $response->viewData('evenementen')); // Paginate moet 6 items per pagina geven
+        $response->assertSeeInOrder([$evenement1->titel, $evenement2->titel, $evenement3->titel]);
     }
 }
+

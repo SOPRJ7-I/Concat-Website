@@ -28,10 +28,8 @@
                          alt="<LOGO>"
                          class="h-8 w-auto">
                 </a>
-                <x-nav-link href="/create_evenement">Evenementen</x-nav-link>
-                <x-nav-link href="/index_evenement">index_evenement</x-nav-link>
+                <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
                 <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
-
                 <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
             </div>
         </div>
@@ -46,8 +44,8 @@
                      class="h-8 w-auto">
             </a>
             <button class="close-btn">✕</button>
-            <x-nav-link href="/create_evenement">Evenementen</x-nav-link>
-            <x-nav-link href="/create_evenement">Evenement Aanmaken</x-nav-link>
+            <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
+            <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
             <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
         </div>
     </div>

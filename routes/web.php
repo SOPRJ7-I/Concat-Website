@@ -9,16 +9,12 @@ use App\Http\Controllers\EvenementenController;
 
 Route::resource('community-nights', CommunityNightController::class);
 
-
-
-Route::get('/example', function () {
-    return view('example');
-});
-
 Route::get('/', function () {
-    return redirect('/create_evenement');
+    return redirect('/index_evenement');
 });
 
 Route::get('/create_evenement', [EvenementenController::class, 'create']);
 Route::post('/create_evenement', [EvenementenController::class, 'store']);
 Route::get('/index_evenement', [EvenementenController::class, 'index']);
+Route::get('/community-nights/create', [CommunityNightController::class, 'create']);
+Route::get('/evenementen/{event}', [EvenementenController::class, 'show'])->name('evenementen.show');
