@@ -37,12 +37,12 @@ class CommunityNightController extends Controller
         $imagePath = null;
 
         if($communityNight->hasFile('image')){
-            $imagePath = $communityNight->file('image')->store('community_images', 'public');
+            $imagePath = $communityNight->file('image')->store('community-nights', 'public');
         }
 
         CommunityNight::create([
             'title' => $communityNight->input('title'),
-            'image' => $imagePath,
+            'image' => $imagePath ? basename($imagePath) : null,
             'description' => $communityNight->input('description'),
             'start_time' => $communityNight->input('start_time'),
             'end_time' => $communityNight->input('end_time'),
