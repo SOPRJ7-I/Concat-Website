@@ -1,18 +1,13 @@
-﻿<x-layout>
+<x-layout>
     <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl mt-5 mb-5">
         <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1 text-center w-full">
             Community Avonden
         </h1>
 
-        <!-- Sorteeropties voor community avonden -->
-        <div class="mt-4 mb-6 text-center">
-            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-auto" onclick="window.location.href='/comunity-nights/create'">Nieuwe Community Avond</button>
-        </div>
-
         <div class="flex flex-col flex-wrap my-4">
             <div class="grid sm:grid-cols-2 gap-8 lg:gap-6 mx-auto">
-                @foreach($communityNights->sortByDesc('created_at') as $communityNight)
-                    <div class="max-w bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+                @foreach($communityNights as $communityNight)
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
 
 
                         <a href="{{ route('community-nights.show', $communityNight) }}">
@@ -63,7 +58,6 @@
                 @endforeach
             </div>
 
-            <!-- Paginering -->
             <div id="pagination-container" class="mt-6 text-center">
                 {{ $communityNights->links('vendor.pagination.tailwind') }}
             </div>
