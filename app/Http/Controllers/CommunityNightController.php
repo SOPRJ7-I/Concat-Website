@@ -13,7 +13,7 @@ class CommunityNightController extends Controller
     public function index()
     {
         return view('community-nights.index', [
-           'communityNights' => CommunityNight::paginate(10)
+           'communityNights' => CommunityNight::orderBy('created_at', 'desc')->paginate(10)
         ]);
     }
 
