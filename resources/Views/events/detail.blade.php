@@ -45,6 +45,31 @@
             <div class="text-lg sm:text-xl leading-relaxed max-w-prose">
                 <p>{!! $event->beschrijving ?? 'No description available.' !!}</p>
             </div>
+            @if(session('success'))
+    <div class="bg-green-500 text-white p-3 rounded-md my-4">
+        {{ session('success') }}
+    </div>
+@endif
+
+<form action="{{ route('inschrijven') }}" method="POST" class="mt-6">
+    @csrf
+    <input type="hidden" name="evenement_id" value="{{ $event->id }}">
+
+    <div class="mb-4">
+        <label for="naam" class="block text-gray-700">Naam:</label>
+        <input type="text" id="naam" name="naam" class="w-full p-2 border border-gray-300 rounded-lg" required>
+    </div>
+
+    <div class="mb-4">
+        <label for="email" class="block text-gray-700">E-mail:</label>
+        <input type="email" id="email" name="email" class="w-full p-2 border border-gray-300 rounded-lg" required>
+    </div>
+
+    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
+        Inschrijven
+    </button>
+</form>
+
         </div>
     </div>
 </x-layout>

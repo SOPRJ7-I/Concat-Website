@@ -4,74 +4,51 @@
             Evenementen
         </h1>
 
-        <!-- Sorteeropties -->
-        <div class="mt-4 mb-6 text-center">
-            <label for="sort" class="text-sm font-semibold mr-2">Sorteer op:</label>
-            <select id="sort" class="p-2 bg-purple-100 text-black rounded-lg border border-purple-300 focus:ring-2 focus:ring-purple-500" onchange="sortEvents()">
-                <option value="asc" {{ request('sort', 'asc') == 'asc' ? 'selected' : '' }}>Oplopend (Startdatum)</option>
-                <option value="desc" {{ request('sort', 'asc') == 'desc' ? 'selected' : '' }}>Aflopend (Startdatum)</option>
-            </select>
-            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-auto" onclick="window.location.href='/create_evenement'">Nieuw Evenement</button>
-        </div>
+        <div class="flex flex-col flex-wrap my-4">
+            <div class="grid sm:grid-cols-2 gap-8 lg:gap-6 mx-auto">
+                @foreach($evenementen as $evenement)
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+                        <a href="{{ route('evenementen.show', $evenement->id) }}">
+                            @if(isset($evenement->image))
+                                <img src="{{ $evenement->image }}" alt="{{ $evenement->titel }}" class="h-44 w-full object-cover">
+                            @else
+                                <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
+                                    <h1 class="text-white text-3xl font-bold">{{ $evenement->titel }}</h1>
+                                </div>
+                            @endif
+                        </a>
 
+                        <div class="p-5">
+                            @if(isset($evenement->datum))
+                                <div class="flex items-center text-gray-500 mb-4">
+                                    <i class="flex flex-shrink-0 fa-solid fa-calendar fa-fw text-3xl"></i>
+                                    <span class="text-lg font-bold">{{ \Carbon\Carbon::parse($evenement->datum)->format('d-m-Y') }}, {{ \Carbon\Carbon::parse($evenement->start_datum)->format('H:i') }} - {{ \Carbon\Carbon::parse($evenement->eind_date)->format('H:i') }}</span>
+                                </div>
+                            @endif
 
-        <!-- Evenementen Grid -->
-        <div id="events-container" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            @foreach ($evenementen as $evenement)
-                <div class="bg-white p-6 rounded-xl shadow-lg border border-purple-300">
-                    <h2 class="text-xl font-semibold text-black mb-2">{{ $evenement->titel }}</h2>
-                    <p class="text-gray-700 mb-3">{{ \Illuminate\Support\Str::limit(strip_tags($evenement->beschrijving), 150, '...') }}</p>
+                            @if(isset($evenement->locatie))
+                                <div class="flex items-center text-gray-500 mb-4">
+                                    <i class="flex flex-shrink-0 fa-solid fa-location-dot fa-fw text-3xl"></i>
+                                    <span class="text-md font-bold">{{ $evenement->locatie }}</span>
+                                </div>
+                            @endif
 
-                    <hr class="my-3">
-                    <div class="flex flex-wrap justify-between mb-3">
-                        <div class="w-1/2">
-                            <p class="text-sm text-black"><strong>Locatie:</strong></p>
-                        </div>
-                        <div class="w-1/2">
-                            <p class="text-sm text-black">{{ $evenement->locatie }}</p>
+                            <div class="mb-4 grow text-gray-700 relative overflow-hidden max-h-32">
+                                <p class="mb-3 font-normal text-gray-700 ">{{ \Illuminate\Support\Str::limit(strip_tags($evenement->beschrijving), 150, '...') }}</p>
+                                <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-b from-transparent to-white"></div>
+                            </div>
+
+                            <a href="{{ route('evenementen.show', $evenement->id) }}" class="inline-flex items-center text-sm text-center bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold">
+                                Lees meer...
+                            </a>
                         </div>
                     </div>
-                    <div class="flex flex-wrap justify-between mb-3">
-                        <div class="w-1/2">
-                            <p class="text-sm text-black"><strong>Startdatum:</strong></p>
-                        </div>
-                        <div class="w-1/2">
-                            <p class="text-sm text-black">{{ \Carbon\Carbon::parse($evenement->datum)->format('d-m-Y') }}</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap justify-between mb-3">
-                        <div class="w-1/2">
-                            <p class="text-sm text-black"><strong>Starttijd:</strong></p>
-                        </div>
-                        <div class="w-1/2">
-                            <p class="text-sm text-black">{{ \Carbon\Carbon::parse($evenement->start_datum)->format('H:i') }}</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap justify-between mb-3">
-                        <div class="w-1/2">
-                            <p class="text-sm text-black"><strong>Eindtijd:</strong></p>
-                        </div>
-                        <div class="w-1/2">
-                            <p class="text-sm text-black">{{ \Carbon\Carbon::parse($evenement->eind_date)->format('H:i') }}</p>
-                        </div>
-                    </div>
-                    <a href="{{ route('evenementen.show', $evenement->id) }}" target="_blank" class="mt-3 inline-block bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold">
-                        Lees meer...
-                    </a>
-                </div>
-            @endforeach
-        </div>
+                @endforeach
+            </div>
 
-        <!-- Paginering -->
-        <div id="pagination-container" class="mt-6 text-center">
-            {{ $evenementen->appends(request()->query())->links() }}
+            <div id="pagination-container" class="mt-6 text-center">
+                {{ $evenementen->links('vendor.pagination.tailwind') }}
+            </div>
         </div>
     </div>
-
-    <script>
-        function sortEvents() {
-            let sortValue = document.getElementById('sort').value;
-            window.location.href = `?sort=${sortValue}`;
-        }
-    </script>
 </x-layout>
