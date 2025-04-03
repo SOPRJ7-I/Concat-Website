@@ -47,6 +47,8 @@
                    class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
         </div>
 
+     <div class="bg-gray-200 p-4 rounded-lg border border-gray-300 mt-4">
+        <p class="text-sm font-bold text-gray-800 mb-2">Optioneel:</p>
         <div>
             <label for="link" class="block text-sm font-semibold">Event Link:</label>
             <input type="url" name="link" id="link" placeholder="Link naar het evenement"
@@ -58,6 +60,7 @@
             <input type="number" name="capacity" id="capacity" placeholder="0" min="0"
                    class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
         </div>
+      </div>
 
 
         <input type="submit" value="Toevoegen" class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer mt-4">
