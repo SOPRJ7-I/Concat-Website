@@ -8,29 +8,16 @@ use Illuminate\Support\Carbon;
 
 class AnnouncementController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $perPage = 5;
-        $page = $request->get('page', 1);
-
         $announcements = Announcement::where('isVisible', true)
             ->orderByDesc('publicatiedatum')
-            ->paginate($perPage, ['*'], 'page', $page);
+            ->get();
 
         $groupedAnnouncements = $this->groupAnnouncements($announcements);
 
-        if ($request->ajax()) {
-            return response()->json([
-                'html' => view('announcements.partials.list', [
-                    'groupedAnnouncements' => $groupedAnnouncements
-                ])->render(),
-                'next_page' => $announcements->hasMorePages() ? $announcements->currentPage() + 1 : null
-            ]);
-        }
-
         return view('announcements.index', [
-            'groupedAnnouncements' => $groupedAnnouncements,
-            'nextPage' => $announcements->hasMorePages() ? $page + 1 : null
+            'groupedAnnouncements' => $groupedAnnouncements
         ]);
     }
 
