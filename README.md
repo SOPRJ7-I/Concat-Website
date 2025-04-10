@@ -41,13 +41,13 @@ Append the related issue ID to the branch name to make it easier to identity and
 
 ## Development
 ### 1. Prerequisites
-- PHP 8.4 or higher
-- Laravel Herd 1.14.0 or higher
+- Laravel Herd 1.16.0 or higher
+- Node.js 22.13.0 or higher
 
 ### 2. Steps
 1. Clone the repository by running:  
    ```sh
-   git clone https://github.com/N1TROGUE/concat-website.git
+   git clone https://github.com/SOPRJ7-I/Concat-Website.git
    ```  
 2. Navigate to the application folder using the `cd` command in your terminal.  
 3. Install dependencies by running:  
@@ -79,9 +79,14 @@ Append the related issue ID to the branch name to make it easier to identity and
    php artisan serve
    npm install
    ```  
-7. Ensure Laravel Herd has access to the application folder:  
-   - Within Laravel Herd navigate to **General → Add Path** and add the folder containing the project.  
-8. Access the application by visiting:  
+7. Ensure Laravel Herd has access to the application folder. Within Laravel Herd navigate to **General → Add Path** and add the folder containing the project. Like so:
+   ```
+   .
+   └── Outer folder
+       └── Concat-Website
+           └── Project files
+   ```
+9. Access the application by visiting:  
    ```
    http://concat-website.test
    ```
