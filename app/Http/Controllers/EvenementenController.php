@@ -17,6 +17,7 @@ class EvenementenController extends Controller
         $data = $request->validate([
             'titel' => 'nullable|string|max:255',
             'datum' => 'nullable|date',
+            'einddatum' => 'nullable|date', 
             'starttijd' => 'nullable|date_format:H:i',
             'eindtijd' => 'nullable|date_format:H:i',
             'beschrijving' => 'nullable|string',
@@ -49,14 +50,17 @@ class EvenementenController extends Controller
     // Filter out events with missing (null) values
     $evenementen = Evenementen::whereNotNull('titel')->where('titel', '!=', '')
     ->whereNotNull('datum')
+    ->whereNotNull('einddatum')
     ->whereNotNull('starttijd')
     ->whereNotNull('eindtijd')
     ->whereNotNull('beschrijving')->where('beschrijving', '!=', '')
     ->whereNotNull('locatie')->where('locatie', '!=', '')
     ->whereNotNull('aantal_beschikbare_plekken')
     ->whereNotNull('betaal_link')
-    ->whereNotNull('afbeelding')
-    ->orderBy('datum', $sortOrder)
+    ->where(function($query) {
+        $query->whereNotNull('afbeelding')
+              ->orWhere('afbeelding', '!=', ''); // Allow empty strings
+    })    ->orderBy('datum', $sortOrder)
     ->orderBy('starttijd', $sortOrder)
     ->paginate(6);
 

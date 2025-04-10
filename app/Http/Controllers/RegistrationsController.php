@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Inschrijving;
+use App\Models\Registration;
 use Illuminate\Http\Request;
 
-class InschrijvingController extends Controller
+class RegistrationsController extends Controller
 {
     public function store(Request $request)
     {
         $request->validate([
             'evenement_id' => 'required|exists:evenementen,id',
             'naam' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:inschrijvingen,email', // Make email unique
+            'email' => 'required|email|max:255|unique:registrations,email,NULL,id,evenement_id,' . $request->evenement_id,
         ]);
 
-        Inschrijving::create([
+        registration::create([
             'evenement_id' => $request->evenement_id,
             'naam' => $request->naam,
             'email' => $request->email,

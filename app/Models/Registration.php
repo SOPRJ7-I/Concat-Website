@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Inschrijving extends Model
+class Registration extends Model
 {
     use HasFactory;
-    protected $table = 'inschrijvingen'; 
+    protected $table = 'registrations'; 
 
     protected $fillable = ['evenement_id', 'naam', 'email'];
 

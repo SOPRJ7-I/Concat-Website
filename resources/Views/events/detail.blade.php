@@ -8,7 +8,7 @@
     <div class="lg:my-12 max-w-4xl border-2 mx-auto shadow-xl rounded-lg overflow-hidden bg-white">
         <!-- Header with cover image (if available) -->
         <div class="relative bg-gray-200 overflow-hidden">
-            @if(isset($event->afbeelding) && file_exists(public_path($event->afbeelding)))
+            @if(isset($event->afbeelding) && $event->afbeelding && Storage::exists($event->afbeelding))
                 <div class="lg:h-64">
                     <img src="{{ Storage::url($event->afbeelding) }}" alt="{{ $event->titel }}" class="w-full h-full object-cover">
                 </div>
@@ -31,7 +31,7 @@
     
                         <div class="flex items-center text-gray-500 mb-4">
                             <i class="flex flex-shrink-0 fa-fw fa-solid fa-calendar text-3xl"></i>
-                            <span class="text-lg font-bold">{{ $event->datum }}, {{ $event->starttijd }} - {{ $event->eindtijd }}</span>
+                            <span class="text-lg font-bold">{{ $event->datum }}, {{ $event->starttijd }} <br> {{ $event->einddatum }}, {{ $event->eindtijd }}</span>
                         </div>
     
                         <div class="flex items-center text-gray-500 mb-4">
@@ -69,9 +69,9 @@
                             @endforeach
                         </ul>
                     </div>
-                @endif
+                    @endif
                     <h3 class="text-lg font-bold mb-4 text-gray-800">Inschrijven</h3>
-                    <form action="{{ route('inschrijven') }}" method="POST">
+                    <form action="{{ route('registration') }}" method="POST">
                         @csrf
                         <input type="hidden" name="evenement_id" value="{{ $event->id }}">
     
