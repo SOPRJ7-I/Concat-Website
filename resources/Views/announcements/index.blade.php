@@ -1,51 +1,56 @@
 <x-layout>
-    <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl mt-5 mb-5">
-        <h1 class="text-2xl font-bold border-b-4 border-green-500 inline-block pb-1 mb-4">
-            Overzicht van announcements
-        </h1>
+    <div class="max-w-4xl mx-auto px-4 py-8 bg-white rounded-lg shadow-xl mt-5">
+        <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Aankondigingen</h1>
 
-        @if(session('success'))
-            <div class="bg-green-100 text-green-800 p-3 rounded-lg mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if($announcements->isEmpty())
-            <p class="text-gray-600">Er zijn nog geen announcements beschikbaar.</p>
-        @else
-            <ul class="space-y-4">
-                @foreach($announcements as $announcement)
-                    <li class="border border-gray-300 p-4 rounded-xl shadow-sm">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h2 class="text-lg font-bold text-purple-700">{{ $announcement->titel }}</h2>
-                                <p class="text-sm text-gray-500 mb-2">
-                                    Gepubliceerd op:
-                                    {{ \Carbon\Carbon::parse($announcement->publicatiedatum)->format('d-m-Y H:i') }}
-                                </p>
-                                <p class="text-gray-700">{{ $announcement->inhoud }}</p>
-
-                                @if($announcement->vervaldatum)
-                                    <p class="text-xs text-gray-400 mt-2">Verdwijnt op:
-                                        {{ \Carbon\Carbon::parse($announcement->vervaldatum)->format('d-m-Y H:i') }}</p>
-                                @endif
-                            </div>
-
-                            <div class="flex flex-col space-y-2 items-end">
-                                <a href="{{ route('announcements.edit', $announcement->id) }}"
-                                    class="text-blue-500 hover:underline">Bewerken</a>
-
-                                <form action="{{ route('announcements.destroy', $announcement->id) }}" method="POST"
-                                    onsubmit="return confirm('Weet je zeker dat je dit bericht wilt verwijderen?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:underline">Verwijderen</button>
-                                </form>
-                            </div>
-                        </div>
-                    </li>
-                @endforeach
-            </ul>
-        @endif
+        <div id="announcements-container">
+            @include('announcements.partials.list', ['groupedAnnouncements' => $groupedAnnouncements])
+        </div>
     </div>
+
+    @push('scripts')
+        <script>
+            document.getElementById('load-more')?.addEventListener('click', function() {
+                const button = this;
+                const nextPage = button.dataset.page;
+
+                button.disabled = true;
+                button.innerHTML = `
+                <svg class="animate-spin h-5 w-5 mr-3 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Laden...
+            `;
+
+                fetch(`?page=${nextPage}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if(!response.ok) throw new Error('Network response was not ok');
+                        return response.json();
+                    })
+                    .then(data => {
+                        if(data.html) {
+                            document.getElementById('announcements-container').insertAdjacentHTML('beforeend', data.html);
+                        }
+
+                        if(data.next_page) {
+                            button.dataset.page = data.next_page;
+                            button.disabled = false;
+                            button.innerHTML = 'Meer laden';
+                        } else {
+                            button.remove();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                        button.innerHTML = 'Fout - probeer opnieuw';
+                        button.disabled = false;
+                    });
+            });
+        </script>
+    @endpush
 </x-layout>

@@ -28,3 +28,5 @@ Route::put('/announcements/{announcement}', [AnnouncementController::class, 'upd
 Route::delete('/announcements/{announcement}', [AnnouncementController::class, 'destroy'])->name('announcements.destroy');
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 
+Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
+Route::get('/announcements/load-older', [AnnouncementController::class, 'loadOlder'])->name('announcements.load-older');

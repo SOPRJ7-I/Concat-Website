@@ -286,4 +286,8 @@ footer {
     .overlay.active {
         display: block;
     }
+
+    #announcements-container {
+        width: 50%;
+    }
 }
