@@ -30,6 +30,7 @@
                 </a>
                 <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
                 <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
+                <x-nav-link href="/gallery">Gallerij</x-nav-link>
                 <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
             </div>
         </div>
@@ -46,6 +47,7 @@
             <button class="close-btn">✕</button>
             <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
             <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
+            <x-nav-link href="/gallery">Gallerij</x-nav-link>
             <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
         </div>
     </div>
