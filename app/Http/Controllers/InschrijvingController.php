@@ -12,7 +12,7 @@ class InschrijvingController extends Controller
         $request->validate([
             'evenement_id' => 'required|exists:evenementen,id',
             'naam' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|max:255|unique:inschrijvingen,email', // Make email unique
         ]);
 
         Inschrijving::create([

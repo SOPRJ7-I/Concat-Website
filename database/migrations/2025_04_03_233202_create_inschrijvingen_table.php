@@ -28,5 +28,5 @@ return new class extends Migration
         Schema::table('inschrijvingen', function (Blueprint $table) {
             $table->foreignId('user_id')->nullable(false)->change(); // Zet terug naar verplicht
         });
-    }
+    } 
 };
