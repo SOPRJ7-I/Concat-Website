@@ -1,29 +1,4 @@
 <x-layout>
-    <style>
-        :root {
-            --blue: #3129FF;
-            --blue-shadow: rgba(49, 41, 255, 0.2);
-            --red: #FE4040;
-            --red-shadow: rgba(254, 64, 64, 0.2);
-            --background: #ecebff;
-        }
-
-        * {
-            font-family: "Quicksand", sans-serif;
-        }
-
-        body {
-            background: linear-gradient(to bottom, #dcdaff, #ecebff);
-            margin: 0;
-            min-height: 100vh;
-        }
-
-        .modal-bg {
-            backdrop-filter: blur(8px);
-            background-color: rgba(0, 0, 0, 0.3);
-        }
-    </style>
-
     <div class="w-full">
         <div class="max-w-7xl mx-auto px-6">
             <!-- Gecentreerde titel -->
@@ -59,10 +34,10 @@
     </div>
 
     <!-- Modal -->
-    <div id="photoModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-bg p-4">
-        <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full relative p-4">
+    <div id="photoModal" onclick="handleBackdropClick(event)" class="fixed inset-0 z-50 hidden items-center justify-center modal-bg p-4">
+        <div class="bg-white rounded-lg shadow-lg max-w-7xl w-full relative p-4">
             <button class="absolute top-2 right-4 text-xl font-bold" onclick="closeModal()">x</button>
-            <div class="bg-gray-600 h-64 rounded flex items-center justify-center text-white text-2xl font-bold">Hier komt de foto
+            <div class="bg-gray-600 h-[30rem] rounded flex items-center justify-center text-white text-2xl font-bold">Hier komt de foto
             </div>
             <div class="flex justify-between mt-4 text-sm text-gray-700">
                 <span id="eventName">Evenement naam</span>
@@ -74,14 +49,20 @@
     <script>
         function openModal(name, date) {
             document.getElementById('eventName').innerText = name;
-            document.getElementById('eventDate').innerText = date;
-            document.getElementById('photoModal').classList.remove('hidden');
-            document.getElementById('photoModal').classList.add('flex');
+           document.getElementById('eventDate').innerText = date;
+           document.getElementById('photoModal').classList.remove('hidden');
+           document.getElementById('photoModal').classList.add('flex');
         }
 
         function closeModal() {
             document.getElementById('photoModal').classList.remove('flex');
             document.getElementById('photoModal').classList.add('hidden');
+        }
+
+        function handleBackdropClick(event) {
+            if (event.target === event.currentTarget) {
+                closeModal();
+            }
         }
     </script>
 </x-layout>
