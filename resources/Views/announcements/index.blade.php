@@ -27,19 +27,22 @@
 
                                 @if($announcement->vervaldatum)
                                     <p class="text-xs text-gray-400 mt-2">Verdwijnt op:
-                                        {{ \Carbon\Carbon::parse($announcement->vervaldatum)->format('d-m-Y H:i') }}</p>
+                                        {{ \Carbon\Carbon::parse($announcement->vervaldatum)->format('d-m-Y H:i') }}
+                                    </p>
                                 @endif
                             </div>
 
                             <div class="flex flex-col space-y-2 items-end">
                                 <a href="{{ route('announcements.edit', $announcement->id) }}"
-                                    class="text-blue-500 hover:underline">Bewerken</a>
+                                    class="text-blue-500 hover:underline">Bewerken
+                                </a>
 
                                 <form action="{{ route('announcements.destroy', $announcement->id) }}" method="POST"
                                     onsubmit="return confirm('Weet je zeker dat je dit bericht wilt verwijderen?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:underline">Verwijderen</button>
+                                    <button type="submit" dusk="delete-announcement-{{ $announcement->id }}"
+                                        class="text-red-500 hover:underline">Verwijderen</button>
                                 </form>
                             </div>
                         </div>
