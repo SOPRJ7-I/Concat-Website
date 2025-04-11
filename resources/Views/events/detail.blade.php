@@ -20,27 +20,27 @@
         </div>
     
         <!-- Content -->
-        <div class="p-6 md:p-14">
-            <div class="flex flex-col lg:flex-row gap-8">
+        <div class="p-6 md:p-14 mr-11">
+            <div class="flex flex-col lg:flex-row gap-8 mr-11">
                 <!-- Event Info -->
                 <div class="flex-1">
                     <div class="mb-8">
                         @if(isset($event->titel))
                             <h1 class="text-2xl font-bold text-gray-800 mb-5">{{ $event->titel ?? 'TITEL' }}</h1>
                         @endif
-    
+
                         <div class="flex items-center text-gray-500 mb-4">
                             <i class="flex flex-shrink-0 fa-fw fa-solid fa-calendar text-3xl"></i>
                             <span class="text-lg font-bold">{{ $event->datum }}, {{ $event->starttijd }} <br> {{ $event->einddatum }}, {{ $event->eindtijd }}</span>
                         </div>
-    
+
                         <div class="flex items-center text-gray-500 mb-4">
                             <i class="flex flex-shrink-0 fa-fw fa-solid fa-location-dot text-3xl"></i>
                             <span class="text-lg font-bold">{{ $event->locatie ?? 'Locatie TBD' }}</span>
                         </div>
-    
+
                         <hr class="my-1 border-2 border-gray-400 rounded">
-    
+
                         <div class="sm:text-right sm:text-lg text-md text-gray-500">
                             Laatst bijgewerkt op: 
                             {{ $event->updated_at != $event->created_at 
@@ -48,50 +48,79 @@
                                 : \Carbon\Carbon::parse($event->created_at)->format('d-m-Y H:i') }}
                         </div>
                     </div>
-    
-                    <div class="text-lg sm:text-xl leading-relaxed max-w-prose">
+
                         <p>{!! $event->beschrijving ?? 'No description available.' !!}</p>
                     </div>
                 </div>
-    
-                <!-- Inschrijf Form -->
-                <div class="lg:w-1/3 bg-gray-50 border border-gray-200 p-5 rounded-xl shadow-md">
+
+                    <!-- Button to trigger popup form -->
+                    <button id="openFormButton" class="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mb-6">
+                        Inschrijven
+                    </button>
                     @if(session('success'))
                         <div class="bg-green-500 text-white p-3 rounded-md mb-4">
                             {{ session('success') }}
                         </div>
                     @endif
                     @if ($errors->any())
-                    <div class="bg-red-500 text-white p-3 rounded-md mb-4">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+                        <div class="bg-red-500 text-white p-3 rounded-md mb-4">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @endif
-                    <h3 class="text-lg font-bold mb-4 text-gray-800">Inschrijven</h3>
-                    <form action="{{ route('registration') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="evenement_id" value="{{ $event->id }}">
-    
-                        <div class="mb-4">
-                            <label for="naam" class="block text-gray-700">Naam:</label>
-                            <input type="text" id="naam" name="naam" class="w-full p-2 border border-gray-300 rounded-lg" required>
-                        </div>
-    
-                        <div class="mb-4">
-                            <label for="email" class="block text-gray-700">E-mail:</label>
-                            <input type="email" id="email" name="email" class="w-full p-2 border border-gray-300 rounded-lg" required>
-                        </div>
-    
-                        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 w-full">
-                            Inschrijven
-                        </button>
-                    </form>
+
+
                 </div>
             </div>
         </div>
     </div>
-    
+
+    <!-- Modal Popup -->
+    <div id="popupModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 hidden justify-center items-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-96 relative">
+            <button id="closePopup" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="text-xl font-bold mb-6 text-gray-800">Inschrijven</h3>
+            <form action="{{ route('registration') }}" method="POST">
+                @csrf
+                <input type="hidden" name="evenement_id" value="{{ $event->id }}">
+
+                <div class="mb-6">
+                    <label for="naam" class="block text-gray-700">Naam:</label>
+                    <input type="text" id="naam" name="naam" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+
+                <div class="mb-6">
+                    <label for="email" class="block text-gray-700">E-mail:</label>
+                    <input type="email" id="email" name="email" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+
+                <button type="submit" class="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full">
+                    Inschrijven
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to toggle the popup visibility
+        document.getElementById('openFormButton').addEventListener('click', function() {
+            document.getElementById('popupModal').classList.remove('hidden');
+        });
+
+        document.getElementById('closePopup').addEventListener('click', function() {
+            document.getElementById('popupModal').classList.add('hidden');
+        });
+
+        // Close modal if user clicks outside the modal
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('popupModal')) {
+                document.getElementById('popupModal').classList.add('hidden');
+            }
+        });
+    </script>
 </x-layout>

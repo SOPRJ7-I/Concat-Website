@@ -23,10 +23,10 @@
                                 <div class="flex items-center text-gray-500 mb-4">
                                     <i class="flex flex-shrink-0 fa-solid fa-calendar fa-fw text-3xl"></i>
                                     <span class="text-lg font-bold">
-                                        {{ \Carbon\Carbon::parse($evenement->datum)->format('d-m-Y') }} - 
-                                        {{ \Carbon\Carbon::parse($evenement->start_datum)->format('H:i') }} - 
-                                        {{ \Carbon\Carbon::parse($evenement->einddatum)->format('d-m-Y') }},
-                                        {{ \Carbon\Carbon::parse($evenement->einddatum)->format('H:i') }}
+                                        {{ \Carbon\Carbon::parse($evenement->start_datum)->format('d-m-Y') }} 
+                                        {{ \Carbon\Carbon::parse($evenement->starttijd)->format('H:i') }},
+                                        {{ \Carbon\Carbon::parse($evenement->einddatum  )->format('d-m-Y') }} - 
+                                        {{ \Carbon\Carbon::parse($evenement->eindtijd)->format('H:i') }}
                                     </span>
                                 </div>
                             @endif
