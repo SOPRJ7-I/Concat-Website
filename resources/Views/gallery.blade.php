@@ -20,11 +20,9 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 @foreach($photos as $photo)
                     <div class="bg-white rounded-xl shadow-md p-4 cursor-pointer"
-                        onclick="openModal('{{ $photo['title'] }}', '{{ $photo['date'] }}')">
-                        <div
-                            class="bg-gray-400 h-40 rounded mb-2 flex items-center justify-center text-white text-lg font-semibold">
-                            Hier komt de foto
-                        </div>
+                        onclick="openModal('{{ e($photo['title']) }}', '{{ e($photo['date']) }}', '{{ e($photo['src']) }}')">
+                        <img src="{{ $photo['src'] }}" alt="{{ $photo['title'] }}"
+                            class="h-40 w-full object-contain bg-gray-100 rounded mb-2" />
                         <div class="text-sm text-gray-700 font-medium">{{ $photo['title'] }}</div>
                         <div class="text-xs text-gray-500">{{ $photo['date'] }}</div>
                     </div>
@@ -35,10 +33,10 @@
 
     <!-- Modal -->
     <div id="photoModal" onclick="handleBackdropClick(event)" class="fixed inset-0 z-50 hidden items-center justify-center modal-bg p-4">
-        <div class="bg-white rounded-lg shadow-lg max-w-7xl w-full relative p-4">
+        <div class="bg-white rounded-lg shadow-lg max-w-6xl w-full relative p-4">
             <button class="absolute top-2 right-4 text-xl font-bold" onclick="closeModal()">x</button>
-            <div class="bg-gray-600 h-[30rem] rounded flex items-center justify-center text-white text-2xl font-bold">Hier komt de foto
-            </div>
+            <img src="" id="modalPhoto" alt=""
+                 class="max-h-[80vh] max-w-full w-auto object-contain mx-auto rounded" />
             <div class="flex justify-between mt-4 text-sm text-gray-700">
                 <span id="eventName">Evenement naam</span>
                 <span id="eventDate">Datum</span>
@@ -47,11 +45,12 @@
     </div>
 
     <script>
-        function openModal(name, date) {
+        function openModal(name, date, src) {
             document.getElementById('eventName').innerText = name;
-           document.getElementById('eventDate').innerText = date;
-           document.getElementById('photoModal').classList.remove('hidden');
-           document.getElementById('photoModal').classList.add('flex');
+            document.getElementById('eventDate').innerText = date;
+            document.getElementById('modalPhoto').src = src;
+            document.getElementById('photoModal').classList.remove('hidden');
+            document.getElementById('photoModal').classList.add('flex');
         }
 
         function closeModal() {
