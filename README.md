@@ -90,9 +90,35 @@ Append the related issue ID to the branch name to make it easier to identity and
    ```
    http://concat-website.test
    ```
+## Testing
+### 1. Running browser tests (Laravel Dusk)
+1. Run the following command:
+
+   ```sh
+   php artisan dusk:install
+   ```
+2. Before running the Dusk tests, you need to manually start the ChromeDriver executable:
+    *   Navigate to the ChromeDriver directory within your project: `vendor/laravel/dusk/bin/`.
+    *   Run the executable `chromedriver-win.exe`.
+
+3. Identify the ChromeDriver Port: <br>
+    When ChromeDriver starts successfully, it will print an output to your terminal, including the port it is running on. Look for a line similar to this:
+    ```
+    ChromeDriver was started successfully on port 50976.
+    ```
+4. Ensure the following variables are correctly set in your `.env` file:
+    ```env
+    APP_URL=https://concat-website.test/
+    DUSK_DRIVER_URL=http://localhost:50976
+    ```
+    _In this example the port number (e.g. `50976') should be the port that was printed in your terminal when you ran the ChromeDriver executable_
+5. Run Dusk Tests: <br>
+   Now that ChromeDriver is running and your `.env` file is configured with the correct port, you can execute the Dusk tests from your project's root directory:
+    ```sh
+    php artisan dusk
+    ```
+---
+_Important Info: You might see a warning like: `Warning: TTY mode is not supported on Windows platform.`, This is normal and can be safely ignored, the tests should still run correctly._
 
 ## Comments
-TBD
-
-## Testing
 TBD
