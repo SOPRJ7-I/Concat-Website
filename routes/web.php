@@ -6,6 +6,7 @@ use App\Http\Controllers\CommunityNightController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EvenementenController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\RegistrationsController;
 
 // routes/web.php
@@ -24,6 +25,8 @@ Route::get('/index_evenement', [EvenementenController::class, 'index'])->name('i
 Route::get('/community-nights/create', [CommunityNightController::class, 'create']);
 Route::get('/evenementen/{event}', [EvenementenController::class, 'show'])->name('evenementen.show');
 
+//galerij
+Route::get('/gallery', [GalleryController::class, 'index']);
 Route::get('/register',[AuthController::class, 'showRegister'])->name('show.register');
 Route::get('/login',[AuthController::class, 'showLogin'])->name('show.login');
 

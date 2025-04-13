@@ -13,10 +13,9 @@
 
                 <div>
                     <label for="titel" class="block text-sm font-semibold">Titel:</label>
-                    <input type="text" name="titel" id="titel" placeholder="Titel van het evenement"
+                    <input type="text" name="titel" id="titel" placeholder="Titel van het evenement" required
                         class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                 </div>
-
                     <div>
                         <label for="datum" class="block text-sm font-semibold">Datum:</label>
                         <input type="date" name="datum" id="datum"
@@ -29,14 +28,14 @@
                     </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label for="starttijd" class="block text-sm font-semibold">Starttijd:</label>
-                        <input type="time" name="starttijd" id="starttijd"
-                            class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
+                        <label for="start_time" class="block text-sm font-semibold">Starttijd:</label>
+                        <input type="datetime-local" name="start_time" id="start_time" required
+                        class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                     </div>
                     <div>
-                        <label for="eindtijd" class="block text-sm font-semibold">Eindtijd:</label>
-                        <input type="time" name="eindtijd" id="eindtijd"
-                            class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
+                        <label for="end_time" class="block text-sm font-semibold">Eindtijd:</label>
+                        <input type="datetime-local" name="end_time" id="end_time" required
+                        class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                     </div>
                 </div>
 
@@ -48,7 +47,7 @@
 
                 <div>
                     <label for="locatie" class="block text-sm font-semibold">Locatie:</label>
-                    <input type="text" name="locatie" id="locatie" placeholder="Locatie van het evenement"
+                    <input type="text" name="locatie" id="locatie" placeholder="Locatie van het evenement" required
                         class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                 </div>
 
@@ -67,9 +66,5 @@
                 <input type="submit" value="Toevoegen"
                     class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer">
             </form>
-
-            <a href="/index_evenement" class="block text-center mt-4 text-sm text-purple-700 hover:underline">
-                Terug naar de lijst van evenementen
-            </a>
         </div>
 </x-layout>
