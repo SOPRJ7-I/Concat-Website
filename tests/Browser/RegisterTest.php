@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-// Use database migrations to refresh database before each test run
+// TODO: Use database migrations to refresh database before each test run
 
 class RegisterTest extends DuskTestCase
 {
@@ -26,7 +26,7 @@ class RegisterTest extends DuskTestCase
     //                 ->assertSee('Evenementen');
     //     });
     // }
-    
+
 
          /** @test */
 
@@ -59,6 +59,6 @@ class RegisterTest extends DuskTestCase
     //                 ->assertSee('Evenementen');
     //     });
     // }
-    
-   
+
+
 }

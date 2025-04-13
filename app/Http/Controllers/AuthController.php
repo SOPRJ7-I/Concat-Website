@@ -28,12 +28,13 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ],
         [
-            
+            // TODO: The error messages are currently written in Dutch. If the application will be used by a multilingual audience, consider using Laravel's localization features to make the messages adaptable to different languages
+
             'name.required' => 'Naam is verplicht.',
             'email.required' => 'email is verplicht.',
             'password.required' => 'wachtwoord is verplicht.',
         ]
-    
+
     );
 
         $validated['role'] = 'client';
@@ -43,7 +44,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('index_evenement');       
+        return redirect()->route('index_evenement');
     }
 
     public function login(Request $request)
@@ -58,7 +59,7 @@ class AuthController extends Controller
             'password.required' => 'Uw wachtwoord alstublieft.',
 
         ]
-    
+
     );
 
         if(Auth::attempt($validated))
@@ -70,7 +71,7 @@ class AuthController extends Controller
         throw ValidationValidationException::withMessages([
             'credentials' => 'Sorry, onjuiste inloggegevens'
         ]);
-            
+
     }
 
     public function logout(Request $request)
