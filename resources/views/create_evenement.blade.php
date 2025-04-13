@@ -22,6 +22,11 @@
                         <input type="date" name="datum" id="datum"
                             class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                     </div>
+                    <div>
+                        <label for="einddatum" class="block text-sm font-semibold">Einddatum:</label>
+                        <input type="date" name="einddatum" id="einddatum"
+                            class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
+                    </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label for="starttijd" class="block text-sm font-semibold">Starttijd:</label>
