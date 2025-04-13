@@ -12,4 +12,11 @@ class Evenementen extends Model
     protected $table = 'evenementen';
 
     protected $guarded = [];
+    
+
+    public function inschrijvingen()
+    {
+        return $this->hasMany(Inschrijving::class);
+    }
+
 }

@@ -15,7 +15,18 @@
 </head>
 
 <body>
-    <div class="overlay"></div>
+<!-- Nieuwe bel-icoon knop -->
+<div class="overlay"></div>
+
+<!-- Nieuwe bel-icoon knop -->
+<a href="{{ route('announcements.index') }}"
+   class="fixed right-[2%] top-[2%] z-50 flex items-center justify-center h-16 w-16 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-105"
+   title="Bekijk aankondigingen"
+   aria-label="Aankondigingen">
+    <i class="fa-solid fa-bell text-gray-700 text-xl"></i>
+    <!-- Notificatie indicator
+    <span class="absolute -top-1 -right-1 bg-red-500 text-xs text-white rounded-full px-2 py-1"></span>-->
+</a>
 
     <button id="nav-button" class="hamburger"></button>
 
@@ -30,7 +41,25 @@
                 </a>
                 <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
                 <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
+                <x-nav-link href="/gallery">Gallerij</x-nav-link>
                 <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
+
+                @guest
+                <!-- <x-nav-link href="/register">Registreren</x-nav-link> -->
+                <x-nav-link href="/login">Login</x-nav-link>
+                @endguest
+                
+                @auth
+                <form action="{{ route('logout') }}" method="POST" style="display:flex;">
+                     @csrf
+                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="x-nav-link">
+                    Logout
+                </a>
+                 </form>
+                @endauth
+
+
+
             </div>
         </div>
     </nav>
@@ -46,7 +75,22 @@
             <button class="close-btn">✕</button>
             <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
             <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
+            <x-nav-link href="/gallery">Gallerij</x-nav-link>
             <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
+
+            @guest
+                <!-- <x-nav-link href="/register">Registreren</x-nav-link> -->
+                <x-nav-link href="/login">Login</x-nav-link>
+                @endguest
+                
+                @auth
+                <form action="{{ route('logout') }}" method="POST" style="display:flex;">
+                     @csrf
+                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="x-nav-link">
+                    Logout
+                </a>
+                 </form>
+            @endauth
         </div>
     </div>
 

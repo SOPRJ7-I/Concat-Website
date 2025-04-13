@@ -12,12 +12,12 @@ class EvenementenFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => 'Community Avond: ' . fake()->word(),
-            'image' => fake()->imageUrl(),
-            'description' => fake()->paragraph(20),
-            'start_time' => fake()->dateTime(),
-            'end_time' => fake()->dateTime(),
-            'location' => fake()->address(),
+            'titel' => $this->faker->sentence,
+            'datum' => now()->toDateString(),
+            'starttijd' => '18:00',
+            'einddatum' => now()->toDateString(),
+            'eindtijd' => '20:00',
+            'locatie' => $this->faker->city,
             'link' => fake()->url(),
             'capacity' => fake()->numberBetween(10, 100)
         ];

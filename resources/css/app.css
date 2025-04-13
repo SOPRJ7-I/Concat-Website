@@ -217,6 +217,12 @@ footer {
     backdrop-filter: blur(12px);
 }
 
+/* gallery ingezoomde foto */
+.modal-bg {
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
 /* Responsive Styles */
 @media (max-width: 1024px) {
     #nav-button {
@@ -285,5 +291,9 @@ footer {
 
     .overlay.active {
         display: block;
+    }
+
+    #announcements-container {
+        width: 50%;
     }
 }
