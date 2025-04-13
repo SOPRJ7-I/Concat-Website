@@ -32,7 +32,21 @@ class CommunityNightController extends Controller
     {
         $communityNight->validate([
             'title' => 'required',
-        ]);
+            'description' => 'required|min:10',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'location' => 'required'
+        ],
+        [
+            'title.required' => 'Titel is verplicht.',
+            'description.required' => 'Beschrijving is verplicht.',
+            'description.min' => 'Beschrijving moet minimaal 10 tekens bevatten.',
+            'start_time.required' => 'Starttijd is verplicht.',
+            'end_time.required' => 'Eindtijd is verplicht.',
+            'location.required' => 'Locatie is verplicht.',
+        ]
+        
+        );
 
         $imagePath = null;
 

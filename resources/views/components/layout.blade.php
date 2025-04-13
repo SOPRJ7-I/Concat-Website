@@ -31,6 +31,23 @@
                 <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
                 <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
                 <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
+
+                @guest
+                <!-- <x-nav-link href="/register">Registreren</x-nav-link> -->
+                <x-nav-link href="/login">Login</x-nav-link>
+                @endguest
+                
+                @auth
+                <form action="{{ route('logout') }}" method="POST" style="display:flex;">
+                     @csrf
+                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="x-nav-link">
+                    Logout
+                </a>
+                 </form>
+                @endauth
+
+
+
             </div>
         </div>
     </nav>
@@ -47,6 +64,20 @@
             <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
             <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
             <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
+
+            @guest
+                <!-- <x-nav-link href="/register">Registreren</x-nav-link> -->
+                <x-nav-link href="/login">Login</x-nav-link>
+                @endguest
+                
+                @auth
+                <form action="{{ route('logout') }}" method="POST" style="display:flex;">
+                     @csrf
+                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="x-nav-link">
+                    Logout
+                </a>
+                 </form>
+            @endauth
         </div>
     </div>
 
