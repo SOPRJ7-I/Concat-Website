@@ -15,7 +15,18 @@
 </head>
 
 <body>
-    <div class="overlay"></div>
+<!-- Nieuwe bel-icoon knop -->
+<div class="overlay"></div>
+
+<!-- Nieuwe bel-icoon knop -->
+<a href="{{ route('announcements.index') }}"
+   class="fixed right-[2%] top-[2%] z-50 flex items-center justify-center h-16 w-16 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-105"
+   title="Bekijk aankondigingen"
+   aria-label="Aankondigingen">
+    <i class="fa-solid fa-bell text-gray-700 text-xl"></i>
+    <!-- Notificatie indicator
+    <span class="absolute -top-1 -right-1 bg-red-500 text-xs text-white rounded-full px-2 py-1"></span>-->
+</a>
 
     <button id="nav-button" class="hamburger"></button>
 

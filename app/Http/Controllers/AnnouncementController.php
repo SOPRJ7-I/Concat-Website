@@ -4,17 +4,47 @@ namespace App\Http\Controllers;
 
 use App\Models\Announcement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class AnnouncementController extends Controller
 {
     public function index()
     {
-        $announcements = Announcement::where(function ($query) {
-            $query->whereNull('vervaldatum')
-                  ->orWhere('vervaldatum', '>', now());
-        })->orderByDesc('publicatiedatum')->get();
+        $announcements = Announcement::where('isVisible', true)
+            ->orderByDesc('publicatiedatum')
+            ->get();
 
-        return view('announcements.index', compact('announcements'));
+        $groupedAnnouncements = $this->groupAnnouncements($announcements);
+
+        return view('announcements.index', [
+            'groupedAnnouncements' => $groupedAnnouncements
+        ]);
+    }
+
+    private function groupAnnouncements($announcements)
+    {
+        $grouped = [];
+        foreach($announcements as $announcement) {
+            $group = $this->getDateGroup($announcement->publicatiedatum);
+            $grouped[$group][] = $announcement;
+        }
+        return $grouped;
+    }
+
+    private function getDateGroup($date)
+    {
+        $now = now();
+        $date = $date->copy()->startOfDay();
+        $diffInDays = $date->diffInDays($now);
+
+        if($date->isToday()) return 'Vandaag';
+        if($date->isYesterday()) return 'Gisteren';
+        if($diffInDays <= 7) return 'Deze Week';
+        if($diffInDays <= 14) return 'Vorige Week';
+        if($date->month == $now->month && $date->year == $now->year) return 'Deze Maand';
+        if($date->month == $now->subMonth()->month && $date->year == $now->year) return 'Vorige Maand';
+
+        return $date->translatedFormat('F Y');
     }
 
     public function create()

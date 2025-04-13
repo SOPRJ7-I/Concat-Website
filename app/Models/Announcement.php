@@ -14,6 +14,12 @@ class Announcement extends Model
         'inhoud',
         'publicatiedatum',
         'vervaldatum',
+        'isVisible'
     ];
 
+    protected $casts = [
+        'publicatiedatum' => 'datetime',
+        'vervaldatum' => 'datetime',
+        'isVisible' => 'boolean'
+    ];
 }
