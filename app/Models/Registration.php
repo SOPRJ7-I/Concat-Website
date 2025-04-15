@@ -19,5 +19,6 @@ class Registration extends Model
 
     public function evenement()
     {
-        return $this->belongsTo(Evenement::class);
-    }}
+        return $this->belongsTo(Evenementen::class);
+    }
+}

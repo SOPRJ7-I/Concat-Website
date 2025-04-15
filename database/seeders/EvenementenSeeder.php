@@ -15,9 +15,11 @@ class EvenementenSeeder extends Seeder
     {
         Evenementen::create([
             'titel' => 'Tech Conferentie 2025',
+            'categorie' => 'education',
             'beschrijving' => 'Een wereldwijde technologieconferentie met de nieuwste ontwikkelingen op het gebied van technologie, AI en innovatie.',
             'locatie' => 'Utrecht',
             'datum' => '2025-06-10',
+            'einddatum' => '2025-06-10',
             'starttijd' => '09:00:00',
             'eindtijd' => '18:00:00',
             'aantal_beschikbare_plekken' => 500,
@@ -27,9 +29,11 @@ class EvenementenSeeder extends Seeder
 
         Evenementen::create([
             'titel' => 'Food Festival Amsterdam',
+            'categorie' => 'blokborrel',
             'beschrijving' => 'Een viering van eten van over de hele wereld, met livemuziek en kookdemonstraties.',
             'locatie' => 'Amsterdam',
             'datum' => '2025-07-20',
+            'einddatum' => '2025-07-20',
             'starttijd' => '11:00:00',
             'eindtijd' => '23:00:00',
             'aantal_beschikbare_plekken' => 1000,
@@ -39,9 +43,11 @@ class EvenementenSeeder extends Seeder
 
         Evenementen::create([
             'titel' => 'Kunst Expo 2025',
+            'categorie' => 'education',
             'beschrijving' => 'Een tentoonstelling met hedendaagse kunst, met werken van zowel bekende als opkomende kunstenaars.',
             'locatie' => 'Rotterdam',
             'datum' => '2025-09-05',
+            'einddatum' => '2025-09-05',
             'starttijd' => '10:00:00',
             'eindtijd' => '18:00:00',
             'aantal_beschikbare_plekken' => 300,
@@ -51,9 +57,11 @@ class EvenementenSeeder extends Seeder
 
         Evenementen::create([
             'titel' => 'Filmfestival Leiden',
+            'categorie' => 'blokborrel',
             'beschrijving' => 'Een internationaal filmfestival met vertoningen van onafhankelijke en buitenlandse films.',
             'locatie' => 'Leiden',
             'datum' => '2025-08-15',
+            'einddatum' => '2025-08-15',
             'starttijd' => '12:00:00',
             'eindtijd' => '23:00:00',
             'aantal_beschikbare_plekken' => 400,
@@ -63,9 +71,11 @@ class EvenementenSeeder extends Seeder
 
         Evenementen::create([
             'titel' => 'Muziekfestival Den Haag',
+            'categorie' => 'blokborrel',
             'beschrijving' => 'Een bruisend muziekfestival met optredens van zowel lokale als internationale artiesten.',
             'locatie' => 'Den Haag',
             'datum' => '2025-06-30',
+            'einddatum' => '2025-07-01',
             'starttijd' => '13:00:00',
             'eindtijd' => '01:00:00',
             'aantal_beschikbare_plekken' => 700,
@@ -75,9 +85,11 @@ class EvenementenSeeder extends Seeder
 
         Evenementen::create([
             'titel' => 'Kerstmarkt Maastricht',
+            'categorie' => 'blokborrel',
             'beschrijving' => 'Een magische kerstmarkt met feestelijke verlichting, eetkraampjes en kerstliederen.',
             'locatie' => 'Maastricht',
             'datum' => '2025-12-01',
+            'einddatum' => '2025-12-01',
             'starttijd' => '10:00:00',
             'eindtijd' => '20:00:00',
             'aantal_beschikbare_plekken' => 2000,
@@ -87,9 +99,11 @@ class EvenementenSeeder extends Seeder
 
         Evenementen::create([
             'titel' => 'Zomerstrandfeest',
+            'categorie' => 'blokborrel',
             'beschrijving' => 'Doe mee voor een dag vol plezier in de zon met strandspellen, muziek en heerlijk eten.',
             'locatie' => 'Scheveningen',
             'datum' => '2025-07-10',
+            'einddatum' => '2025-07-10',
             'starttijd' => '14:00:00',
             'eindtijd' => '22:00:00',
             'aantal_beschikbare_plekken' => 600,
@@ -99,9 +113,11 @@ class EvenementenSeeder extends Seeder
 
         Evenementen::create([
             'titel' => 'Internationaal Dansfestival',
+            'categorie' => 'education',
             'beschrijving' => 'Een festival voor dansliefhebbers, met workshops, optredens en wedstrijden.',
             'locatie' => 'Rotterdam',
             'datum' => '2025-10-10',
+            'einddatum' => '2025-10-10',
             'starttijd' => '09:00:00',
             'eindtijd' => '20:00:00',
             'aantal_beschikbare_plekken' => 800,
