@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('titel')->nullable();
             $table->date('datum')->nullable();
+            $table->date('einddatum')->nullable(); 
             $table->time('starttijd')->nullable();
             $table->time('eindtijd')->nullable();
             $table->text('beschrijving')->nullable();
