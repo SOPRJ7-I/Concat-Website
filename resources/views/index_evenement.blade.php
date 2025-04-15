@@ -4,7 +4,7 @@
             Evenementen
         </h1>
 
-        <div class="flex justify-end mb-4">
+        <div class="flex justify-end my-4">
             <a href="{{ url('/create_evenement') }}"
                class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
                aria-label="Nieuw evenement toevoegen">
