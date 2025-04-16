@@ -13,9 +13,10 @@ class Evenementen extends Model
 
     protected $guarded = [];
     
-    public function registrations()
+
+    public function inschrijvingen()
     {
-        return $this->hasMany(Registration::class, 'evenement_id');  // Notice the second parameter for custom foreign key
+        return $this->hasMany(Inschrijving::class);
     }
 
 }

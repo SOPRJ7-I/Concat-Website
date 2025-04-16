@@ -15,9 +15,8 @@ use App\Http\Controllers\RegistrationsController;
 Route::resource('community-nights', CommunityNightController::class);
 
 Route::get('/', function () {
-    return view('home');
+    return redirect('/index_evenement');
 });
-
 Route::post('/registration', [RegistrationsController::class, 'store'])->name('registration');
 
 Route::get('/create_evenement', [EvenementenController::class, 'create']);
