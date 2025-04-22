@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EvenementenController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegistrationsController;
 
 // routes/web.php
@@ -14,9 +15,7 @@ use App\Http\Controllers\RegistrationsController;
 
 Route::resource('community-nights', CommunityNightController::class);
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::post('/registration', [RegistrationsController::class, 'store'])->name('registration');
 

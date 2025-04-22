@@ -42,11 +42,11 @@ class EvenementenController extends Controller
         $validSortOrders = ['asc', 'desc'];
         $sortOrder = $request->query('sort', 'asc');
         $categorieFilter = $request->query('categorie', 'all');
-    
+
         if (!in_array($sortOrder, $validSortOrders)) {
             $sortOrder = 'asc';
         }
-    
+
         $query = Evenementen::whereNotNull('titel')->where('titel', '!=', '')
             ->whereNotNull('datum')
             ->whereNotNull('einddatum')
@@ -60,18 +60,18 @@ class EvenementenController extends Controller
                 $query->whereNotNull('afbeelding')
                     ->orWhere('afbeelding', '!=', '');
             });
-    
+
         if (in_array($categorieFilter, ['blokborrel', 'education'])) {
             $query->where('categorie', $categorieFilter);
         }
-    
+
         $evenementen = $query->orderBy('datum', $sortOrder)
             ->orderBy('starttijd', $sortOrder)
             ->paginate(6);
-    
+
         return view('index_evenement', compact('evenementen', 'sortOrder', 'categorieFilter'));
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -94,8 +94,33 @@ class EvenementenController extends Controller
         'registeredCount' => $registeredCount,
         'availableSpots' => $availableSpots
     ]);
-    
-}
-    
+
+    }
+
+    /**
+     * Get the latest event.
+     */
+    public function latest()
+    {
+        $event = Evenementen::latest()->first();
+
+        if (!$event) {
+            return [
+            'event' => null,
+            'registeredCount' => 0,
+            'availableSpots' => 0
+            ];
+        }
+
+        $registeredCount = $event->registrations()->count();
+        $availableSpots = $event->aantal_beschikbare_plekken ?? 0;
+
+        return [
+            'event' => $event,
+            'registeredCount' => $registeredCount,
+            'availableSpots' => $availableSpots
+        ];
+    }
+
 }
 

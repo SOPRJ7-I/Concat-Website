@@ -99,4 +99,12 @@ class CommunityNightController extends Controller
     {
         //
     }
+
+    /**
+     * Get the latest community night.
+     */
+    public function latest()
+    {
+        return CommunityNight::orderBy('created_at', 'desc')->first();
+    }
 }
