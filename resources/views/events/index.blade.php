@@ -4,16 +4,18 @@
             Evenementen
         </h1>
 
-        <div class="flex justify-end my-4">
-            <a href="{{ url('/create_evenement') }}"
-               class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
-               aria-label="Nieuw evenement toevoegen">
-                <i class="fa-solid fa-plus mr-2" aria-hidden="true"></i> Evenement toevoegen
-            </a>
-        </div>
+        @auth
+            <div class="flex justify-center my-4">
+                <a href="{{ url('/events/create') }}"
+                   class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
+                   aria-label="Nieuw evenement toevoegen">
+                    <i class="fa-solid fa-plus mr-2" aria-hidden="true"></i> Evenement toevoegen
+                </a>
+            </div>
+        @endauth
 
         {{-- Filter op categorie --}}
-        <form method="GET" action="{{ url('/index_evenement') }}" class="mb-6 flex flex-col sm:flex-row items-center gap-4 justify-center">
+        <form method="GET" action="{{ url('/events/index') }}" class="mb-6 flex flex-col sm:flex-row items-center gap-4 justify-center">
             <div>
                 <label for="categorie" class="text-sm font-semibold text-gray-700">Filter op categorie:</label>
                 <select name="categorie" id="categorie"
