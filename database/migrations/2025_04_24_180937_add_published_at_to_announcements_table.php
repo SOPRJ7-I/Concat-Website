@@ -12,14 +12,17 @@ return new class extends Migration
     public function up()
     {
         Schema::table('announcements', function (Blueprint $table) {
-            $table->dropColumn('vervaldatum');
+            $table->timestamp('published_at')->nullable()->after('isVisible');
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::table('announcements', function (Blueprint $table) {
-            $table->date('vervaldatum')->nullable();
+            //
         });
     }
 };

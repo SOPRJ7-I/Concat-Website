@@ -12,13 +12,13 @@ class Announcement extends Model
     protected $fillable = [
         'titel',
         'inhoud',
-        'publicatiedatum',
+        'published_at',
         'vervaldatum',
         'isVisible'
     ];
 
     protected $casts = [
-        'publicatiedatum' => 'datetime',
+        'published_at' => 'datetime',
         'vervaldatum' => 'datetime',
         'isVisible' => 'boolean'
     ];

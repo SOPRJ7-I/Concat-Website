@@ -45,3 +45,7 @@ Route::get('/announcements', [AnnouncementController::class, 'index'])->name('an
 
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 Route::get('/announcements/load-older', [AnnouncementController::class, 'loadOlder'])->name('announcements.load-older');
+
+Route::group(['middleware' => ['auth', 'admin']], function () {
+    Route::get('/admin/announcements', [AnnouncementController::class, 'adminIndex'])->name('announcements.admin');
+});
