@@ -24,7 +24,7 @@ Route::post('/registration', [RegistrationsController::class, 'store'])->name('r
 
 Route::get('/events/create', [EvenementenController::class, 'create']);
 Route::post('/events/create', [EvenementenController::class, 'store']);
-Route::get('/events/index', [EvenementenController::class, 'index'])->name('/evenementen');
+Route::get('/events/index', [EvenementenController::class, 'index'])->name('events.index');
 Route::get('/community-nights/create', [CommunityNightController::class, 'create']);
 Route::get('/evenementen/{event}', [EvenementenController::class, 'show'])->name('evenementen.show');
 
