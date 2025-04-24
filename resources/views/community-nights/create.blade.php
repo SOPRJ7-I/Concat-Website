@@ -7,7 +7,7 @@
         <h2 class="text-center text-xl font-bold mb-4 text-purple-700">Community avond toevoegen</h2>
 
         <div>
-            <label for="title" class="block text-sm font-semibold">*Titel:</label>
+            <label for="title" class="block text-sm font-semibold">Titel<span class="text-xl font-bold text-red-500 ml-1">*</span></label>
             <input type="text" name="title" id="title" placeholder="Titel van het evenement"
                    class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
 
@@ -17,13 +17,13 @@
         </div>
 
         <div>
-            <label for="image" class="block text-sm font-semibold">Afbeelding:</label>
+            <label for="image" class="block text-sm font-semibold">Afbeelding</label>
             <input type="file" name="image" id="image"
                    class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
         </div>
 
         <div>
-            <label for="description" class="block text-sm font-semibold">*Beschrijving:</label>
+            <label for="description" class="block text-sm font-semibold">Beschrijving<span class="text-xl font-bold text-red-500 ml-1">*</span></label>
             <textarea name="description" id="description" placeholder="Beschrijving van het evenement"
                       class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500"></textarea>
                       @error('description')
@@ -33,7 +33,7 @@
 
         <div class="grid grid-cols-2 gap-4">
             <div>
-                <label for="start_time" class="block text-sm font-semibold">*Starttijd:</label>
+                <label for="start_time" class="block text-sm font-semibold">Starttijd<span class="text-xl font-bold text-red-500 ml-1">*</span></label>
                 <input type="datetime-local" name="start_time" id="start_time"
                        class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                        @error('start_time')
@@ -41,7 +41,7 @@
                         @enderror
             </div>
             <div>
-                <label for="end_time" class="block text-sm font-semibold">*Eindtijd:</label>
+                <label for="end_time" class="block text-sm font-semibold">Eindtijd<span class="text-xl font-bold text-red-500 ml-1">*</span></label>
                 <input type="datetime-local" name="end_time" id="end_time"
                        class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                        @error('end_time')
@@ -51,7 +51,7 @@
         </div>
 
         <div>
-            <label for="location" class="block text-sm font-semibold">*Locatie:</label>
+            <label for="location" class="block text-sm font-semibold">Locatie<span class="text-xl font-bold text-red-500 ml-1">*</span></label>
             <input type="text" name="location" id="location" placeholder="Locatie van het evenement"
                    class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                    @error('location')
