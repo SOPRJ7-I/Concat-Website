@@ -6,7 +6,7 @@
         <form method="POST" action="{{ url('/create_evenement') }}" enctype="multipart/form-data" class="mt-4 space-y-4" onsubmit="return validateForm()">
             @csrf
             <div>
-                <label for="categorie" class="block text-sm font-semibold" alt="Selecteer de categorie van het evenement">*Categorie:</label>
+                <label for="categorie" class="block text-sm font-semibold" alt="Selecteer de categorie van het evenement">Categorie:*</label>
                 <select name="categorie" id="categorie" required
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                     <option value="">-- Selecteer een categorie --</option>
@@ -22,43 +22,45 @@
             </div>
 
             <div>
-                <label for="titel" class="block text-sm font-semibold" alt="Vul de titel van het evenement in">*Titel:</label>
+                <label for="titel" class="block text-sm font-semibold" alt="Vul de titel van het evenement in">Titel:*</label>
                 <input type="text" name="titel" id="titel" placeholder="Titel van het evenement" required
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
             </div>
 
+            <div class="grid grid-cols-2 gap-4">
             <div>
-                <label for="datum" class="block text-sm font-semibold" alt="Kies de datum van het evenement">*Datum:</label>
+                <label for="datum" class="block text-sm font-semibold" alt="Kies de datum van het evenement">Datum:*</label>
                 <input type="date" name="datum" id="datum" required
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
             </div>
             <div>
-                <label for="einddatum" class="block text-sm font-semibold" alt="Kies de einddatum van het evenement">*Einddatum:</label>
+                <label for="einddatum" class="block text-sm font-semibold" alt="Kies de einddatum van het evenement">Einddatum:*</label>
                 <input type="date" name="einddatum" id="einddatum" required
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
+            </div>
             </div>
             
             <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <label for="starttijd" class="block text-sm font-semibold" alt="Kies de starttijd van het evenement">*Starttijd:</label>
+                    <label for="starttijd" class="block text-sm font-semibold" alt="Kies de starttijd van het evenement">Starttijd:*</label>
                     <input type="time" name="starttijd" id="starttijd" required
                         class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                 </div>
                 <div>
-                    <label for="eindtijd" class="block text-sm font-semibold" alt="Kies de eindtijd van het evenement">*Eindtijd:</label>
+                    <label for="eindtijd" class="block text-sm font-semibold" alt="Kies de eindtijd van het evenement">Eindtijd:*</label>
                     <input type="time" name="eindtijd" id="eindtijd" required
                         class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                 </div>
             </div>
 
             <div>
-                <label for="beschrijving" class="block text-sm font-semibold" alt="Beschrijf het evenement">*Beschrijving:</label>
+                <label for="beschrijving" class="block text-sm font-semibold" alt="Beschrijf het evenement">Beschrijving:*</label>
                 <textarea name="beschrijving" id="beschrijving" placeholder="Beschrijving van het evenement" required
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500"></textarea>
             </div>
 
             <div>
-                <label for="locatie" class="block text-sm font-semibold" alt="Vul de locatie van het evenement in">*Locatie:</label>
+                <label for="locatie" class="block text-sm font-semibold" alt="Vul de locatie van het evenement in">Locatie:*</label>
                 <input type="text" name="locatie" id="locatie" placeholder="Locatie van het evenement" required
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
             </div>
