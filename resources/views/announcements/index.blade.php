@@ -6,7 +6,8 @@
             </h1>
             @auth
                 @if(auth()->user()->isAdmin())
-                    <a href="{{ route('announcements.create') }}" class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition mt-4">
+                    <a href="{{ route('announcements.create') }}"
+                       class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition mt-4">
                         Nieuwe aankondiging maken
                     </a>
                 @endif

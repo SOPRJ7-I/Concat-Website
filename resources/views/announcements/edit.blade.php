@@ -22,13 +22,13 @@
             <div>
                 <label for="titel" class="block text-sm font-semibold">*Titel:</label>
                 <input type="text" name="titel" id="titel" value="{{ old('titel', $announcement->titel) }}" required
-                    class="w-full p-2 bg-yellow-50 text-yellow-700 rounded-lg border border-yellow-200 focus:ring-2 focus:ring-yellow-500">
+                       class="w-full p-2 bg-yellow-50 text-yellow-700 rounded-lg border border-yellow-200 focus:ring-2 focus:ring-yellow-500">
             </div>
 
             <div>
                 <label for="inhoud" class="block text-sm font-semibold">*Inhoud:</label>
                 <textarea name="inhoud" id="inhoud" rows="5" required
-                    class="w-full p-2 bg-yellow-50 text-yellow-700 rounded-lg border border-yellow-200 focus:ring-2 focus:ring-yellow-500">{{ old('inhoud', $announcement->inhoud) }}</textarea>
+                          class="w-full p-2 bg-yellow-50 text-yellow-700 rounded-lg border border-yellow-200 focus:ring-2 focus:ring-yellow-500">{{ old('inhoud', $announcement->inhoud) }}</textarea>
             </div>
 
             <div class="mb-4">
@@ -43,7 +43,8 @@
 
             <div class="flex justify-between">
                 <div>
-                    <a href="#" class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer">
+                    <a href="#"
+                       class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer">
                         Annuleren
                     </a>
                 </div>
@@ -51,7 +52,8 @@
                     <form action="#" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer">
+                        <button type="submit"
+                                class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer">
                             Verwijderen
                         </button>
                     </form>
