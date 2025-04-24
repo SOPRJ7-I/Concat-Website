@@ -158,3 +158,4 @@ resources/js/app.js~
 resources/js/app.js~
 *.php~
 *.css~
+package-lock.json

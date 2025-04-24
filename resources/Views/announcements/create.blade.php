@@ -31,17 +31,13 @@
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">{{ old('inhoud') }}</textarea>
             </div>
 
-            <div>
-                <label for="publicatiedatum" class="block text-sm font-semibold">*Publicatiedatum en Tijd:</label>
-                <input type="datetime-local" name="publicatiedatum" id="publicatiedatum"
-                    value="{{ old('publicatiedatum') }}" required
-                    class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
-            </div>
 
-            <div>
-                <label for="vervaldatum" class="block text-sm font-semibold">Vervaldatum (optioneel):</label>
-                <input type="datetime-local" name="vervaldatum" id="vervaldatum" value="{{ old('vervaldatum') }}"
-                    class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
+            <div class="mb-4">
+                <label class="flex items-center">
+                    <input type="hidden" name="is_visible" value="0">
+                    <input type="checkbox" name="is_visible" value="1" class="form-checkbox h-5 w-5 text-purple-600" {{ old('is_visible', false) ? 'checked' : '' }}>
+                    <span class="ml-2 text-gray-700">Maak direct zichtbaar</span>
+                </label>
             </div>
 
             <div>
