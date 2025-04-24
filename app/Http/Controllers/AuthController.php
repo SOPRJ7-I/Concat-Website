@@ -44,7 +44,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('index_evenement');
+        return redirect()->route('/events/index');
     }
 
     public function login(Request $request)
@@ -65,7 +65,7 @@ class AuthController extends Controller
         if(Auth::attempt($validated))
         {
             $request->session()->regenerate();
-            return redirect()->route('index_evenement');
+            return redirect()->route('/events/index');
         }
 
         throw ValidationValidationException::withMessages([
@@ -79,6 +79,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('index_evenement');
+        return redirect()->back();
     }
 }

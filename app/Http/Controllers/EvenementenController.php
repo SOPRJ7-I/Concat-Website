@@ -9,7 +9,7 @@ class EvenementenController extends Controller
 {
     public function create()
     {
-        return view('create_evenement');
+        return view('/events/create');
     }
 
     public function store(Request $request)
@@ -34,7 +34,7 @@ class EvenementenController extends Controller
 
         Evenementen::create($data);
 
-        return redirect('/index_evenement')->with('success', 'Evenement succesvol toegevoegd!');
+        return redirect('/events/index')->with('success', 'Evenement succesvol toegevoegd!');
     }
 
     public function index(Request $request)
@@ -42,11 +42,11 @@ class EvenementenController extends Controller
         $validSortOrders = ['asc', 'desc'];
         $sortOrder = $request->query('sort', 'asc');
         $categorieFilter = $request->query('categorie', 'all');
-    
+
         if (!in_array($sortOrder, $validSortOrders)) {
             $sortOrder = 'asc';
         }
-    
+
         $query = Evenementen::whereNotNull('titel')->where('titel', '!=', '')
             ->whereNotNull('datum')
             ->whereNotNull('einddatum')
@@ -60,18 +60,18 @@ class EvenementenController extends Controller
                 $query->whereNotNull('afbeelding')
                     ->orWhere('afbeelding', '!=', '');
             });
-    
+
         if (in_array($categorieFilter, ['blokborrel', 'education'])) {
             $query->where('categorie', $categorieFilter);
         }
-    
+
         $evenementen = $query->orderBy('datum', $sortOrder)
             ->orderBy('starttijd', $sortOrder)
             ->paginate(6);
-    
-        return view('index_evenement', compact('evenementen', 'sortOrder', 'categorieFilter'));
+
+        return view('/events/index', compact('evenementen', 'sortOrder', 'categorieFilter'));
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -94,8 +94,8 @@ class EvenementenController extends Controller
         'registeredCount' => $registeredCount,
         'availableSpots' => $availableSpots
     ]);
-    
+
 }
-    
+
 }
 
