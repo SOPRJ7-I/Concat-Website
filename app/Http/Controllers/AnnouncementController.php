@@ -57,15 +57,13 @@ class AnnouncementController extends Controller
         $validated = $request->validate([
             'titel' => 'required|string|max:255',
             'inhoud' => 'required|string',
-            'publicatiedatum' => 'required|date',
-            'vervaldatum' => 'nullable|date|after_or_equal:publicatiedatum',
+            'isVisible' => 'required|boolean', // Add this line
         ]);
 
         Announcement::create($validated);
 
         return redirect()->route('announcements.index')->with('success', 'Announcement toegevoegd.');
     }
-
     public function edit(Announcement $announcement)
     {
         return view('announcements.edit', compact('announcement'));
@@ -78,6 +76,7 @@ class AnnouncementController extends Controller
             'inhoud' => 'required|string',
             'publicatiedatum' => 'required|date',
             'vervaldatum' => 'nullable|date|after_or_equal:publicatiedatum',
+            'isVisible' => 'required|boolean',
         ]);
 
         $announcement->update($validated);

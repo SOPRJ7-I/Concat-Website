@@ -25,17 +25,25 @@
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
             </div>
 
+
+
             <div>
                 <label for="inhoud" class="block text-sm font-semibold">*Inhoud:</label>
                 <textarea name="inhoud" id="inhoud" rows="5" required placeholder="Beschrijving van de announcement"
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">{{ old('inhoud') }}</textarea>
             </div>
 
+            <div>
+                <label for="publicatiedatum" class="block text-sm font-semibold">*Publicatiedatum en Tijd:</label>
+                <input type="datetime-local" name="publicatiedatum" id="publicatiedatum"
+                       value="{{ old('publicatiedatum') }}" required
+                       class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
+            </div>
 
             <div class="mb-4">
                 <label class="flex items-center">
-                    <input type="hidden" name="is_visible" value="0">
-                    <input type="checkbox" name="is_visible" value="1" class="form-checkbox h-5 w-5 text-purple-600" {{ old('is_visible', false) ? 'checked' : '' }}>
+                    <input type="hidden" name="isVisible" value="0">
+                    <input type="checkbox" name="isVisible" value="1" class="form-checkbox h-5 w-5 text-purple-600" {{ old('isVisible', false) ? 'checked' : '' }}>
                     <span class="ml-2 text-gray-700">Maak direct zichtbaar</span>
                 </label>
             </div>
