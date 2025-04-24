@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         CommunityNight::factory(50)->create();
         $this->call(EvenementenSeeder::class);
+        $this->call(UsersSeeder::class);
     }
 }

@@ -50,15 +50,43 @@ footer {
     /* Add other footer styles */
 }
 
+.nav-container {
+    position: sticky;
+    top: 2%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+    z-index: 40;
+}
+
+#bell-icon {
+    position: absolute;
+    right: 2%;
+    top: 2%;
+    width: 4em;
+    height: 4em;
+    border-radius: 1.4em;
+    background-color: var(--blue);
+    box-shadow: var(--nav-shadow);
+}
+
+/* Adjust the bell icon's inner content to be centered */
+#bell-icon i {
+    color: var(--white);
+    font-size: 1em;
+}
+
+
 /* Desktop Navigation */
 #main-nav {
     height: 4em;
-    position: fixed;
+    position: static;
     max-width: 60%;
     min-width: fit-content;
     flex-wrap: nowrap;
-    left: 50%;
-    transform: translateX(-50%);
     background: var(--blue);
     padding: 15px 30px;
     border-radius: 1.6em;
@@ -66,9 +94,10 @@ footer {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    z-index: 1000;
+    z-index: 40;
     white-space: nowrap;
     top: 2%;
+    margin: 0 auto;
 }
 
 #main-nav .flex {
@@ -217,20 +246,58 @@ footer {
     backdrop-filter: blur(12px);
 }
 
+/* gallery ingezoomde foto */
+.modal-bg {
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
 /* Responsive Styles */
 @media (max-width: 1024px) {
+    /* Change the nav-container to remain sticky in mobile view */
+    .nav-container {
+        position: sticky;
+        width: 100%;
+        height: auto;
+        z-index: 40;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 2em;
+    }
+
+    /* Position the hamburger button */
     #nav-button {
-        position: fixed;
-        top: 2em;
-        right: 2em;
+        position: relative;
+        right: auto;
+        left: auto;
         width: 5em;
         height: 5em;
         border-radius: 1.4em;
         border: none;
         box-shadow: var(--nav-shadow);
         background-color: var(--blue);
-        z-index: 20;
+        z-index: 50;
         cursor: pointer;
+        margin-right: auto;
+    }
+
+    /* Bell icon positioning (left side, matching hamburger height) */
+    #bell-icon {
+        position: absolute;
+        right: 1.5rem;
+        left: auto;
+        width: 5em;
+        height: 5em;
+        border-radius: 1.4em;
+        background-color: var(--blue);
+        box-shadow: var(--nav-shadow);
+        margin-left: auto; /* Push to right side */
+    }
+
+    /* Adjust the bell icon's inner content to be centered */
+    #bell-icon i {
+        color: var(--white);
+        font-size: 1.5em;
     }
 
     #nav-button::before, #nav-button::after {
