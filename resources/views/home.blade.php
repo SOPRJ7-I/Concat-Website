@@ -1,134 +1,66 @@
 <x-layout>
-    <div class="lg:my-12 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="border-2 shadow-xl rounded-lg overflow-hidden bg-white">
-            <!-- Header with cover image (if available) -->
-            <div class="relative bg-gray-200 overflow-hidden">
-                @if(isset($communityNight->image))
-                    <div class="lg:h-64">
-                        <img src="{{ $communityNight->image }}" alt="{{ $communityNight->title }}" class="w-full h-full object-none">
-                    </div>
-                @else
-                    <div class="p-6 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
-                        <h1 class="text-white text-3xl font-bold">{{ $communityNight->title}}</h1>
-                    </div>
-                @endif
-            </div>
-
-            <!-- Content -->
-            <div class="p-6 md:p-14">
-                <div class="mb-8">
-                    @if(isset($communityNight->image))
-                        <h1 class="text-3xl font-bold mb-5">{{ $communityNight->title}}</h1>
-                    @endif
-
-                    @if(isset($communityNight->date)) @endif
-                    <div class="flex items-center text-gray-500 mb-4">
-                        <i class="flex flex-shrink-0 fa-fw fa-solid fa-calendar text-3xl"></i>
-                        <span class="text-lg font-bold">{{ $communityNight->date }}, {{ $communityNight->start_time }} - {{ $communityNight->end_time }}</span>
-                    </div>
-
-                    @if(isset($communityNight->location))
-                        <div class="flex items-center text-gray-500 mb-4">
-                            <i class="flex flex-shrink-0 fa-fw fa-solid fa-location-dot text-3xl"></i>
-                            <span class="text-lg font-bold">{{ $communityNight->location }}</span>
-                        </div>
-                    @endif
-
-                    <hr class="my-1 border-2 border-gray-400 rounded">
-
-                    <div class="sm:text-right sm:text-lg text-md text-gray-500">
-                        Laatst bijgewerkt op: {{ $communityNight->updatedAt }}
-                    </div>
-                </div>
-                <div class="text-lg sm:text-xl leading-relaxed max-w-prose">
-                    <p>{!! $communityNight->formattedDescription ?? 'No description available.' !!}</p>
-                </div>
-            </div>
-        </div>
-        <div class="border-2 shadow-xl rounded-lg overflow-hidden bg-white">
-            <!-- Header met afbeelding of titel -->
-            <div class="relative bg-gray-200 overflow-hidden">
-                @if (isset($event->afbeelding) && $event->afbeelding && Storage::exists($event->afbeelding))
-                    <div class="lg:h-64">
-                        <img src="{{ Storage::url($event->afbeelding) }}" alt="Evenement afbeelding: {{ $event->titel }}"
-                            class="w-full h-full object-cover">
-                    </div>
-                @else
-                    <div class="p-6 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
-                        <h1 class="text-white text-3xl font-bold"
-                            alt="Titel van evenement: {{ $event->titel ?? 'Community Night' }}">
-                            {{ $event->titel ?? 'Community Night' }}</h1>
-                    </div>
-                @endif
-            </div>
-
-            <!-- Hoofdinhoud van het evenement -->
-            <div class="p-6 md:p-14">
-                <div class="flex flex-col lg:flex-row gap-8">
-
-                    <div class="flex-1">
-                        <div class="mb-8">
-                            @if (isset($event->titel))
-                                <h1 class="text-2xl font-bold text-gray-800 mb-5" alt="Evenement titel">{{ $event->titel }}
-                                </h1>
-                            @endif
-
-                            <!-- Categorie -->
-                            @if (isset($event->categorie))
-                                <div class="flex items-center text-gray-500 mb-4">
-                                    <i class="flex-shrink-0 fa-solid fa-tag text-3xl" alt="Evenement categorie"
-                                        aria-hidden="true"></i>
-                                    <span class="text-lg font-bold ml-2">{{ $event->categorie }}</span>
-                                </div>
-                            @endif
-
-                            <!-- Datum & Tijd -->
-                            <div class="flex items-center text-gray-500 mb-4">
-                                <i class="flex-shrink-0 fa-solid fa-calendar text-3xl" alt="Datum en tijd evenement"
-                                    aria-hidden="true"></i>
-                                <span class="text-lg font-bold ml-2">
-                                    {{ $event->datum ?? 'Datum onbekend' }},
-                                    {{ $event->starttijd ?? 'Tijd onbekend' }} <br>
-                                    {{ $event->einddatum ?? 'Einddatum onbekend' }},
-                                    {{ $event->eindtijd ?? 'Eindtijd onbekend' }}
-                                </span>
-                            </div>
-
-                            <!-- Locatie -->
-                            <div class="flex items-center text-gray-500 mb-4">
-                                <i class="flex-shrink-0 fa-solid fa-location-dot text-3xl" alt="Locatie evenement"
-                                    aria-hidden="true"></i>
-                                <span class="text-lg font-bold ml-2">{{ $event->locatie ?? 'Locatie onbekend' }}</span>
-                            </div>
-
-                            <hr class="my-1 border-2 border-gray-400 rounded">
-
-                            <!-- Beschrijving -->
-                            <div>
-                                <p alt="Evenement beschrijving">{!! $event->beschrijving ?? 'Geen beschrijving beschikbaar.' !!}</p>
-                            </div>
-                        </div>
-
-                        <!-- Laatst Bijgewerkt Informatie -->
-                        @if ($event->updated_at != $event->created_at)
-                            <div class="sm:text-right sm:text-lg text-md text-gray-500">
-                                <span>Laatst bijgewerkt op: </span>
-                                <span>{{ \Carbon\Carbon::parse($event->updated_at)->format('d-m-Y H:i') }}</span>
-                            </div>
+    <div class="lg:my-12 w-full max-w-3xl lg:max-w-7xl mx-auto flex flex-col lg:flex-row gap-6 justify-center">
+        {{-- Events Section Wrapper --}}
+        <div class="w-full lg:max-w-6/12 lg:pr-20">
+            <h1 class="text-3xl font-bold mb-2 text-left">Evenementen</h1>
+            <hr class="border-b-4 border-purple-500 mb-4">
+            <div class="grid gap-8 lg:gap-6">
+                <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+                    <a href="{{ route('evenementen.show', $event->id) }}"
+                    aria-label="Details bekijken van {{ $event->titel }}">
+                        @if(isset($event->afbeelding) && isset($event->start_datum) && isset($event->einddatum) && isset($event->locatie))
+                            <img src="{{ $event->afbeelding }}"
+                                alt="Afbeelding van {{ $event->titel }}. Datum: {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}"
+                                class="h-44 w-full object-cover">
                         @else
-                            <div class="sm:text-right sm:text-lg text-md text-gray-500">
-                                <span>Gemaakt op: </span>
-                                <span>{{ \Carbon\Carbon::parse($event->updated_at)->format('d-m-Y H:i') }}</span>
+                            <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500" aria-hidden="true">
+                                <h1 class="text-white text-3xl font-bold">{{ $event->titel }}</h1>
                             </div>
                         @endif
+                    </a>
+
+                    <div class="p-7">
+                        {{-- Categorie --}}
+                        @if(isset($event->categorie))
+                            <span class="inline-block mb-2 bg-purple-100 text-purple-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
+                                        {{ ucfirst($event->categorie) }}
+                            </span>
+                        @endif
+
+                        {{-- Datum & tijd --}}
+                        @if(isset($event->start_datum) && isset($event->einddatum))
+                            <div class="flex items-center text-gray-500 mb-4">
+                                <i class="flex flex-shrink-0 fa-solid fa-calendar fa-fw text-3xl" aria-hidden="true"></i>
+                                <span class="text-lg font-bold ml-2">
+                                            {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} {{ \Carbon\Carbon::parse($event->starttijd)->format('H:i') }},
+                                            {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} {{ \Carbon\Carbon::parse($event->eindtijd)->format('H:i') }}
+                                </span>
+                            </div>
+                        @endif
+
+                        {{-- Locatie --}}
+                        @if(isset($event->locatie))
+                            <div class="flex items-center text-gray-500 mb-4">
+                                <i class="flex flex-shrink-0 fa-solid fa-location-dot fa-fw text-3xl" aria-hidden="true"></i>
+                                <span class="text-md font-bold ml-2">{{ $event->locatie }}</span>
+                            </div>
+                        @endif
+
+                        {{-- Beschrijving --}}
+                        <div class="mb-4 grow text-gray-700 relative overflow-hidden max-h-32">
+                            <p class="mb-3 font-normal text-gray-700">
+                                {{ \Illuminate\Support\Str::limit(strip_tags($event->beschrijving), 150, '...') }}
+                            </p>
+                            <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-b from-transparent to-white" aria-hidden="true"></div>
+                        </div>
+
                         <div class="flex items-center text-gray-500 mb-4">
-                            <i class="flex-shrink-0 fa-solid fa-users text-3xl" alt="Aantal inschrijvingen evenement"
-                                aria-hidden="true"></i>
+                            <i class="flex-shrink-0 fa-solid fa-users text-3xl" alt="Aantal inschrijvingen evenement" aria-hidden="true"></i>
                             <div class="ml-2">
                                 <!-- Totaal aantal plekken -->
                                 <div class="text-lg font-bold">
                                     Totaal aantal plekken:
-                                    @if ($availableSpots > 0)
+                                    @if($availableSpots > 0)
                                         {{ $availableSpots }} plekken
                                     @else
                                         Geen plaatsen beschikbaar
@@ -136,17 +68,75 @@
                                 </div>
 
                                 <!-- Aantal ingeschreven -->
-                                @if (auth()->user() && auth()->user()->is_admin)
-                                    <!-- Check if the user is admin -->
-                                    <div class="text-lg font-bold">
-                                        Aantal ingeschreven: {{ $registeredCount }}
-                                    </div>
-                                @endif
+                                @if(auth()->user() && auth()->user()->is_admin) <!-- Check if the user is admin -->
+                                <div class="text-lg font-bold">
+                                    Aantal ingeschreven: {{ $registeredCount }}
+                                </div>
+                            @endif
                             </div>
                         </div>
+
+                        {{-- Lees meer knop --}}
+                        <a href="{{ route('evenementen.show', $event->id) }}"
+                        class="inline-flex items-center text-sm text-center bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold"
+                        aria-label="Lees meer over {{ $event->titel }}. Datum van {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}">
+                            Lees meer over {{ $event->titel }}
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+        {{-- Community Night Section Wrapper --}}
+        <div class="w-full lg:max-w-6/12">
+            <h1 class="text-3xl font-bold mb-2 text-left">Community-avonden</h1>
+            <hr class="border-b-4 border-purple-500 mb-4">
+            <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+                <a href="{{ route('community-nights.show', $communityNight) }}">
+                    {{-- Temporarily disabled, breaks at times for unknown reasons --}}
+                    {{-- @if(isset($communityNight->image))
+                        <img src="{{ $communityNight->image }}" alt="{{ $communityNight->title }}" class="h-44 w-full object-cover">
+                     @else --}}
+                    <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
+                        <h1 class="text-white text-3xl font-bold">{{ $communityNight->title ?? 'Community Night' }}</h1>
+                    </div>
+                    {{-- @endif --}}
+                </a>
+
+                <div class="p-5">
+                    {{-- Temporarily disabled, breaks at times for unknown reasons --}}
+                    {{-- @if(isset($communityNight->image))
+                        <a href="{{ route('community-nights.show', $communityNight) }}">
+                            <h5 class="text-2xl font-bold tracking-tight text-gray-900 mb-4">{{ $communityNight->title }}</h5>
+                        </a>
+                        <!--- <hr class="mb-4 border-2 border-gray-400 rounded"> -->
+                    @endif --}}
+
+                    @if(isset($communityNight->date))
+                        <div class="flex items-center text-gray-500 mb-4">
+                            <i class="flex flex-shrink-0 fa-solid fa-calendar fa-fw text-3xl"></i>
+                            <span class="text-lg font-bold">{{ $communityNight->date }}, {{ $communityNight->start_time }} - {{ $communityNight->end_time }}</span>
+                        </div>
+                    @endif
+
+                    @if(isset($communityNight->location))
+                        <div class="flex items-center text-gray-500 mb-4">
+                            <i class="flex flex-shrink-0 fa-solid fa-location-dot fa-fw text-3xl"></i>
+                            <span class="text-md font-bold">{{ $communityNight->location ?? 'Locatie TBD' }}</span>
+                        </div>
+                    @endif
+
+
+                    <div class="mb-4 grow text-gray-700 relative overflow-hidden max-h-32">
+                        <p class="mb-3 font-normal text-gray-700 ">{{ $communityNight->description }}</p>
+                        <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-b from-transparent to-white"></div>
+                    </div>
+
+                    <a href="{{ route('community-nights.show', $communityNight) }}" class="inline-flex items-center text-sm text-center bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold">
+                        Lees meer...
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
 </x-layout>

@@ -102,7 +102,7 @@ class EvenementenController extends Controller
      */
     public function latest()
     {
-        $event = Evenementen::latest()->first();
+        $event = Evenementen::orderBy('created_at', 'desc')->first();
 
         if (!$event) {
             return [
@@ -112,13 +112,10 @@ class EvenementenController extends Controller
             ];
         }
 
-        $registeredCount = $event->registrations()->count();
-        $availableSpots = $event->aantal_beschikbare_plekken ?? 0;
-
         return [
             'event' => $event,
-            'registeredCount' => $registeredCount,
-            'availableSpots' => $availableSpots
+            'registeredCount' => $event->registrations()->count(),
+            'availableSpots' => $event->aantal_beschikbare_plekken
         ];
     }
 
