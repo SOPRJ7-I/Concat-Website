@@ -1,5 +1,5 @@
 <x-layout>
-    <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl mt-5 mb-5">
+    <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl mb-5">
         <h1 class="text-2xl font-bold border-b-4 border-yellow-500 inline-block pb-1">
             Announcement bewerken
         </h1>
@@ -22,33 +22,46 @@
             <div>
                 <label for="titel" class="block text-sm font-semibold">*Titel:</label>
                 <input type="text" name="titel" id="titel" value="{{ old('titel', $announcement->titel) }}" required
-                    class="w-full p-2 bg-yellow-100 text-yellow-700 rounded-lg border border-yellow-300 focus:ring-2 focus:ring-yellow-500">
+                       class="w-full p-2 bg-yellow-50 text-yellow-700 rounded-lg border border-yellow-200 focus:ring-2 focus:ring-yellow-500">
             </div>
 
             <div>
                 <label for="inhoud" class="block text-sm font-semibold">*Inhoud:</label>
                 <textarea name="inhoud" id="inhoud" rows="5" required
-                    class="w-full p-2 bg-yellow-100 text-yellow-700 rounded-lg border border-yellow-300 focus:ring-2 focus:ring-yellow-500">{{ old('inhoud', $announcement->inhoud) }}</textarea>
+                          class="w-full p-2 bg-yellow-50 text-yellow-700 rounded-lg border border-yellow-200 focus:ring-2 focus:ring-yellow-500">{{ old('inhoud', $announcement->inhoud) }}</textarea>
             </div>
 
-            <div>
-                <label for="publicatiedatum" class="block text-sm font-semibold">*Publicatiedatum en Tijd:</label>
-                <input type="datetime-local" name="publicatiedatum" id="publicatiedatum"
-                    value="{{ old('publicatiedatum', \Carbon\Carbon::parse($announcement->publicatiedatum)->format('Y-m-d\TH:i')) }}"
-                    required
-                    class="w-full p-2 bg-yellow-100 text-yellow-700 rounded-lg border border-yellow-300 focus:ring-2 focus:ring-yellow-500">
+            <div class="mb-4">
+                <label class="flex items-center">
+                    <input type="hidden" name="isVisible" value="0">
+                    <input type="checkbox" name="isVisible" value="1"
+                           {{ old('isVisible', $announcement->isVisible) ? 'checked' : '' }}
+                           class="form-checkbox h-5 w-5 text-yellow-600">
+                    <span class="ml-2 text-gray-700">Zichtbaar maken</span>
+                </label>
             </div>
 
-            <div>
-                <label for="vervaldatum" class="block text-sm font-semibold">Vervaldatum (optioneel):</label>
-                <input type="datetime-local" name="vervaldatum" id="vervaldatum"
-                    value="{{ old('vervaldatum', $announcement->vervaldatum ? \Carbon\Carbon::parse($announcement->vervaldatum)->format('Y-m-d\TH:i') : '') }}"
-                    class="w-full p-2 bg-yellow-100 text-yellow-700 rounded-lg border border-yellow-300 focus:ring-2 focus:ring-yellow-500">
-            </div>
-
-            <div>
-                <input type="submit" value="Opslaan"
-                    class="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition font-semibold cursor-pointer">
+            <div class="flex justify-between">
+                <div>
+                    <a href="#"
+                       class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer">
+                        Annuleren
+                    </a>
+                </div>
+                <div>
+                    <form action="#" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                                class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer">
+                            Verwijderen
+                        </button>
+                    </form>
+                </div>
+                <div>
+                    <input type="submit" value="Opslaan"
+                           class="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition font-semibold cursor-pointer">
+                </div>
             </div>
         </form>
     </div>
