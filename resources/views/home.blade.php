@@ -33,17 +33,10 @@
 
                 <div class="space-y-4">
                     @if(count($groupedAnnouncements) > 0)
-                        @foreach($groupedAnnouncements as $group => $announcements)
-                            <div class="mb-6">
-                                <h3 class="font-semibold text-gray-500 mb-2">{{ $group }}</h3>
-                                @foreach($announcements as $announcement)
-                                    <!-- Bestaande announcement code -->
-                                @endforeach
-                            </div>
-                        @endforeach
+                        @include('announcements.partials.list', ['groupedAnnouncements' => $groupedAnnouncements])
                     @else
-                        <div class="text-center p-4 bg-gray-50 rounded-lg">
-                            <p class="text-gray-500 italic">Geen recente aankondigingen</p>
+                        <div class="text-center p-8 bg-gray-50 rounded-lg">
+                            <p class="text-gray-500 italic">Er zijn momenteel geen aankondigingen</p>
                         </div>
                     @endif
                 </div>
