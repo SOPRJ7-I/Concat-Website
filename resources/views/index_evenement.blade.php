@@ -14,21 +14,33 @@
                     </a>
                 </div>
             @endif
+
+            {{-- Dropdown for filtering and showing user's events --}}
+            <form method="GET" action="{{ url('/index_evenement') }}" class="mb-6 flex flex-col sm:flex-row items-center gap-4 justify-center">
+                <div>
+                    <label for="categorie" class="text-sm font-semibold text-gray-700">Filter op categorie:</label>
+                    <select name="categorie" id="categorie"
+                            onchange="this.form.submit()"
+                            class="p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500"
+                            aria-label="Filter evenementen op categorie">
+                        <option value="all" {{ $categorieFilter === 'all' ? 'selected' : '' }}>Alle categorieën</option>
+                        <option value="blokborrel" {{ $categorieFilter === 'blokborrel' ? 'selected' : '' }}>Blokborrel</option>
+                        <option value="education" {{ $categorieFilter === 'education' ? 'selected' : '' }}>Education</option>
+                        
+                    </select>
+                </div>
+                <div>
+                    <select name="myevents" id="myevents"
+                            onchange="this.form.submit()"
+                            class="p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500"
+                            aria-label="Filter op mijn evenementen">
+                        <option value="0" {{ !$onlyMyEvents ? 'selected' : '' }}>Alles</option>
+                        <option value="1" {{ $onlyMyEvents ? 'selected' : '' }}>Aangemeld </option>
+
+                    </select>
+                </div>
+            </form>
         @endauth
-        {{-- Filter op categorie --}}
-        <form method="GET" action="{{ url('/index_evenement') }}" class="mb-6 flex flex-col sm:flex-row items-center gap-4 justify-center">
-            <div>
-                <label for="categorie" class="text-sm font-semibold text-gray-700">Filter op categorie:</label>
-                <select name="categorie" id="categorie"
-                        onchange="this.form.submit()"
-                        class="p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500"
-                        aria-label="Filter evenementen op categorie">
-                    <option value="all" {{ $categorieFilter === 'all' ? 'selected' : '' }}>Alle categorieën</option>
-                    <option value="blokborrel" {{ $categorieFilter === 'blokborrel' ? 'selected' : '' }}>Blokborrel</option>
-                    <option value="education" {{ $categorieFilter === 'education' ? 'selected' : '' }}>Education</option>
-                </select>
-            </div>
-        </form>
 
         {{-- Evenementenlijst --}}
         <div class="flex flex-col flex-wrap my-4">
@@ -55,6 +67,19 @@
                                     {{ ucfirst($evenement->categorie) }}
                                 </span>
                             @endif
+
+                            {{-- Registration Status --}}
+                            @auth
+                                @if($evenement->isUserRegistered(auth()->id()))
+                                    <span class="inline-block mb-2 bg-green-100 text-green-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
+                                        aangemeld
+                                    </span>
+                                @else
+                                    <span class="inline-block mb-2 bg-red-100 text-red-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
+                                        Niet aangemeld
+                                    </span>
+                                @endif
+                            @endauth
 
                             {{-- Datum & tijd --}}
                             @if(isset($evenement->start_datum) && isset($evenement->einddatum))

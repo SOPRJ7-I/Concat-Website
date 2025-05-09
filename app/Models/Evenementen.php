@@ -17,5 +17,8 @@ class Evenementen extends Model
     {
         return $this->hasMany(Registration::class, 'evenement_id');  // Notice the second parameter for custom foreign key
     }
-
-}
+    public function isUserRegistered($userId)
+    {
+        return $this->registrations()->where('user_id', $userId)->exists();
+    }
+    }
