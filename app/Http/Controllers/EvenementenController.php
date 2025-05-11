@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Evenementen;
+use Carbon\Carbon;
 
 class EvenementenController extends Controller
 {
@@ -93,9 +94,47 @@ class EvenementenController extends Controller
         'event' => $event,
         'registeredCount' => $registeredCount,
         'availableSpots' => $availableSpots
-    ]);
+    ]); 
     
-}
+    }
+
+    public function past_events(Request $request)
+    {
+        //dd("Past events");
+        $validSortOrders = ['asc', 'desc'];
+        $sortOrder = $request->query('sort', 'asc');
+        $categorieFilter = $request->query('categorie', 'all');
+    
+        if (!in_array($sortOrder, $validSortOrders)) {
+            $sortOrder = 'asc';
+        }
+    
+        $query = Evenementen::whereNotNull('titel')->where('titel', '!=', '')
+            ->whereNotNull('datum')
+            ->whereNotNull('einddatum')
+            ->whereDate('einddatum', '<', Carbon::today())
+            ->whereNotNull('starttijd')
+            ->whereNotNull('eindtijd')
+            ->whereNotNull('beschrijving')->where('beschrijving', '!=', '')
+            ->whereNotNull('locatie')->where('locatie', '!=', '')
+            ->whereNotNull('aantal_beschikbare_plekken')
+            ->whereNotNull('betaal_link')
+            ->where(function ($query) {
+                $query->whereNotNull('afbeelding')
+                    ->orWhere('afbeelding', '!=', '');
+            });
+    
+        if (in_array($categorieFilter, ['blokborrel', 'education'])) {
+            $query->where('categorie', $categorieFilter);
+        }
+    
+        $evenementen = $query->orderBy('datum', $sortOrder)
+            ->orderBy('starttijd', $sortOrder)
+            ->paginate(6);
+        
+        //dd($evenementen);
+        return view('evenement_archief', compact('evenementen', 'sortOrder', 'categorieFilter'));
+    }
     
 }
 

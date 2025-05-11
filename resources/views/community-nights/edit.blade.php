@@ -1,14 +1,24 @@
 ﻿<x-layout>
     <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl mt-5 mb-5">
-    <form method="POST" action="{{ route('community-nights.store') }}"  enctype="multipart/form-data" class="mt-4 space-y-4">
+
+    @if(session('success'))
+    <div class="w-full flex justify-center">
+        <div class="max-w-md p-4 mb-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded-lg">
+            <p class="font-medium">{{ session('success') }}</p>
+        </div>
+    </div>
+    @endif
+
+    <form method="POST" action="{{ route('community-nights.update', $communityNight->id) }}"  enctype="multipart/form-data" class="mt-4 space-y-4">
 
         @csrf
-
-        <h2 class="text-center text-xl font-bold mb-4 text-purple-700">Community avond toevoegen</h2>
+        @method('PUT')
+        <h2 class="text-center text-xl font-bold mb-4 text-purple-700">Community avond bewerken</h2>
 
         <div>
             <label for="title" class="block text-sm font-semibold">Titel<span class="text-xl font-bold text-red-500 ml-1">*</span></label>
-            <input type="text" name="title" id="title" placeholder="Titel van het community avond" aria-label="Voer hier de titel van de community-avond in"
+            <input type="text" name="title" id="title" placeholder="Titel van het evenement"
+            value="{{ old('title', $communityNight->title) }}"
                    class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
 
             @error('title')
@@ -18,14 +28,17 @@
 
         <div>
             <label for="image" class="block text-sm font-semibold">Afbeelding</label>
-            <input type="file" name="image" id="image" aria-label="Voer hier de afbeelding van de community-avond in"
+            <input type="file" name="image" id="image"
+            value="{{ old('image', $communityNight->image) }}"
+
                    class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
         </div>
 
         <div>
             <label for="description" class="block text-sm font-semibold">Beschrijving<span class="text-xl font-bold text-red-500 ml-1">*</span></label>
-            <textarea name="description" id="description" placeholder="Beschrijving van het community avond"
-                      class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500"></textarea>
+            <textarea name="description" id="description" placeholder="Beschrijving van het evenement"
+
+                      class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">{{ old('description', $communityNight->description) }}</textarea>
                       @error('description')
                         <div class="text-red-500 text-sm mt-1 font-bold">{{$message}}</div>
                         @enderror
@@ -35,6 +48,8 @@
             <div>
                 <label for="start_time" class="block text-sm font-semibold">Starttijd<span class="text-xl font-bold text-red-500 ml-1">*</span></label>
                 <input type="datetime-local" name="start_time" id="start_time"
+                value="{{ old('start_time', \Carbon\Carbon::parse($communityNight->start_time)->format('Y-m-d\TH:i')) }}"
+
                        class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                        @error('start_time')
                         <div class="text-red-500 text-sm mt-1 font-bold">{{$message}}</div>
@@ -43,6 +58,8 @@
             <div>
                 <label for="end_time" class="block text-sm font-semibold">Eindtijd<span class="text-xl font-bold text-red-500 ml-1">*</span></label>
                 <input type="datetime-local" name="end_time" id="end_time"
+                value="{{ old('end_time', \Carbon\Carbon::parse($communityNight->end_time)->format('Y-m-d\TH:i')) }}"
+
                        class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                        @error('end_time')
                         <div class="text-red-500 text-sm mt-1 font-bold">{{$message}}</div>
@@ -52,7 +69,9 @@
 
         <div>
             <label for="location" class="block text-sm font-semibold">Locatie<span class="text-xl font-bold text-red-500 ml-1">*</span></label>
-            <input type="text" name="location" id="location" placeholder="Locatie van het community avond"
+            <input type="text" name="location" id="location" placeholder="Locatie van het evenement"
+            value="{{ old('location', $communityNight->location) }}"
+
                    class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                    @error('location')
                     <div class="text-red-500 text-sm mt-1 font-bold">{{$message}}</div>
@@ -61,18 +80,21 @@
 
         <div>
             <label for="link" class="block text-sm font-semibold">Event Link:</label>
-            <input type="url" name="link" id="link" placeholder="Link naar het community avond"
+            <input type="url" name="link" id="link" placeholder="Link naar het evenement"
+            value="{{ old('link', $communityNight->link) }}"
+
                    class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
         </div>
 
         <div>
             <label for="capacity" class="block text-sm font-semibold">Capaciteit:</label>
             <input type="number" name="capacity" id="capacity" placeholder="0" min="0"
+            value="{{ old('capacity', $communityNight->capacity) }}"
                    class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
         </div>
 
 
-        <input type="submit" value="Toevoegen" class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer mt-4">
+        <input type="submit" value="Opslaan" class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer mt-4">
     </form>
     </div>
 </x-layout>

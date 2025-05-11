@@ -24,13 +24,19 @@ Route::get('/create_evenement', [EvenementenController::class, 'create']);
 Route::post('/create_evenement', [EvenementenController::class, 'store']);
 Route::get('/index_evenement', [EvenementenController::class, 'index'])->name('index_evenement');
 Route::get('/community-nights/create', [CommunityNightController::class, 'create']);
+
+Route::get('/community-nights/{id}/edit', [CommunityNightController::class, 'edit'])->name('community-nights.edit');
+
+Route::put('/community-nights/{communityNight}/update', [CommunityNightController::class, 'update'])->name('community-nights.update');
+
+
 Route::get('/evenementen/{event}', [EvenementenController::class, 'show'])->name('evenementen.show');
 
 //galerij
 Route::get('/gallery', [GalleryController::class, 'index']);
 Route::get('/register',[AuthController::class, 'showRegister'])->name('show.register');
 Route::get('/login',[AuthController::class, 'showLogin'])->name('show.login');
-
+//Registreren
 Route::post('/register',[AuthController::class, 'Register'])->name('register');
 Route::post('/login',[AuthController::class, 'login'])->name('login');
 Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
@@ -45,3 +51,5 @@ Route::get('/announcements', [AnnouncementController::class, 'index'])->name('an
 
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 Route::get('/announcements/load-older', [AnnouncementController::class, 'loadOlder'])->name('announcements.load-older');
+
+Route::get('/evenement_archief', [EvenementenController::class, 'past_events'])->name('evenement_archief');
