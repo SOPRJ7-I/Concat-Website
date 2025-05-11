@@ -26,6 +26,26 @@
             <div class="flex flex-col lg:flex-row gap-8 mr-11">
                 
                 <div class="flex-1">
+                    @if(session('success'))
+                    <div class="bg-green-500 text-white p-3 rounded-md mb-4" alt="Succesmelding inschrijven">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if ($errors->any())
+                <div class="bg-red-500 text-white p-3 rounded-md mb-4" alt="Foutmelding inschrijven">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>
+                                @if($error == 'The email has already been taken.')
+                                    Het e-mailadres is al geregistreerd.
+                                @else
+                                    {{ $error }}
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
                     <div class="mb-8">
                         @if(isset($event->titel))
                             <h1 class="text-2xl font-bold text-gray-800 mb-5" alt="Evenement titel">{{ $event->titel }}</h1>
@@ -103,20 +123,7 @@
                         Inschrijven
                     </button>
                                     <!-- Foutmelding of Succesbericht -->
-                @if(session('success'))
-                <div class="bg-green-500 text-white p-3 rounded-md mb-4" alt="Succesmelding inschrijven">
-                    {{ session('success') }}
-                </div>
-            @endif
-            @if ($errors->any())
-                <div class="bg-red-500 text-white p-3 rounded-md mb-4" alt="Foutmelding inschrijven">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+
                 </div>
 
 
@@ -136,15 +143,24 @@
                 @csrf
                 <input type="hidden" name="evenement_id" value="{{ $event->id }}">
 
-                <div class="mb-6">
-                    <label for="naam" class="block text-gray-700" alt="Naam invoerveld">Naam:</label>
-                    <input type="text" id="naam" name="naam" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                </div>
+                @auth
+                <input type="hidden" name="naam" value="{{ auth()->user()->name }}">
+                <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+                <p class="text-gray-700 mb-4">
+                    Je bent ingelogd als <strong>{{ auth()->user()->name }}</strong> ({{ auth()->user()->email }})
+                </p>
+                    @else
+                        <div class="mb-6">
+                            <label for="naam" class="block text-gray-700" alt="Naam invoerveld">Naam:</label>
+                            <input type="text" id="naam" name="naam" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
 
-                <div class="mb-6">
-                    <label for="email" class="block text-gray-700" alt="E-mail invoerveld">E-mail:</label>
-                    <input type="email" id="email" name="email" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                </div>
+                        <div class="mb-6">
+                            <label for="email" class="block text-gray-700" alt="E-mail invoerveld">E-mail:</label>
+                            <input type="email" id="email" name="email" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                    @endauth
+
 
                 
                 <button type="submit" class="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" alt="Inschrijf knop">
