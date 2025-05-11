@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CommunityNightController;
+use App\Http\Controllers\SponsorController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EvenementenController;
@@ -12,8 +13,11 @@ use App\Http\Controllers\RegistrationsController;
 
 // routes/web.php
 
-
+// Community Nights
 Route::resource('community-nights', CommunityNightController::class);
+
+// Sponsors
+Route::resource('sponsors', SponsorController::class);
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
