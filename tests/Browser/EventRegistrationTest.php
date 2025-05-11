@@ -119,6 +119,46 @@ public function test_event_detail_page_loads_and_registration_modal_functionalit
             ->pause(500);
     });
 }
+public function test_event_filter_dropdown_options()
+{
+    // Create a dummy user and event
+    $user = User::factory()->create([
+        'email' => 'admin@example.com',
+        'password' => bcrypt('password123'),
+        'role' => 'admin',
+    ]);
+
+    $event = Evenementen::factory()->create([
+        'titel' => 'Test Event',
+        'datum' => '2025-04-15',
+        'starttijd' => '18:00',
+        'einddatum' => '2025-04-15',
+        'eindtijd' => '20:00',
+        'locatie' => 'Testlocatie',
+        'beschrijving' => 'Test beschrijving',
+    ]);
+
+    $this->browse(function (Browser $browser) use ($user, $event) {
+        // Ensure the user is logged in
+        $browser->loginAs($user)
+            ->visit('/index_evenement')
+
+            ->assertSelected('select#categorie', 'all')
+            ->assertPresent('select#myevents')  
+            ->assertSelected('select#myevents', '0') 
+
+            ->select('select#myevents', '1')
+            ->pause(500) 
+            ->assertSelected('select#myevents', '1') 
+
+            ->assertSee('Aangemeld')
+
+            ->select('select#myevents', '0')
+            ->pause(500)
+            ->assertSelected('select#myevents', '0') 
+            ->assertSee('Alles');
+    });
+}
 
 
 }
