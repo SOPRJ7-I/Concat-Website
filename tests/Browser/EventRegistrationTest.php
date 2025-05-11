@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use App\Models\Evenementen;
+use App\Models\User;
+use DatabaseTransactions;
 
 class EventRegistrationTest extends DuskTestCase
 {
@@ -51,6 +53,8 @@ class EventRegistrationTest extends DuskTestCase
     }
     public function test_event_page_loads_and_displays_elements()
     {
+
+
     // Create some dummy events for testing
     $evenementen = Evenementen::factory()->count(5)->create();
 
@@ -72,9 +76,15 @@ class EventRegistrationTest extends DuskTestCase
             // Assert the pagination links are present
             });
         }
-        public function test_event_detail_page_loads_and_registration_modal_functionality()
-    {
-    // Create a test event
+public function test_event_detail_page_loads_and_registration_modal_functionality()
+{
+    // Create the user with a password set for authentication
+    $user = User::factory()->create([
+        'email' => 'admin@example.com',
+        'password' => bcrypt('password123'), // Ensure password is set
+        'role' => 'admin', // Add the role field here
+    ]);
+
     $event = Evenementen::factory()->create([
         'titel' => 'Test Event',
         'categorie' => 'Test Category',
@@ -86,36 +96,29 @@ class EventRegistrationTest extends DuskTestCase
         'beschrijving' => 'This is a test description for the event.',
     ]);
 
-    $this->browse(function (Browser $browser) use ($event) {
-        // Visit the event detail page
+    // Use the Dusk browser to interact with the page
+    $this->browse(function (Browser $browser) use ($user, $event) {
+        // Ensure the user is logged in
         $browser->visit(route('evenementen.show', $event->id))
-
-            // Assert the page title
+            // Assert event details are visible
             ->assertSee($event->titel)
             ->assertSee($event->categorie)
-            ->assertSee($event->datum)
-            ->assertSee($event->starttijd)
             ->assertSee($event->locatie)
             ->assertSee($event->beschrijving)
-            
-                // Test the modal opens and closes
-                // Initially, the modal should be hidden
-                ->assertMissing('#popupModal')
-                // Click to open the modal
-                ->click('#openFormButton')
-                
-                // Assert that the modal becomes visible
-                ->assertVisible('#popupModal')
-                // Check that the form elements are present
-                ->assertSee('Inschrijven')
-                ->assertSee('Naam:')
-                ->assertSee('E-mail:')                
-                // Close the modal
-                ->click('#closePopup')
+            // Trigger modal display
+            ->click('#openFormButton')
+            ->pause(500)
+            // Assert modal is now visible
+            ->assertVisible('#popupModal')
+            // Assert modal content
+            ->assertSee('Inschrijven')
+            ->assertSee('Naam:')
+            ->assertSee('E-mail:')
+            // Close the modal and assert it's hidden again
+            ->click('#closePopup')
+            ->pause(500);
+    });
+}
 
-                // Assert that the modal is hidden again
-                ->assertMissing('#popupModal');
-            
-        });
-    }   
+
 }

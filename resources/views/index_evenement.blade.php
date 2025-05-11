@@ -14,7 +14,7 @@
                     </a>
                 </div>
             @endif
-
+@endauth
             {{-- Dropdown for filtering and showing user's events --}}
             <form method="GET" action="{{ url('/index_evenement') }}" class="mb-6 flex flex-col sm:flex-row items-center gap-4 justify-center">
                 <div>
@@ -29,6 +29,7 @@
                         
                     </select>
                 </div>
+                @auth
                 <div>
                     <select name="myevents" id="myevents"
                             onchange="this.form.submit()"
@@ -39,8 +40,8 @@
 
                     </select>
                 </div>
+                @endauth
             </form>
-        @endauth
 
         {{-- Evenementenlijst --}}
         <div class="flex flex-col flex-wrap my-4">
