@@ -48,16 +48,7 @@
                         Annuleren
                     </a>
                 </div>
-                <div>
-                    <form action="#" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                                class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer">
-                            Verwijderen
-                        </button>
-                    </form>
-                </div>
+
                 <div>
                     <input type="submit" value="Opslaan"
                            class="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition font-semibold cursor-pointer">
