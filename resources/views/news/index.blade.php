@@ -6,6 +6,7 @@
             @if(auth()->user()->role === 'admin')
         <div class="mb-6">
             <a href="{{ route('news.create') }}"
+               dusk="nieuwsbrief-toevoegen"
                     class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"               
                     aria-label="Nieuwe nieuwsbrief toevoegen">
                 Nieuwsbrief toevoegen
@@ -32,6 +33,7 @@
                         <div class="flex space-x-2">
                             <button
                                 onclick="previewPDF('{{ asset('storage/' . $newsletter->pdf) }}')"
+                                dusk="bekijk-newsletter"
                                 class="text-blue-600 hover:underline text-sm"
                                 aria-label="Bekijk PDF van {{ $newsletter->titel }}"
                             >
