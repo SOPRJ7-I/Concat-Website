@@ -52,4 +52,3 @@ Route::get('/announcements', [AnnouncementController::class, 'index'])->name('an
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 Route::get('/announcements/load-older', [AnnouncementController::class, 'loadOlder'])->name('announcements.load-older');
 
-Route::get('/evenement_archief', [EvenementenController::class, 'past_events'])->name('evenement_archief');

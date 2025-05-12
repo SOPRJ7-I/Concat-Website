@@ -45,8 +45,8 @@
                         
                         @auth
                         @if(auth()->user()->role === 'admin')
-                        <div class="flex justify-end mb-4">
-                        <a href="{{ route('community-nights.edit', $communityNight->id) }}" class="bg-blue-500 text-white py-2 px-4 hover:bg-blue-600 transition">
+                        <div class="flex justify-end mb-4 gap-2 pt-2 pr-2">
+                        <a href="{{ route('community-nights.edit', $communityNight->id) }}" class="bg-[#3129FF] rounded-lg text-white py-2 px-4 hover:bg-[#E39FF6] transition">
                             Bewerken
                         </a>                  
                         <form action="{{ route('community-nights.destroy', $communityNight->id) }}" method="POST" class="inline">
@@ -55,7 +55,7 @@
                         <button type="submit"
                          dusk="delete-communityNight-{{ $communityNight->id }}"
                         onclick="return confirm('Weet je zeker dat je deze Community Night wilt verwijderen?');"
-                            class="bg-red-500 text-white py-2 px-4  hover:bg-red-600 transition">
+                            class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition">
                             Verwijderen
                         </button>
                          </form>

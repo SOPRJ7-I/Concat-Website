@@ -43,6 +43,9 @@ class EvenementenController extends Controller
         $validSortOrders = ['asc', 'desc'];
         $sortOrder = $request->query('sort', 'asc');
         $categorieFilter = $request->query('categorie', 'all');
+
+        $isAfgelopen = $request->query('afgelopen') === 'true';
+
     
         if (!in_array($sortOrder, $validSortOrders)) {
             $sortOrder = 'asc';
@@ -65,7 +68,12 @@ class EvenementenController extends Controller
         if (in_array($categorieFilter, ['blokborrel', 'education'])) {
             $query->where('categorie', $categorieFilter);
         }
-    
+
+        
+        if ($isAfgelopen) {
+            $query->whereDate('einddatum', '<', Carbon::today());
+        }
+        
         $evenementen = $query->orderBy('datum', $sortOrder)
             ->orderBy('starttijd', $sortOrder)
             ->paginate(6);
@@ -98,43 +106,6 @@ class EvenementenController extends Controller
     
     }
 
-    public function past_events(Request $request)
-    {
-        //dd("Past events");
-        $validSortOrders = ['asc', 'desc'];
-        $sortOrder = $request->query('sort', 'asc');
-        $categorieFilter = $request->query('categorie', 'all');
-    
-        if (!in_array($sortOrder, $validSortOrders)) {
-            $sortOrder = 'asc';
-        }
-    
-        $query = Evenementen::whereNotNull('titel')->where('titel', '!=', '')
-            ->whereNotNull('datum')
-            ->whereNotNull('einddatum')
-            ->whereDate('einddatum', '<', Carbon::today())
-            ->whereNotNull('starttijd')
-            ->whereNotNull('eindtijd')
-            ->whereNotNull('beschrijving')->where('beschrijving', '!=', '')
-            ->whereNotNull('locatie')->where('locatie', '!=', '')
-            ->whereNotNull('aantal_beschikbare_plekken')
-            ->whereNotNull('betaal_link')
-            ->where(function ($query) {
-                $query->whereNotNull('afbeelding')
-                    ->orWhere('afbeelding', '!=', '');
-            });
-    
-        if (in_array($categorieFilter, ['blokborrel', 'education'])) {
-            $query->where('categorie', $categorieFilter);
-        }
-    
-        $evenementen = $query->orderBy('datum', $sortOrder)
-            ->orderBy('starttijd', $sortOrder)
-            ->paginate(6);
-        
-        //dd($evenementen);
-        return view('evenement_archief', compact('evenementen', 'sortOrder', 'categorieFilter'));
-    }
     
 }
 

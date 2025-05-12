@@ -40,8 +40,6 @@
                     <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
                     <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
                     <x-nav-link href="/gallery">Gallerij</x-nav-link>
-                    <x-nav-link href="/evenement_archief">Afgelopen Evenementen</x-nav-link>
-
                     <a href="https://sv-concat.myspreadshop.nl/"
                         redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
 

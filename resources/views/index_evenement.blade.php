@@ -28,6 +28,15 @@
                     <option value="education" {{ $categorieFilter === 'education' ? 'selected' : '' }}>Education</option>
                 </select>
             </div>
+
+            {{-- Afgelopen evenementen knop --}}
+    <div>
+        <a href="{{ url('/index_evenement') . '?afgelopen=true&categorie=' . $categorieFilter }}"
+           class="inline-flex items-center bg-purple-100 text-gray-800 font-semibold py-2 px-4 rounded border-pink-300 hover:bg-[#E39FF6] transition"
+           aria-label="Bekijk afgelopen evenementen">
+            <i class="fa-solid fa-clock-rotate-left mr-2" aria-hidden="true"></i> Afgelopen evenementen
+        </a>
+    </div>
         </form>
 
         {{-- Evenementenlijst --}}
