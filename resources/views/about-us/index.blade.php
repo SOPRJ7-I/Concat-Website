@@ -1,11 +1,11 @@
 <x-layout>
     <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl mt-5 mb-5 mx-auto">
         {{-- Over Concat sectie --}}
-        <section class="mb-12">
-            <h1 class="text-3xl font-bold text-center text-purple-700 mb-4">Over Concat</h1>
+        <section class="mb-12" role="region" aria-labelledby="over-concat-title">
+            <h1 id="over-concat-title" class="text-3xl font-bold text-center text-purple-700 mb-4">Over Concat</h1>
             <p class="italic text-gray-800 text-center max-w-3xl mx-auto mb-6">
                 concat [kon-ket] (verb) <br>
-                “Concatenatie is een standaardoperatie in programmeertalen om twee objecten aan elkaar te verbinden.”
+                “Concatenatie is een standaardoperatie in programmeertalen om twee objecten aan elkaar te verbinden.”<br>
                 Wanneer gebruikt na het woord <strong>studievereniging</strong> {Studievereniging Concat} worden studenten met elkaar, bedrijven en docenten verbonden.
             </p>
 
@@ -14,7 +14,11 @@
                 <ol class="list-decimal list-inside space-y-2">
                     <li>“Ik ben een informaticastudent, zit op school en ben op zoek naar gezelligheid, dus dan ga ik naar studievereniging Concat.”</li>
                     <li>Een bedrijf heeft een tekort aan informaticastudenten, als oplossing benaderen ze studievereniging Concat.</li>
-                    <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">SELECT CONCAT(SO, BIM) AS Gezelligheid FROM Avans;</code></li>
+                    <li>
+                        <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono" aria-label="SQL query voorbeeld">
+                            SELECT CONCAT(SO, BIM) AS Gezelligheid FROM Avans;
+                        </code>
+                    </li>
                 </ol>
 
                 <p>
@@ -31,17 +35,25 @@
         </h2>
 
         {{-- Bestuursleden cards --}}
-        <div class="grid sm:grid-cols-2 gap-8">
+        <div class="grid sm:grid-cols-2 gap-8" role="list">
             @foreach ($currentBoard as $member)
-                <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden flex flex-col">
-                    <img src="{{ $member['photo'] }}" alt="Foto van {{ $member['name'] }}" class="h-48 object-cover w-full">
+                <div role="listitem" class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden flex flex-col" tabindex="0">
+                    <img src="{{ $member['photo'] }}" alt="Foto van {{ $member['name'] }}" class="h-48 w-full object-contain bg-white p-2">
                     <div class="p-5 flex flex-col flex-grow">
                         <h3 class="text-xl font-bold text-gray-800">{{ $member['name'] }}</h3>
                         <p class="text-purple-700 font-semibold mb-3">{{ $member['role'] }}</p>
                         <div class="text-gray-700 grow bio-container" id="bio-{{ $loop->index }}">
                             <p class="bio-short">{{ Str::limit($member['bio'], 100) }}</p>
                             <p class="bio-full hidden">{{ $member['bio'] }}</p>
-                            <button class="text-purple-500 mt-2" onclick="toggleBio('{{ $loop->index }}', this)">Lees meer</button>
+                            <button 
+                                class="text-purple-500 mt-2" 
+                                onclick="toggleBio('{{ $loop->index }}', this)"
+                                aria-expanded="false"
+                                aria-controls="bio-{{ $loop->index }}"
+                                aria-label="Lees meer over {{ $member['name'] }}"
+                            >
+                                Lees meer
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -54,31 +66,48 @@
         </h2>
 
         {{-- Horizontale tijdlijn --}}
-        <div class="relative">
+        <div class="relative" role="region" aria-labelledby="tijdlijn-title">
+            <h3 id="tijdlijn-title" class="sr-only">Vorige besturen tijdlijn</h3>
             <div class="flex items-center justify-between mb-4">
-                <button onclick="scrollTimeline(-300)" class="px-3 py-1 bg-purple-500 text-white rounded hover:bg-purple-600">&larr;</button>
-                <button onclick="scrollTimeline(300)" class="px-3 py-1 bg-purple-500 text-white rounded hover:bg-purple-600">&rarr;</button>
+                <button 
+                    onclick="scrollTimeline(-300)" 
+                    class="px-3 py-1 bg-purple-500 text-white rounded hover:bg-purple-600" 
+                    aria-label="Scroll naar links op de tijdlijn"
+                >&larr;</button>
+                <button 
+                    onclick="scrollTimeline(300)" 
+                    class="px-3 py-1 bg-purple-500 text-white rounded hover:bg-purple-600" 
+                    aria-label="Scroll naar rechts op de tijdlijn"
+                >&rarr;</button>
             </div>
 
-            <div id="timeline" class="flex space-x-6 overflow-x-auto pb-4 scroll-smooth">
+            <div id="timeline" class="flex space-x-6 overflow-x-auto pb-4 scroll-smooth" role="list">
                 @foreach ($previousBoards as $board)
-                    <div class="min-w-[200px] bg-white border border-purple-200 p-4 rounded-lg shadow-sm">
+                    <div role="listitem" class="min-w-[220px] bg-white border border-purple-200 p-4 rounded-lg shadow-sm" tabindex="0">
                         <h4 class="text-lg font-bold text-purple-700">{{ $board['year'] }}</h4>
-                        <p class="text-gray-700 mt-2">Bestuursleden:<br>{{ $board['members'] }}</p>
+                        
+                        @if (!empty($board['photo']))
+                            <img src="{{ $board['photo'] }}" alt="Groepsfoto van bestuur uit {{ $board['year'] }}" class="w-full h-32 object-cover rounded mt-2 mb-3">
+                        @endif
+
+                        <p class="text-gray-700 text-sm whitespace-pre-line">
+                            Bestuursleden:
+                            <br>{{ $board['members'] }}
+                        </p>
                     </div>
                 @endforeach
             </div>
         </div>
 
         {{-- Bestuurslid worden --}}
-        <div class="mt-10 bg-purple-50 p-6 rounded-lg shadow-inner">
-            <h3 class="text-xl font-bold text-purple-700 mb-2">Bestuurslid worden?</h3>
+        <div class="mt-10 bg-purple-50 p-6 rounded-lg shadow-inner" role="region" aria-labelledby="bestuur-worden-title">
+            <h3 id="bestuur-worden-title" class="text-xl font-bold text-purple-700 mb-2">Bestuurslid worden?</h3>
             <p class="text-gray-700 mb-4">
-                Lijkt het jou leuk om deel uit te maken van het bestuur van SV Concat? Stuur ons een berichtje of spreek iemand van het bestuur aan. Nieuwe ideeën en energie zijn altijd welkom!
+                Lijkt het jou leuk om deel uit te maken van het bestuur van SV Concat? 
+                <a href="mailto:info@svconcat.nl" class="text-purple-600 hover:underline" aria-label="Stuur een e-mail naar SV Concat">Stuur ons een mail</a> of 
+                <a href="https://discord.com/invite/AMYt823VPJ" target="_blank" class="text-blue-600 hover:underline" aria-label="Open Discord link naar SV Concat">stuur een bericht via Discord</a>, 
+                of spreek iemand van het bestuur aan. Nieuwe ideeën en energie zijn altijd welkom!
             </p>
-            <a href="mailto:bestuur@svconcat.nl" class="inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
-                Neem contact op
-            </a>
         </div>
     </div>
 
@@ -88,15 +117,12 @@
             const bioShort = document.querySelector(`#bio-${index} .bio-short`);
             const bioFull = document.querySelector(`#bio-${index} .bio-full`);
 
-            if (bioFull.classList.contains('hidden')) {
-                bioFull.classList.remove('hidden');
-                bioShort.classList.add('hidden');
-                button.textContent = 'Lees minder';
-            } else {
-                bioFull.classList.add('hidden');
-                bioShort.classList.remove('hidden');
-                button.textContent = 'Lees meer';
-            }
+            const isHidden = bioFull.classList.contains('hidden');
+
+            bioFull.classList.toggle('hidden', !isHidden);
+            bioShort.classList.toggle('hidden', isHidden);
+            button.textContent = isHidden ? 'Lees minder' : 'Lees meer';
+            button.setAttribute('aria-expanded', isHidden.toString());
         }
 
         function scrollTimeline(offset) {
