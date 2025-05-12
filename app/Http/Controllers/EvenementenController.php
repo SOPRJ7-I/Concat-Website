@@ -42,7 +42,8 @@ class EvenementenController extends Controller
         $validSortOrders = ['asc', 'desc'];
         $sortOrder = $request->query('sort', 'asc');
         $categorieFilter = $request->query('categorie', 'all');
-    
+        $onlyMyEvents = $request->query('myevents', false);
+
         if (!in_array($sortOrder, $validSortOrders)) {
             $sortOrder = 'asc';
         }
@@ -64,12 +65,16 @@ class EvenementenController extends Controller
         if (in_array($categorieFilter, ['blokborrel', 'education'])) {
             $query->where('categorie', $categorieFilter);
         }
-    
+        if ($onlyMyEvents && auth()->check()) {
+            $query->whereHas('registrations', function ($q) {
+                $q->where('user_id', auth()->id());
+            });
+        }
         $evenementen = $query->orderBy('datum', $sortOrder)
             ->orderBy('starttijd', $sortOrder)
             ->paginate(6);
     
-        return view('index_evenement', compact('evenementen', 'sortOrder', 'categorieFilter'));
+        return view('index_evenement', compact('evenementen', 'sortOrder', 'categorieFilter', 'onlyMyEvents'));
     }
     
 

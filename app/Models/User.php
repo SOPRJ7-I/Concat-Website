@@ -47,9 +47,10 @@ class User extends Authenticatable
         ];
     }
     // connectie voor inschrijving
-    public function inschrijvingen()
+    public function registrations()
     {
-        return $this->hasMany(Inschrijving::class);
+        return $this->hasMany(Registration::class);
     }
+    
 
 }
