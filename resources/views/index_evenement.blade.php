@@ -14,6 +14,7 @@
                     </a>
                 </div>
             @endif
+
 @endauth
             {{-- Dropdown for filtering and showing user's events --}}
             <form method="GET" action="{{ url('/index_evenement') }}" class="mb-6 flex flex-col sm:flex-row items-center gap-4 justify-center">
@@ -41,6 +42,15 @@
                     </select>
                 </div>
                 @endauth
+                
+                        {{-- Afgelopen evenementen knop --}}
+    <div>
+        <a href="{{ url('/index_evenement') . '?afgelopen=true&categorie=' . $categorieFilter }}"
+           class="inline-flex items-center bg-purple-100 text-gray-800 font-semibold py-2 px-4 rounded border-pink-300 hover:bg-[#E39FF6] transition"
+           aria-label="Bekijk afgelopen evenementen">
+            <i class="fa-solid fa-clock-rotate-left mr-2" aria-hidden="true"></i> Afgelopen evenementen
+        </a>
+    </div>
             </form>
 
         {{-- Evenementenlijst --}}

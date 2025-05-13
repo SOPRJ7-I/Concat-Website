@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Evenementen;
+use Carbon\Carbon;
 
 class EvenementenController extends Controller
 {
@@ -58,6 +59,11 @@ class EvenementenController extends Controller
         $validSortOrders = ['asc', 'desc'];
         $sortOrder = $request->query('sort', 'asc');
         $categorieFilter = $request->query('categorie', 'all');
+
+        $isAfgelopen = $request->query('afgelopen') === 'true';
+
+    
+
         $onlyMyEvents = $request->query('myevents', false);
 
         if (!in_array($sortOrder, $validSortOrders)) {
@@ -81,6 +87,12 @@ class EvenementenController extends Controller
         if (in_array($categorieFilter, ['blokborrel', 'education'])) {
             $query->where('categorie', $categorieFilter);
         }
+
+        
+        if ($isAfgelopen) {
+            $query->whereDate('einddatum', '<', Carbon::today());
+        }
+        
         if ($onlyMyEvents && auth()->check()) {
             $query->whereHas('registrations', function ($q) {
                 $q->where('user_id', auth()->id());
@@ -114,9 +126,10 @@ class EvenementenController extends Controller
         'event' => $event,
         'registeredCount' => $registeredCount,
         'availableSpots' => $availableSpots
-    ]);
+    ]); 
     
-}
+    }
+
     
 }
 
