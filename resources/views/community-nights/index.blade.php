@@ -1,8 +1,29 @@
 <x-layout>
     <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl mt-5 mb-5">
+
+    @if(session('success'))
+<div class="w-full flex justify-center">
+    <div class="max-w-md p-4 mb-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded-lg">
+        <p class="font-medium">{{ session('success') }}</p>
+    </div>
+</div>
+@endif
+
         <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1 text-center w-full">
             Community Avonden
         </h1>
+
+        @auth
+            @if(auth()->user()->role === 'admin')
+                <div class="flex justify-end my-4" >
+                    <a href="{{ url('/community-nights/create') }}"
+                    class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
+                    aria-label="Nieuw community-avond toevoegen">
+                        <i class="fa-solid fa-plus mr-2" aria-hidden="true"></i> Community Avond toevoegen
+                    </a>
+                </div>
+            @endif
+        @endauth
 
         <div class="flex flex-col flex-wrap my-4">
             <div class="grid sm:grid-cols-2 gap-8 lg:gap-6 mx-auto">
@@ -20,6 +41,28 @@
                             </div>
                             {{-- @endif --}}
                         </a>
+                           
+                        
+                        @auth
+                        @if(auth()->user()->role === 'admin')
+                        <div class="flex justify-end mb-4 gap-2 pt-2 pr-2">
+                        <a href="{{ route('community-nights.edit', $communityNight->id) }}" class="bg-[#3129FF] rounded-lg text-white py-2 px-4 hover:bg-[#E39FF6] transition">
+                            Bewerken
+                        </a>                  
+                        <form action="{{ route('community-nights.destroy', $communityNight->id) }}" method="POST" class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                         dusk="delete-communityNight-{{ $communityNight->id }}"
+                        onclick="return confirm('Weet je zeker dat je deze Community Night wilt verwijderen?');"
+                            class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition">
+                            Verwijderen
+                        </button>
+                         </form>
+                        </div>
+
+                        @endif
+                    @endauth
 
                         <div class="p-5">
                             {{-- Temporarily disabled, breaks at times for unknown reasons --}}
