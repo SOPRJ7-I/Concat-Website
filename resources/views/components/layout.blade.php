@@ -47,6 +47,9 @@
                         <!-- <x-nav-link href="/register">Registreren</x-nav-link> -->
                         <x-nav-link href="/login">Login</x-nav-link>
                     @endguest
+                    @auth
+                        <x-nav-link href="/news">Nieuwsbrief</x-nav-link>
+                    @endauth
 
                     @auth
                         <form action="{{ route('logout') }}" method="POST" style="display:flex;">

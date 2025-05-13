@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EvenementenController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\RegistrationsController;
+
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\AboutUsController;
 
 // routes/web.php
@@ -52,6 +54,15 @@ Route::get('/announcements', [AnnouncementController::class, 'index'])->name('an
 
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 Route::get('/announcements/load-older', [AnnouncementController::class, 'loadOlder'])->name('announcements.load-older');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/news', [NewsletterController::class, 'index'])->name('newsletters.index');
+    Route::get('/newsletters/{newsletter}', [NewsletterController::class, 'show'])->name('newsletters.show');
+    Route::post('/newsletters', [NewsletterController::class, 'store'])->name('newsletters.store');
+Route::get('/news/create', [NewsletterController::class, 'create'])->name('news.create');
+    
+});
 
 //about us
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about-us.index');
