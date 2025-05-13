@@ -10,25 +10,28 @@ class AnnouncementController extends Controller
 {
     public function index()
     {
-        // Haal alle zichtbare announcements op voor niet-admins
-        $query = Announcement::where('isVisible', true);
+        // Zichtbare announcements voor iedereen
+        $visibleAnnouncements = Announcement::where('isVisible', true)
+            ->orderByDesc('published_at')
+            ->get();
 
-//        // Als admin, haal alles op en splits in groepen
-//        if(auth()->user() && auth()->user()->isAdmin()) {
-//            $query = Announcement::query();
-//        }
+        $groupedVisible = $this->groupAnnouncements($visibleAnnouncements);
 
-        $announcements = $query->orderByDesc('published_at')->get();
-
-        // Bestaande groepering functie
-        $groupedAnnouncements = $this->groupAnnouncements($announcements);
+        // Niet-zichtbare alleen voor admins
+        $groupedNonVisible = [];
+        if(auth()->user() && auth()->user()->isAdmin()) {
+            $nonVisibleAnnouncements = Announcement::where('isVisible', false)
+                ->orderByDesc('published_at')
+                ->get();
+            $groupedNonVisible = $this->groupAnnouncements($nonVisibleAnnouncements);
+        }
 
         return view('announcements.index', [
-            'groupedAnnouncements' => $groupedAnnouncements,
+            'groupedVisible' => $groupedVisible,
+            'groupedNonVisible' => $groupedNonVisible,
             'showAdminControls' => auth()->user() && auth()->user()->isAdmin()
         ]);
     }
-
     private function groupAnnouncements($announcements)
     {
         $grouped = [];

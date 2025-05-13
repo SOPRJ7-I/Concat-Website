@@ -15,13 +15,30 @@
         </div>
 
         <div id="announcements-container">
-            @if(count($groupedAnnouncements) > 0)
-                @include('announcements.partials.list', ['groupedAnnouncements' => $groupedAnnouncements])
+            {{-- Zichtbare announcements --}}
+            @if(count($groupedVisible) > 0)
+                @include('announcements.partials.list', [
+                    'groupedAnnouncements' => $groupedVisible,
+                    'showAdminControls' => $showAdminControls
+                ])
             @else
                 <div class="text-center p-8 bg-gray-50 rounded-lg">
                     <p class="text-gray-500 italic">Er zijn momenteel geen aankondigingen</p>
                 </div>
             @endif
+
+            {{-- Niet-zichtbare voor admins --}}
+            @auth
+                @if(auth()->user()->isAdmin() && count($groupedNonVisible) > 0)
+                    <div class="mt-8 pt-6 border-t-2 border-gray-200">
+                        <h2 class="text-xl font-bold mb-4 text-gray-500">Niet-zichtbare aankondigingen</h2>
+                        @include('announcements.partials.list', [
+                            'groupedAnnouncements' => $groupedNonVisible,
+                            'showAdminControls' => true
+                        ])
+                    </div>
+                @endif
+            @endauth
         </div>
     </div>
 </x-layout>
