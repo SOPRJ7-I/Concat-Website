@@ -1,4 +1,7 @@
-﻿<x-layout>
+﻿<head>
+    <title>Sponsor overzicht</title>
+</head>
+<x-layout>
     <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl mt-5 mb-5">
         <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1 text-center w-full">
             Sponsoren
@@ -10,7 +13,7 @@
                     <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
                         <a href="{{ $sponsor->url }}">
                             @if(isset($sponsor->image_path))
-                                <img src="{{ Storage::disk('public')->url($sponsor->image_path) }}" alt="{{ $sponsor->name }}" class="h-44 p-8 w-full object-contain">
+                                <img src="{{ asset('storage/' . $sponsor->image_path) }}" alt="{{ $sponsor->name }}" class="h-44 p-8 w-full object-contain">
                             @else
                             <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
                                 <h1 class="text-white text-3xl font-bold">{{ $sponsor->name ?? 'Community Night' }}</h1>

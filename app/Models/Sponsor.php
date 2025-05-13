@@ -13,7 +13,16 @@ class Sponsor extends Model
     public function formattedDescription(): Attribute
     {
         return Attribute::make(
-            get: fn() => nl2br(Str::markdown($this->attributes['description'] ?? '')),
+            get: fn ($value, $attributes) => Str::markdown(
+                str_replace("\n\n", "\n<br />\n", $attributes['description'] ?? ''),
+                [
+                    'html_input' => 'strip',
+                    'allow_unsafe_links' => false,
+                    'renderer' => [
+                        'soft_break' => "<br />\n",
+                    ],
+                ]
+            )
         );
     }
 }

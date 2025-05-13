@@ -24,7 +24,7 @@ class SponsorController extends Controller
      */
     public function create()
     {
-        //
+        return view('sponsors.create');
     }
 
     /**
@@ -32,7 +32,21 @@ class SponsorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'logo' => ['required', 'image', 'max:10240'],
+        ]);
+
+        $imagePath = $request->file('logo')->store('sponsor_logos', 'public');
+
+        Sponsor::create([
+            'name' => $request['name'],
+            'description' => $request['description'],
+            'url' => $request['url'],
+            'image_path' => $imagePath
+        ]);
+
+        return route('sponsors.index');
     }
 
     /**
