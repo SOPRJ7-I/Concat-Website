@@ -91,6 +91,9 @@ class EvenementenController extends Controller
         
         if ($isAfgelopen) {
             $query->whereDate('einddatum', '<', Carbon::today());
+            
+        }else {
+            $query->whereDate('einddatum', '>=', Carbon::today());
         }
         
         if ($onlyMyEvents && auth()->check()) {

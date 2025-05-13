@@ -92,14 +92,10 @@
                                 @endif
                             @endauth
 
-                            {{-- Datum & tijd --}}
-                            @if(isset($evenement->start_datum) && isset($evenement->einddatum))
-                                <div class="flex items-center text-gray-500 mb-4">
-                                    <i class="flex flex-shrink-0 fa-solid fa-calendar fa-fw text-3xl" aria-hidden="true"></i>
-                                    <span class="text-lg font-bold ml-2">
-                                        {{ \Carbon\Carbon::parse($evenement->start_datum)->format('d-m-Y') }} {{ \Carbon\Carbon::parse($evenement->starttijd)->format('H:i') }},
-                                        {{ \Carbon\Carbon::parse($evenement->einddatum)->format('d-m-Y') }} {{ \Carbon\Carbon::parse($evenement->eindtijd)->format('H:i') }}
-                                    </span>
+                            @if(isset($evenement->datum))
+                                <div class="flex items-center text-gray-500 mb-4 mt-3">
+                                    <i class="flex flex-shrink-0 fa-solid fa-calendar fa-fw text-3xl"></i>
+                                    <span class="text-lg font-bold">{{ $evenement->datum }}, {{ $evenement->starttijd }} - {{ $evenement->eindtijd }}</span>
                                 </div>
                             @endif
 
