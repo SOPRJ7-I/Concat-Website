@@ -26,7 +26,23 @@ class EvenementenController extends Controller
             'aantal_beschikbare_plekken' => 'nullable|integer',
             'betaal_link' => 'nullable|string',
             'afbeelding' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' //Max 2MB en juiste extensies
-        ]);
+        ],
+        [
+            'titel.required' => 'Titel is verplicht.',
+            'categorie.required' => 'Categorie is verplicht.',
+            'datum.required' => 'Datum is verplicht.',
+            'einddatum.required' => 'Einddatum is verplicht.',
+            'starttijd.required' => 'Starttijd is verplicht.',
+            'eindtijd.required' => 'Eindtijd is verplicht.',
+            'beschrijving.required' => 'Beschrijving is verplicht.',
+            'locatie.required' => 'Locatie is verplicht.',
+            'aantal_beschikbare_plekken.integer' => 'Aantal beschikbare plekken moet een getal zijn.',
+            'betaal_link.string' => 'Betaal link moet een geldige URL zijn.',
+            'afbeelding.image' => 'Afbeelding moet een geldig afbeeldingsbestand zijn.',
+            'afbeelding.mimes' => 'Afbeelding moet een van de volgende extensies hebben: jpeg, png, jpg, gif.',
+            'afbeelding.max' => 'Afbeelding mag maximaal 2MB groot zijn.',
+        ]
+    );
 
         if ($request->hasFile('afbeelding')) {
             $data['afbeelding'] = $request->file('afbeelding')->store('evenementen_fotos', 'public');
@@ -42,7 +58,8 @@ class EvenementenController extends Controller
         $validSortOrders = ['asc', 'desc'];
         $sortOrder = $request->query('sort', 'asc');
         $categorieFilter = $request->query('categorie', 'all');
-    
+        $onlyMyEvents = $request->query('myevents', false);
+
         if (!in_array($sortOrder, $validSortOrders)) {
             $sortOrder = 'asc';
         }
@@ -64,12 +81,16 @@ class EvenementenController extends Controller
         if (in_array($categorieFilter, ['blokborrel', 'education'])) {
             $query->where('categorie', $categorieFilter);
         }
-    
+        if ($onlyMyEvents && auth()->check()) {
+            $query->whereHas('registrations', function ($q) {
+                $q->where('user_id', auth()->id());
+            });
+        }
         $evenementen = $query->orderBy('datum', $sortOrder)
             ->orderBy('starttijd', $sortOrder)
             ->paginate(6);
     
-        return view('index_evenement', compact('evenementen', 'sortOrder', 'categorieFilter'));
+        return view('index_evenement', compact('evenementen', 'sortOrder', 'categorieFilter', 'onlyMyEvents'));
     }
     
 
