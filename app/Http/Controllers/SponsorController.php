@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Sponsor;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class SponsorController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -24,6 +27,7 @@ class SponsorController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Sponsor::class);
         return view('sponsors.create');
     }
 
@@ -32,6 +36,8 @@ class SponsorController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Sponsor::class);
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'logo' => ['required', 'image', 'max:10240'],
@@ -46,7 +52,7 @@ class SponsorController extends Controller
             'image_path' => $imagePath
         ]);
 
-        return route('sponsors.index');
+        return redirect()->route('sponsors.index');
     }
 
     /**

@@ -7,8 +7,17 @@
             Sponsoren
         </h1>
 
+        @if(auth()->user()->isAdmin())
+            <div class="flex justify-end my-4" >
+                <a href="{{ route('sponsors.create') }}"
+                   class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
+                   aria-label="Nieuwe sponsor toevoegen"><i class="fa-solid fa-plus mr-2" aria-hidden="true"></i> Evenement toevoegen
+                </a>
+            </div>
+        @endif
+
         <div class="flex flex-col flex-wrap my-4">
-            <div class="grid sm:grid-cols-2 gap-8 lg:gap-6 mx-auto">
+            <div class="grid md:grid-cols-2 gap-8 lg:gap-6 mx-auto">
                 @foreach($sponsors as $sponsor)
                     <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
                         <a href="{{ $sponsor->url }}">

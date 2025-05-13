@@ -46,6 +46,17 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+    * Check if the user has admin privileges.
+    *
+    * @return bool
+    */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
     // connectie voor inschrijving
     public function inschrijvingen()
     {

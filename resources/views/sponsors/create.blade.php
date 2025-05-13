@@ -7,19 +7,19 @@
             @csrf
             <div>
                 <x-form-label for="name">Naam*:</x-form-label>
-                <x-form-input type="text" name="name" id="name" placeholder="Naam van de sponsor" required/>
+                <x-form-input type="text" name="name" id="name" placeholder="Naam van de sponsor" value="{{ old('name') }}" required/>
                 <x-form-error name="name"/>
             </div>
 
             <div>
                 <x-form-label for="description">Beschrijving*:</x-form-label>
-                <x-form-textarea name="description" id="description" placeholder="Beschrijving van de sponsor" rows="20"></x-form-textarea>
+                <x-form-textarea name="description" id="description" placeholder="Beschrijving van de sponsor" rows="20" value="{{ old('description') }}"></x-form-textarea>
                 <x-form-error name="description"/>
             </div>
 
             <div>
                 <x-form-label for="url">URL:</x-form-label>
-                <x-form-input type="url" name="url" id="url" placeholder="https://voorbeeld.com"/>
+                <x-form-input type="url" name="url" id="url" placeholder="https://voorbeeld.com" value="{{ old('url') }}"/>
                 <x-form-error name="url"/>
             </div>
 
@@ -29,7 +29,7 @@
                 <x-form-error name="logo"/>
             </div>
 
-            <input type="submit" value="Toevoegen" class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer" alt="Klik om het evenement toe te voegen">
+            <x-form-button type="submit" class="w-full">Toevoegen</x-form-button>
         </form>
     </div>
 </x-layout>
