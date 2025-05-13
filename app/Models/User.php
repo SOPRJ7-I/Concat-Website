@@ -29,11 +29,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    public function inschrijvingen()
+    // connectie voor inschrijving
+    public function registrations()
     {
-        return $this->hasMany(Inschrijving::class);
+        return $this->hasMany(Registration::class);
     }
+
 
     public function isAdmin()
     {
