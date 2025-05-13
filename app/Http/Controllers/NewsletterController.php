@@ -33,7 +33,12 @@ class NewsletterController extends Controller
             'titel' => 'required|string|max:255',
             'publicatiedatum' => 'required|string',
             'pdf' => 'required|file|mimes:pdf|max:2048',
-        ]);
+        ],
+        [
+            'titel.mimes' => 'Titel bestaat al!',
+            'pdf.required' => 'Selecteer een pdf bestand',
+            'pdf.mimes' => 'Alleen PDF-bestanden zijn toegestaan.', 
+        ]   );
         // Store the PDF in 'storage/app/public/newsletters'
         $pdfPath = $request->file('pdf')->store('newsletters', 'public');
         Newsletter::create([
