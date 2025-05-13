@@ -4,14 +4,15 @@
             Sponsoren
         </h1>
 
-        @if(auth()->user()->isAdmin())
-            <div class="flex justify-end my-4" >
-                <a href="{{ route('sponsors.create') }}"
-                   class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
-                   aria-label="Nieuwe sponsor toevoegen"><i class="fa-solid fa-plus mr-2" aria-hidden="true"></i> Sponsor toevoegen
-                </a>
-            </div>
-        @endif
+        @auth
+            @if(auth()->user()->isAdmin())
+                <div class="flex justify-end my-4" >
+                    <a href="{{ route('sponsors.create') }}"
+                       class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
+                       aria-label="Nieuwe sponsor toevoegen"><i class="fa-solid fa-plus mr-2" aria-hidden="true"></i>Sponsor toevoegen</a>
+                </div>
+            @endif
+        @endauth
 
         <div class="flex flex-col flex-wrap my-4">
             <div class="grid md:grid-cols-2 gap-8 lg:gap-6 mx-auto">
@@ -21,11 +22,32 @@
                             @if(isset($sponsor->image_path))
                                 <img src="{{ asset('storage/' . $sponsor->image_path) }}" alt="{{ $sponsor->name }}" class="h-44 p-8 w-full object-contain">
                             @else
+
                             <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
                                 <h1 class="text-white text-3xl font-bold">{{ $sponsor->name ?? 'Community Night' }}</h1>
                             </div>
                             @endif
                         </a>
+
+                        @auth
+                            @if(auth()->user()->isAdmin())
+                                <div class="flex justify-end mt-4 mr-4">
+                                    <a href="{{ route('sponsors.edit', $sponsor) }}"
+                                       class="bg-blue-500 text-white py-1 px-3 rounded-md text-sm mr-2 hover:bg-blue-600 transition"><i class="fa-solid fa-pencil mr-1"></i> Bewerken
+                                    </a>
+
+                                    <form method="POST" action="{{ route('sponsors.destroy', $sponsor) }}" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                                class="bg-red-500 text-white py-1 px-3 rounded-md text-sm hover:bg-red-600 transition"
+                                                onclick="return confirm('Weet je zeker dat je deze sponsor wilt verwijderen?')">
+                                            <i class="fa-solid fa-trash mr-1"></i> Verwijderen
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        @endauth
 
                         <div class="p-5">
                             @if(isset($sponsor->image_path))

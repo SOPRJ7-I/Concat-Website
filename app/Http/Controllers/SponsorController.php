@@ -58,17 +58,21 @@ class SponsorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Sponsor $sponsor)
-    {
-        //
-    }
+//    public function show(Sponsor $sponsor)
+//    {
+//        //
+//    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Sponsor $sponsor)
     {
-        //
+        $this->authorize('update', $sponsor);
+
+        return view('sponsors.edit', [
+            'sponsor' => $sponsor
+        ]);
     }
 
     /**
@@ -76,7 +80,25 @@ class SponsorController extends Controller
      */
     public function update(Request $request, Sponsor $sponsor)
     {
-        //
+        $this->authorize('update', $sponsor);
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'logo' => ['image', 'max:10240'],
+        ]);
+
+        if ($request->hasFile('logo')) {
+            $imagePath = $request->file('logo')->store('sponsor_logos', 'public');
+        }
+
+        $sponsor->update([
+            'name' => $request['name'],
+            'description' => $request['description'],
+            'url' => $request['url'],
+            'image_path' => $imagePath ?? $sponsor->image_path
+        ]);
+
+        return redirect()->route('sponsors.index');
     }
 
     /**
@@ -84,6 +106,10 @@ class SponsorController extends Controller
      */
     public function destroy(Sponsor $sponsor)
     {
-        //
+        $this->authorize('delete', $sponsor);
+
+        $sponsor->delete();
+
+        return redirect()->route('sponsors.index');
     }
 }

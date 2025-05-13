@@ -13,7 +13,7 @@
 
             <div>
                 <x-form-label for="description">Beschrijving*:</x-form-label>
-                <x-form-textarea name="description" id="description" placeholder="Beschrijving van de sponsor" rows="20" value="{{ old('description') }}"></x-form-textarea>
+                <x-form-textarea name="description" id="description" placeholder="Beschrijving van de sponsor" rows="20">{{ old('description') }}</x-form-textarea>
                 <x-form-error name="description"/>
             </div>
 
