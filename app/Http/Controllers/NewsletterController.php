@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Newsletter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Carbon;
 
 class NewsletterController extends Controller
 {
     // Overzichtspagina
     public function index()
     {
-    $newsletters = Newsletter::orderByDesc('publicatiedatum')->paginate(6);
+        $today = Carbon::today();
+    $newsletters = Newsletter::whereDate('publicatiedatum', '<=', $today)
+        ->orderByDesc('publicatiedatum')
+        ->paginate(6);
 
         return view('news.index', compact('newsletters'));
     }
