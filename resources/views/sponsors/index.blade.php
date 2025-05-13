@@ -8,7 +8,7 @@
             <div class="flex justify-end my-4" >
                 <a href="{{ route('sponsors.create') }}"
                    class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
-                   aria-label="Nieuwe sponsor toevoegen"><i class="fa-solid fa-plus mr-2" aria-hidden="true"></i> Evenement toevoegen
+                   aria-label="Nieuwe sponsor toevoegen"><i class="fa-solid fa-plus mr-2" aria-hidden="true"></i> Sponsor toevoegen
                 </a>
             </div>
         @endif
