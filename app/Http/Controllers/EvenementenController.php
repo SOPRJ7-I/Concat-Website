@@ -105,7 +105,7 @@ class EvenementenController extends Controller
             ->orderBy('starttijd', $sortOrder)
             ->paginate(6);
 
-        return view('index_evenement', compact('evenementen', 'sortOrder', 'categorieFilter', 'onlyMyEvents'));
+        return view('events/index', compact('evenementen', 'sortOrder', 'categorieFilter', 'onlyMyEvents'));
     }
 
 

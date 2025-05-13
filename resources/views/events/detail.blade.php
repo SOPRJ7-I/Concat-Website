@@ -7,7 +7,7 @@
 
 <x-layout>
     <div class="lg:my-12 max-w-4xl border-2 mx-auto shadow-xl rounded-lg overflow-hidden bg-white">
-        
+
         <!-- Header met afbeelding of titel -->
         <div class="relative bg-gray-200 overflow-hidden">
             @if(isset($event->afbeelding) && $event->afbeelding && Storage::exists($event->afbeelding))
@@ -24,7 +24,7 @@
         <!-- Hoofdinhoud van het evenement -->
         <div class="p-6 md:p-14 ">
             <div class="flex flex-col lg:flex-row gap-8 mr-11">
-                
+
                 <div class="flex-1">
                     @if(session('success'))
                     <div class="bg-green-500 text-white p-3 rounded-md mb-4" alt="Succesmelding inschrijven">
@@ -63,11 +63,11 @@
                     <div class="flex items-center text-gray-500 mb-4">
                         <i class="flex-shrink-0 fa-solid fa-calendar text-3xl" alt="Datum en tijd evenement" aria-hidden="true"></i>
                         <span class="text-lg font-bold ml-2">
-                            {{ \Carbon\Carbon::parse($event->datum)->format('d-m-Y') ?? 'Datum onbekend' }}, 
-                            {{ \Carbon\Carbon::parse($event->starttijd)->format('H:i') ?? 'Tijd onbekend' }} <br> 
+                            {{ \Carbon\Carbon::parse($event->datum)->format('d-m-Y') ?? 'Datum onbekend' }},
+                            { \Carbon\Carbon::parse($event->starttijd)->format('H:i') ?? 'Tijd onbekend' }} <br>
                             {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') ?? 'Einddatum onbekend' }},
                             {{ \Carbon\Carbon::parse($event->eindtijd)->format('H:i') ?? 'Eindtijd onbekend' }}
-                        </span> 
+                        </span>
                     </div>
 
 
@@ -102,14 +102,14 @@
                         <div class="ml-2">
                             <!-- Totaal aantal plekken -->
                             <div class="text-lg font-bold">
-                                Totaal aantal plekken: 
+                                Totaal aantal plekken:
                                 @if($availableSpots > 0)
                                     {{ $availableSpots }} plekken
                                 @else
                                     Geen plaatsen beschikbaar
                                 @endif
                             </div>
-                    
+
                             <!-- Aantal ingeschreven -->
                             @if(auth()->user() && auth()->user()->is_admin) <!-- Check if the user is admin -->
                             <div class="text-lg font-bold">
@@ -163,7 +163,7 @@
                     @endauth
 
 
-                
+
                 <button type="submit" class="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" alt="Inschrijf knop">
                     Inschrijven
                 </button>

@@ -15,7 +15,7 @@ class EvenementenTest extends TestCase
     public function een_evenement_kan_worden_aangemaakt()
     {
         // Simuleer een POST request met testdata
-        $response = $this->post('/create_evenement', [
+        $response = $this->post('/events/create', [
             'titel' => 'Test Evenement',
             'datum' => '2025-03-07',
             'starttijd' => '18:00',
@@ -32,14 +32,14 @@ class EvenementenTest extends TestCase
         ]);
 
         // Controleer of de gebruiker wordt doorgestuurd naar de juiste pagina
-        $response->assertRedirect('/index_evenement');
+        $response->assertRedirect('/events/index');
     }
        /** @test */
     public function het_toont_evenementen_geordend_op_startdatum_oplopend()
     {
         // Maak voorbeeld evenementen aan met verschillende datums
         $evenement1 = evenementen::create([
-            'titel' => 'Evenement 1', 
+            'titel' => 'Evenement 1',
             'datum' => '2025-03-07',
             'starttijd' => '12:00',
             'eindtijd' => '14:00',
@@ -51,7 +51,7 @@ class EvenementenTest extends TestCase
         ]);
 
         $evenement2 = evenementen::create([
-            'titel' => 'Evenement 2', 
+            'titel' => 'Evenement 2',
             'datum' => '2025-03-07',
             'starttijd' => '12:00',
             'eindtijd' => '14:00',
@@ -63,7 +63,7 @@ class EvenementenTest extends TestCase
         ]);
 
         $evenement3 = evenementen::create([
-            'titel' => 'Evenement 3', 
+            'titel' => 'Evenement 3',
             'datum' => '2025-03-09',
             'starttijd' => '12:00',
             'eindtijd' => '14:00',
@@ -75,8 +75,8 @@ class EvenementenTest extends TestCase
         ]);
 
         // Haal de pagina op met oplopende volgorde
-        $response = $this->get('/index_evenement?sort=asc');
-        
+        $response = $this->get('/events/index?sort=asc');
+
         // Controleer of de evenementen in oplopende volgorde van datum worden weergegeven
         $response->assertStatus(200);
         $response->assertSeeInOrder([$evenement1->titel, $evenement2->titel, $evenement3->titel]);
