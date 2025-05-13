@@ -91,6 +91,7 @@
                         @endif
 
                         <p class="text-gray-700 text-sm whitespace-pre-line">
+                            Bestuursleden:
                             <br>{{ $board['members'] }}
                         </p>
                     </div>
