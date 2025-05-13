@@ -35,11 +35,12 @@
             <div class="flex horizontal spaced centered">
                 <div class="flex" id="menu-links">
                     <a href="/" class="flex items-center mr-2">
-                        <img src="{{ asset('') }}" alt="<LOGO>" class="h-8 w-auto">
+                        <img src="{{ asset('storage/logo/concat_logo.png') }}" alt="<LOGO>" class="h-8 w-auto">
                     </a>
                     <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
                     <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
                     <x-nav-link href="/gallery">Gallerij</x-nav-link>
+                    <x-nav-link href="/about-us">Over ons</x-nav-link>
                     <a href="https://sv-concat.myspreadshop.nl/"
                         redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
 
@@ -81,6 +82,40 @@
 
     <div class="overlay"></div>
 
+    <!-- Mobile Menu -->
+    <div id="mobile-menu">
+        <div id="menu-links-mobile">
+            <button class="close-btn">✕</button>
+            <a href="/" class="flex items-center mr-2">
+                        <img src="{{ asset('storage/logo/concat_logo.png') }}" alt="<LOGO>" class="h-8 w-auto">
+                    </a>
+                    <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
+                    <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
+                    <x-nav-link href="/gallery">Gallerij</x-nav-link>
+                    <x-nav-link href="/about-us">Over ons</x-nav-link>
+                    <a href="https://sv-concat.myspreadshop.nl/"
+                        redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
+
+                    @guest
+                        <!-- <x-nav-link href="/register">Registreren</x-nav-link> -->
+                        <x-nav-link href="/login">Login</x-nav-link>
+                    @endguest
+                    @auth
+                        <x-nav-link href="/news">Nieuwsbrief</x-nav-link>
+                    @endauth
+
+                    @auth
+                        <form action="{{ route('logout') }}" method="POST" style="display:flex;">
+                            @csrf
+                            <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
+                                class="x-nav-link">
+                                Logout
+                            </a>
+                        </form>
+                    @endauth
+        </div>
+    </div>
+
     <div class="flex justify-center items-center p-6 lg:mt-20">
         {{ $slot }}
     </div>
@@ -119,6 +154,8 @@
                     <a href="/privacyverklaring" class="hover:text-gray-400">Privacyverklaring</a>
                     <span class="hidden md:inline">|</span>
                     <a href="mailto:info@svconcat.nl" class="hover:text-gray-400">info@svconcat.nl</a>
+                    <span class="hidden md:inline">|</span>
+                    <a href="" class="hover:text-gray-400">Regels en statuten</a>
                 </div>
             </div>
         </div>
