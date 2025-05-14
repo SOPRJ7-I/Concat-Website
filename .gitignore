@@ -2,15 +2,7 @@
 /node_modules
 /public/build
 /public/hot
-
-/public/storage/*
-!/public/storage/about-us/
-!/public/storage/gallery/
-!/public/storage/pdfs/
-!/public/storage/about-us/**
-!/public/storage/gallery/**
-!/public/storage/pdfs/**
-
+#/public/storage/
 /storage/*.key
 /storage/pail
 /vendor
