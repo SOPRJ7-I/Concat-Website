@@ -151,4 +151,12 @@ class CommunityNightController extends Controller
         return redirect()->route('community-nights.index')
         ->with('success', 'Community Night succesvol verwijderd.');
     }
+
+    /**
+     * Get the latest community night.
+     */
+    public function latest()
+    {
+        return CommunityNight::orderBy('created_at', 'desc')->first();
+    }
 }
