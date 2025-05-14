@@ -1,5 +1,5 @@
 <x-layout>
-    <div class="lg:my-12 w-full max-w-3xl lg:max-w-screen-2xl flex flex-row gap-6 ">
+    <div class="lg:my-12 w-full max-w-3xl lg:max-w-screen-2xl flex flex-row flex-wrap gap-6 ">
         <div class="flex flex-col gap-6 justify-start w-full lg:w-3/4">
             <div class="flex flex-col gap-6 lg:flex-row">
                 {{-- Events Section Wrapper --}}
