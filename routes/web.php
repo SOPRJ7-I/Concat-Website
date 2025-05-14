@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CommunityNightController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EvenementenController;
@@ -21,11 +22,13 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/registration', [RegistrationsController::class, 'store'])->name('registration');
 
-Route::get('/create_evenement', [EvenementenController::class, 'create']);
-Route::post('/create_evenement', [EvenementenController::class, 'store']);
-Route::get('/index_evenement', [EvenementenController::class, 'index'])->name('index_evenement');
+Route::get('/events/create', [EvenementenController::class, 'create'])->name('events.create');
+Route::post('/events/create', [EvenementenController::class, 'store'])->name('events.store');
+
+Route::get('/events/index', [EvenementenController::class, 'index'])->name('events.index');
 Route::get('/community-nights/create', [CommunityNightController::class, 'create']);
 
 Route::get('/community-nights/{id}/edit', [CommunityNightController::class, 'edit'])->name('community-nights.edit');
@@ -55,13 +58,16 @@ Route::get('/announcements', [AnnouncementController::class, 'index'])->name('an
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 Route::get('/announcements/load-older', [AnnouncementController::class, 'loadOlder'])->name('announcements.load-older');
 
+Route::group(['middleware' => ['auth', 'admin']], function () {
+    Route::get('/admin/announcements', [AnnouncementController::class, 'adminIndex'])->name('announcements.admin');
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/news', [NewsletterController::class, 'index'])->name('newsletters.index');
     Route::get('/newsletters/{newsletter}', [NewsletterController::class, 'show'])->name('newsletters.show');
     Route::post('/newsletters', [NewsletterController::class, 'store'])->name('newsletters.store');
 Route::get('/news/create', [NewsletterController::class, 'create'])->name('news.create');
-    
+
 });
 
 //about us

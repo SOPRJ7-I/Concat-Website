@@ -23,7 +23,7 @@ class EventRegistrationTest extends DuskTestCase
                 ->assertSee('Evenementen'); // You can add another string from the homepage to help identify content
         });
     }
-    
+
     public function test_event_page_loads_and_registers()
     {
         // Create a dummy event
@@ -36,11 +36,11 @@ class EventRegistrationTest extends DuskTestCase
             'locatie' => 'Testlocatie',
             'beschrijving' => 'Test beschrijving',
         ]);
-    
-    
+
+
         $this->browse(function (Browser $browser) use ($event) {
             // Login if necessary
-    
+
             // Visit event registration page
             $browser->visit("/evenementen/{$event->id}") // Ensure the event exists on this route
                 ->waitForText('Inschrijven')  // Wait for the 'Inschrijven' text to appear
@@ -60,10 +60,10 @@ class EventRegistrationTest extends DuskTestCase
 
     $this->browse(function (Browser $browser) use ($evenementen) {
         // Visit the page that displays the events
-        $browser->visit('/index_evenement')
+        $browser->visit('/events/index')
             // Assert the page title is correct
             ->assertSee('Evenementen')
-            
+
             // Assert the filter dropdown for categories is visible
             ->assertSee('Filter op categorie:')
             ->assertPresent('select#categorie')
@@ -141,21 +141,21 @@ public function test_event_filter_dropdown_options()
     $this->browse(function (Browser $browser) use ($user, $event) {
         // Ensure the user is logged in
         $browser->loginAs($user)
-            ->visit('/index_evenement')
+            ->visit('/events/index')
 
             ->assertSelected('select#categorie', 'all')
-            ->assertPresent('select#myevents')  
-            ->assertSelected('select#myevents', '0') 
+            ->assertPresent('select#myevents')
+            ->assertSelected('select#myevents', '0')
 
             ->select('select#myevents', '1')
-            ->pause(500) 
-            ->assertSelected('select#myevents', '1') 
+            ->pause(500)
+            ->assertSelected('select#myevents', '1')
 
             ->assertSee('Aangemeld')
 
             ->select('select#myevents', '0')
             ->pause(500)
-            ->assertSelected('select#myevents', '0') 
+            ->assertSelected('select#myevents', '0')
             ->assertSee('Alles');
     });
 }

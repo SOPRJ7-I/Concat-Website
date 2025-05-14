@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('newsletters', function (Blueprint $table) {
             $table->id();
-            $table->string('titel');
+            $table->string('titel')->primary(); ;
             $table->date('publicatiedatum');
             $table->string('pdf'); // Pad naar het PDF-bestand
             $table->timestamps();

@@ -34,7 +34,7 @@
                 <input type="file" id="pdf" name="pdf" accept="application/pdf" class="w-full" required aria-required="true">
             </div>
 
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" aria-label="Upload nieuwsbrief">Uploaden</button>
+            <button type="submit" class=" bg-red-500 text-white p-2 rounded-lg hover:bg-red-600" aria-label="Upload nieuwsbrief">Uploaden</button>
         </form>
     </div>
 </x-layout>

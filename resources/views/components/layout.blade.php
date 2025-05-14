@@ -8,6 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <title>Example Page</title>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
@@ -32,21 +34,23 @@
     <div class="nav-container px-6">
         <!-- Desktop Navigation -->
         <nav id="main-nav">
+            <a href="/" class="flex items-center mr-2">
+                <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="Concat Logo" class="h-10 w-auto">
+            </a>
             <div class="flex horizontal spaced centered">
                 <div class="flex" id="menu-links">
                     <a href="/" class="flex items-center mr-2">
                         <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="<LOGO>" class="h-8 w-auto">
                     </a>
-                    <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
+                    <x-nav-link href="/events/index">Evenementen</x-nav-link>
                     <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
                     <x-nav-link href="/gallery">Gallerij</x-nav-link>
                     <x-nav-link href="/about-us">Over ons</x-nav-link>
-                    <a href="https://sv-concat.myspreadshop.nl/"
-                        redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
+                    <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
 
                     @guest
                         <!-- <x-nav-link href="/register">Registreren</x-nav-link> -->
-                        <x-nav-link href="/login">Login</x-nav-link>
+                        <x-nav-link href="/login">Inloggen</x-nav-link>
                     @endguest
                     @auth
                         <x-nav-link href="/news">Nieuwsbrief</x-nav-link>
@@ -57,7 +61,7 @@
                             @csrf
                             <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
                                 class="x-nav-link">
-                                Logout
+                                Uitloggen
                             </a>
                         </form>
                     @endauth
@@ -65,6 +69,31 @@
                 </div>
             </div>
         </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu">
+            <div id="menu-links-mobile">
+                <button class="close-btn">✕</button>
+                <a href="/" class="flex items-center mr-8">
+                    <img src="{{ asset('') }}" alt="<LOGO>" class="h-8 w-auto">
+                </a>
+                <x-nav-link href="/events/index">Evenementen</x-nav-link>
+                <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
+                <x-nav-link href="/gallery">Gallerij</x-nav-link>
+                <a href="https://sv-concat.myspreadshop.nl/">Webshop</a>
+
+                @guest
+                    <x-nav-link href="/login">Inloggen</x-nav-link>
+                @endguest
+
+                @auth
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="x-nav-link">Uitloggen</button>
+                    </form>
+                @endauth
+            </div>
+        </div>
 
         <a href="{{ route('announcements.index') }}" id="bell-icon"
         class="absolute right-[2%] z-50 flex items-center justify-center h-16 w-16 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-105"
@@ -81,42 +110,7 @@
 
 
     <div class="overlay"></div>
-
-    <!-- Mobile Menu -->
-    <div id="mobile-menu">
-        <div id="menu-links-mobile">
-            <button class="close-btn">✕</button>
-            <a href="/" class="flex items-center mr-2">
-                        <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="<LOGO>" class="h-8 w-auto">
-                    </a>
-                    <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
-                    <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
-                    <x-nav-link href="/gallery">Gallerij</x-nav-link>
-                    <x-nav-link href="/about-us">Over ons</x-nav-link>
-                    <a href="https://sv-concat.myspreadshop.nl/"
-                        redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
-
-                    @guest
-                        <!-- <x-nav-link href="/register">Registreren</x-nav-link> -->
-                        <x-nav-link href="/login">Login</x-nav-link>
-                    @endguest
-                    @auth
-                        <x-nav-link href="/news">Nieuwsbrief</x-nav-link>
-                    @endauth
-
-                    @auth
-                        <form action="{{ route('logout') }}" method="POST" style="display:flex;">
-                            @csrf
-                            <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
-                                class="x-nav-link">
-                                Logout
-                            </a>
-                        </form>
-                    @endauth
-        </div>
-    </div>
-
-    <div class="flex justify-center items-center p-6 lg:mt-20">
+    <div class="flex justify-center items-center p-6 lg:mt-200">
         {{ $slot }}
     </div>
 

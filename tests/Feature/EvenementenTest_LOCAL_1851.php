@@ -14,7 +14,7 @@ class EvenementenTest extends TestCase
     public function een_evenement_kan_worden_aangemaakt()
     {
         // Simuleer een POST request met testdata
-        $response = $this->post('/create_evenement', [
+        $response = $this->post('/events/create', [
             'titel' => 'Test Evenement',
             'datum' => '2025-03-07',
             'starttijd' => '18:00',
@@ -32,6 +32,6 @@ class EvenementenTest extends TestCase
         ]);
 
         // Controleer of de gebruiker wordt doorgestuurd naar de juiste pagina
-        $response->assertRedirect('/index_evenement');
+        $response->assertRedirect('/events/index');
     }
 }
