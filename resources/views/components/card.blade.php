@@ -1,4 +1,4 @@
-﻿<div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+<div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
     <a>
         <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
             <h1 class="text-white text-3xl font-bold">{{ $communityNight->title ?? 'Community Night' }}</h1>
