@@ -51,8 +51,5 @@ class AnnouncementSeeder extends Seeder
         foreach ($announcements as $announcement) {
             Announcement::create($announcement);
         }
-
-        // Confirmation message
-        $this->command->info('Announcements successfully seeded!');
     }
 }
