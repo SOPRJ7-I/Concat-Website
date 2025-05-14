@@ -107,7 +107,7 @@
 
     <div class="overlay"></div>
 
-    <div class="flex justify-center items-center p-6 lg:mt-20">
+    <div class="flex justify-center items-center p-6 lg:mt-200">
         {{ $slot }}
     </div>
 
