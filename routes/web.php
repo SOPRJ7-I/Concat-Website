@@ -3,11 +3,12 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CommunityNightController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SponsorController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EvenementenController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegistrationsController;
 
 use App\Http\Controllers\NewsletterController;
@@ -15,14 +16,14 @@ use App\Http\Controllers\AboutUsController;
 
 // routes/web.php
 
-
+// Community Nights
 Route::resource('community-nights', CommunityNightController::class);
 
-Route::get('/', function () {
-    return view('home');
-});
+// Sponsors
+Route::resource('sponsors', SponsorController::class);
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
 Route::post('/registration', [RegistrationsController::class, 'store'])->name('registration');
 
 Route::get('/events/create', [EvenementenController::class, 'create'])->name('events.create');
