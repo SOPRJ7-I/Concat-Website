@@ -4,31 +4,27 @@
             Announcement aanmaken
         </h1>
 
-        <!-- Foutmeldingen -->
-        @if ($errors->any())
-            <div class="bg-red-100 text-red-800 p-3 rounded-lg mb-4">
-                <ul class="list-disc ml-5">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
         <form method="POST" action="{{ route('announcements.store') }}" class="mt-4 space-y-4">
             @csrf
 
             <div>
-                <label for="titel" class="block text-sm font-semibold">*Titel:</label>
-                <input type="text" name="titel" id="titel" value="{{ old('titel') }}" required
+                <label for="titel" class="block text-l font-bold">Titel*</label>
+                <input type="text" name="titel" id="titel" value="{{ old('titel') }}"
                        placeholder="Titel van het evenement"
-                       class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
+                       class="w-full p-2 {{ $errors->has('titel') ? 'bg-red-100 border-red-500' : 'bg-purple-100 border-purple-300' }} text-purple-700 rounded-lg outline-none border focus:ring-2 focus:ring-purple-500">
+                @error('titel')
+                <p class="text-red-600 text-sm mt-1 font-bold">{{ $message }}</p>
+                @enderror
             </div>
 
             <div>
-                <label for="inhoud" class="block text-sm font-semibold">*Inhoud:</label>
-                <textarea name="inhoud" id="inhoud" rows="5" required placeholder="Beschrijving van de announcement"
-                          class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">{{ old('inhoud') }}</textarea>
+                <label for="inhoud" class="block text-l font-bold">Inhoud*</label>
+                <textarea name="inhoud" id="inhoud" rows="5"
+                          placeholder="Beschrijving van de announcement"
+                          class="w-full p-2 {{ $errors->has('inhoud') ? 'bg-red-100 border-red-500' : 'bg-purple-100 border-purple-300' }} text-purple-700 rounded-lg outline-none border focus:ring-2 focus:ring-purple-500">{{ old('inhoud') }}</textarea>
+                @error('inhoud')
+                <p class="text-red-600 text-sm mt-1 font-bold">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-4">

@@ -68,7 +68,12 @@ class AnnouncementController extends Controller
             'titel' => 'required|string|max:255',
             'inhoud' => 'required|string',
             'isVisible' => 'required|boolean',
-        ]);
+        ],
+        [
+            'titel.required' => 'Titel is verplicht.',
+            'inhoud.required' => 'Inhoud is verplicht.',
+        ]
+        );
 
         $announcement = Announcement::create($validated);
 

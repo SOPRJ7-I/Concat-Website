@@ -34,11 +34,11 @@
     <div class="nav-container px-6">
         <!-- Desktop Navigation -->
         <nav id="main-nav">
+            <a href="/" class="flex items-center mr-2">
+                <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="Concat Logo" class="h-10 w-auto">
+            </a>
             <div class="flex horizontal spaced centered">
                 <div class="flex" id="menu-links">
-                    <a href="/" class="flex items-center mr-2">
-                        <img src="{{ asset('') }}" alt="<LOGO>" class="h-8 w-auto">
-                    </a>
                     <x-nav-link href="/events/index">Evenementen</x-nav-link>
                     <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
                     <x-nav-link href="/gallery">Gallerij</x-nav-link>

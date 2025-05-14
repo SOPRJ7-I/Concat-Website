@@ -76,13 +76,7 @@ class EvenementenController extends Controller
             ->whereNotNull('starttijd')
             ->whereNotNull('eindtijd')
             ->whereNotNull('beschrijving')->where('beschrijving', '!=', '')
-            ->whereNotNull('locatie')->where('locatie', '!=', '')
-            ->whereNotNull('aantal_beschikbare_plekken')
-            ->whereNotNull('betaal_link')
-            ->where(function ($query) {
-                $query->whereNotNull('afbeelding')
-                    ->orWhere('afbeelding', '!=', '');
-            });
+            ->whereNotNull('locatie')->where('locatie', '!=', '');
 
         if (in_array($categorieFilter, ['blokborrel', 'education'])) {
             $query->where('categorie', $categorieFilter);
