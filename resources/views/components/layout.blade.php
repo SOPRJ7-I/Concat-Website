@@ -57,7 +57,7 @@
                             @csrf
                             <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
                                 class="x-nav-link">
-                                Logout
+                                Uitloggen
                             </a>
                         </form>
                     @endauth
@@ -79,7 +79,7 @@
                 <a href="https://sv-concat.myspreadshop.nl/">Webshop</a>
 
                 @guest
-                    <x-nav-link href="/login">Login</x-nav-link>
+                    <x-nav-link href="/login">Inloggen</x-nav-link>
                 @endguest
 
                 @auth
