@@ -18,13 +18,12 @@
             <div class="grid md:grid-cols-2 gap-8 lg:gap-6 mx-auto">
                 @foreach($sponsors as $sponsor)
                     <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
-                        <a href="{{ $sponsor->url }}">
+                        <a href="{{ $sponsor->url }}" aria-label="Bezoek website van {{ $sponsor->name }}" target="_blank" rel="noopener noreferrer">
                             @if(isset($sponsor->image_path))
                                 <img src="{{ asset('storage/' . $sponsor->image_path) }}" alt="{{ $sponsor->name }}" class="h-44 p-8 w-full object-contain">
                             @else
-
-                            <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
-                                <h1 class="text-white text-3xl font-bold">{{ $sponsor->name ?? 'Community Night' }}</h1>
+                            <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500" aria-hidden="true">
+                                <h1 class="text-white text-3xl font-bold">{{ $sponsor->name ?? 'Sponsor' }}</h1>
                             </div>
                             @endif
                         </a>
@@ -33,7 +32,9 @@
                             @if(auth()->user()->isAdmin())
                                 <div class="flex justify-end mt-4 mr-4">
                                     <a href="{{ route('sponsors.edit', $sponsor) }}"
-                                       class="bg-blue-500 text-white py-1 px-3 rounded-md text-sm mr-2 hover:bg-blue-600 transition"><i class="fa-solid fa-pencil mr-1"></i> Bewerken
+                                       class="bg-blue-500 text-white py-1 px-3 rounded-md text-sm mr-2 hover:bg-blue-600 transition"
+                                       aria-label="Bewerk sponsor {{ $sponsor->name }}">
+                                        <i class="fa-solid fa-pencil mr-1" aria-hidden="true"></i> Bewerken
                                     </a>
 
                                     <form method="POST" action="{{ route('sponsors.destroy', $sponsor) }}" class="inline">
@@ -41,8 +42,9 @@
                                         @method('DELETE')
                                         <button type="submit"
                                                 class="bg-red-500 text-white py-1 px-3 rounded-md text-sm hover:bg-red-600 transition"
-                                                onclick="return confirm('Weet je zeker dat je deze sponsor wilt verwijderen?')">
-                                            <i class="fa-solid fa-trash mr-1"></i> Verwijderen
+                                                onclick="return confirm('Weet je zeker dat je deze sponsor wilt verwijderen?')"
+                                                aria-label="Verwijder sponsor {{ $sponsor->name }}">
+                                            <i class="fa-solid fa-trash mr-1" aria-hidden="true"></i> Verwijderen
                                         </button>
                                     </form>
                                 </div>
@@ -51,7 +53,7 @@
 
                         <div class="p-5">
                             @if(isset($sponsor->image_path))
-                                <a href="{{ route('sponsors.show', $sponsor) }}">
+                                <a href="{{ route('sponsors.show', $sponsor) }}" aria-label="Details bekijken van sponsor {{ $sponsor->name }}">
                                     <h5 class="text-2xl font-bold tracking-tight text-gray-900 mb-4">{{ $sponsor->name }}</h5>
                                 </a>
                             @endif

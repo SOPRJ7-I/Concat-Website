@@ -9,13 +9,13 @@
 
             <div>
                 <x-form-label for="name">Naam*:</x-form-label>
-                <x-form-input type="text" name="name" id="name" placeholder="Naam van de sponsor" value="{{ old('name', $sponsor->name) }}" required/>
+                <x-form-input type="text" name="name" id="name" placeholder="Naam van de sponsor" value="{{ old('name', $sponsor->name) }}" required aria-required="true"/>
                 <x-form-error name="name"/>
             </div>
 
             <div>
                 <x-form-label for="description">Beschrijving*:</x-form-label>
-                <x-form-textarea name="description" id="description" placeholder="Beschrijving van de sponsor" rows="20">{{ old('description', $sponsor->description) }}</x-form-textarea>
+                <x-form-textarea name="description" id="description" placeholder="Beschrijving van de sponsor" rows="20" required aria-required="true">{{ old('description', $sponsor->description) }}</x-form-textarea>
                 <x-form-error name="description"/>
             </div>
 
@@ -28,7 +28,7 @@
             <div>
                 <x-form-label for="logo">Logo:</x-form-label>
                 <div class="mb-2">
-                    <img src="{{ asset('storage/' . $sponsor->image_path) }}" alt="Current logo" class="h-24 object-contain">
+                    <img src="{{ asset('storage/' . $sponsor->image_path) }}" alt="Huidig logo van {{ $sponsor->name }}" class="h-24 object-contain">
                     <p class="text-sm text-gray-500">Huidige logo</p>
                 </div>
                 <x-form-input type="file" name="logo" id="logo"/>

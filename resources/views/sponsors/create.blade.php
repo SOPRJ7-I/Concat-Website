@@ -7,13 +7,13 @@
             @csrf
             <div>
                 <x-form-label for="name">Naam*:</x-form-label>
-                <x-form-input type="text" name="name" id="name" placeholder="Naam van de sponsor" value="{{ old('name') }}" required/>
+                <x-form-input type="text" name="name" id="name" placeholder="Naam van de sponsor" value="{{ old('name') }}" required aria-required="true"/>
                 <x-form-error name="name"/>
             </div>
 
             <div>
                 <x-form-label for="description">Beschrijving*:</x-form-label>
-                <x-form-textarea name="description" id="description" placeholder="Beschrijving van de sponsor" rows="20">{{ old('description') }}</x-form-textarea>
+                <x-form-textarea name="description" id="description" placeholder="Beschrijving van de sponsor" rows="20" required aria-required="true">{{ old('description') }}</x-form-textarea>
                 <x-form-error name="description"/>
             </div>
 
@@ -25,7 +25,7 @@
 
             <div>
                 <x-form-label for="logo">Logo*:</x-form-label>
-                <x-form-input type="file" name="logo" id="logo" required/>
+                <x-form-input type="file" name="logo" id="logo" required aria-required="true"/>
                 <x-form-error name="logo"/>
             </div>
 
