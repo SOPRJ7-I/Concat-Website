@@ -10,7 +10,7 @@ class EvenementenController extends Controller
 {
     public function create()
     {
-        return view('create_evenement');
+        return view('/events/create');
     }
 
     public function store(Request $request)
@@ -51,7 +51,7 @@ class EvenementenController extends Controller
 
         Evenementen::create($data);
 
-        return redirect('/index_evenement')->with('success', 'Evenement succesvol toegevoegd!');
+        return redirect('/events/index')->with('success', 'Evenement succesvol toegevoegd!');
     }
 
     public function index(Request $request)
@@ -62,40 +62,34 @@ class EvenementenController extends Controller
 
         $isAfgelopen = $request->query('afgelopen') === 'true';
 
-    
+
 
         $onlyMyEvents = $request->query('myevents', false);
 
         if (!in_array($sortOrder, $validSortOrders)) {
             $sortOrder = 'asc';
         }
-    
+
         $query = Evenementen::whereNotNull('titel')->where('titel', '!=', '')
             ->whereNotNull('datum')
             ->whereNotNull('einddatum')
             ->whereNotNull('starttijd')
             ->whereNotNull('eindtijd')
             ->whereNotNull('beschrijving')->where('beschrijving', '!=', '')
-            ->whereNotNull('locatie')->where('locatie', '!=', '')
-            ->whereNotNull('aantal_beschikbare_plekken')
-            ->whereNotNull('betaal_link')
-            ->where(function ($query) {
-                $query->whereNotNull('afbeelding')
-                    ->orWhere('afbeelding', '!=', '');
-            });
-    
+            ->whereNotNull('locatie')->where('locatie', '!=', '');
+
         if (in_array($categorieFilter, ['blokborrel', 'education'])) {
             $query->where('categorie', $categorieFilter);
         }
 
-        
+
         if ($isAfgelopen) {
             $query->whereDate('einddatum', '<', Carbon::today());
-            
+
         }else {
             $query->whereDate('einddatum', '>=', Carbon::today());
         }
-        
+
         if ($onlyMyEvents && auth()->check()) {
             $query->whereHas('registrations', function ($q) {
                 $q->where('user_id', auth()->id());
@@ -104,10 +98,10 @@ class EvenementenController extends Controller
         $evenementen = $query->orderBy('datum', $sortOrder)
             ->orderBy('starttijd', $sortOrder)
             ->paginate(6);
-    
-        return view('index_evenement', compact('evenementen', 'sortOrder', 'categorieFilter', 'onlyMyEvents'));
+
+        return view('events/index', compact('evenementen', 'sortOrder', 'categorieFilter', 'onlyMyEvents'));
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -129,10 +123,10 @@ class EvenementenController extends Controller
         'event' => $event,
         'registeredCount' => $registeredCount,
         'availableSpots' => $availableSpots
-    ]); 
-    
+    ]);
+
     }
 
-    
+
 }
 

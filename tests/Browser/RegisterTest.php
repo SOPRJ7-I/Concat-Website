@@ -38,7 +38,7 @@ class RegisterTest extends DuskTestCase
                     ->type('email','client@outlook.nl')
                     ->type('password','client123')
                     ->press('Login')
-                    ->assertPathIs('/index_evenement')
+                    ->assertPathIs('/events/index')
                     ->assertSee('Logout')
                     ->clickLink('Logout');
         });
