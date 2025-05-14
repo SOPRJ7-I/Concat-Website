@@ -64,7 +64,7 @@
                         <i class="flex-shrink-0 fa-solid fa-calendar text-3xl" alt="Datum en tijd evenement" aria-hidden="true"></i>
                         <span class="text-lg font-bold ml-2">
                             {{ \Carbon\Carbon::parse($event->datum)->format('d-m-Y') ?? 'Datum onbekend' }},
-                            { \Carbon\Carbon::parse($event->starttijd)->format('H:i') ?? 'Tijd onbekend' }} <br>
+                            {{ \Carbon\Carbon::parse($event->starttijd)->format('H:i') ?? 'Tijd onbekend' }} <br>
                             {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') ?? 'Einddatum onbekend' }},
                             {{ \Carbon\Carbon::parse($event->eindtijd)->format('H:i') ?? 'Eindtijd onbekend' }}
                         </span>
