@@ -1,6 +1,6 @@
 <x-layout>
     <div class="w-full">
-        <div class="max-w-7xl mx-auto px-6 bg-white p-6 rounded-xl shadow-lg w-full my-5">
+        <div class="max-w-7xl mx-auto px-6 bg-gray-50 p-6 rounded-xl shadow-lg w-full my-5">
             <!-- Gecentreerde titel -->
             <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1 text-center w-full mb-5">
                 Gallerij
@@ -26,7 +26,7 @@
                         onclick="openModal('{{ e($photo['title']) }}', '{{ e($photo['date']) }}', '{{ e($photo['src']) }}')"
                         onkeypress="if(event.key === 'Enter' || event.key === ' ') openModal('{{ e($photo['title']) }}', '{{ e($photo['date']) }}', '{{ e($photo['src']) }}')">
                         <img src="{{ $photo['src'] }}" alt="{{ $photo['title'] }}"
-                            class="h-40 w-full object-contain bg-gray-100 rounded mb-2" />
+                            class="h-40 w-full object-contain bg-gray-100 rounded-lg mb-2" />
                         <div class="text-sm text-gray-700 font-medium">{{ $photo['title'] }}</div>
                         <div class="text-xs text-gray-500">{{ $photo['date'] }}</div>
                     </div>
