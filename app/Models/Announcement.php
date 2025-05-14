@@ -9,17 +9,16 @@ class Announcement extends Model
 {
     use HasFactory;
 
+    // Corrigeer naar de juiste velden
     protected $fillable = [
         'titel',
         'inhoud',
-        'publicatiedatum',
-        'vervaldatum',
+        'published_at',
         'isVisible'
     ];
 
     protected $casts = [
-        'publicatiedatum' => 'datetime',
-        'vervaldatum' => 'datetime',
+        'published_at' => 'datetime',
         'isVisible' => 'boolean'
     ];
 }

@@ -14,9 +14,8 @@ class AnnouncementFactory extends Factory
         return [
             'titel' => $this->faker->sentence,
             'inhoud' => $this->faker->paragraph,
-            'publicatiedatum' => now(),
-            'vervaldatum' => null,
-            'isVisible' => true,
+            'published_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'isVisible' => $this->faker->boolean(70), // 70% chance of being visible
         ];
     }
 }
