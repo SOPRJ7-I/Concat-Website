@@ -62,14 +62,14 @@ class EvenementenController extends Controller
 
         $isAfgelopen = $request->query('afgelopen') === 'true';
 
-
+    
 
         $onlyMyEvents = $request->query('myevents', false);
 
         if (!in_array($sortOrder, $validSortOrders)) {
             $sortOrder = 'asc';
         }
-
+    
         $query = Evenementen::whereNotNull('titel')->where('titel', '!=', '')
             ->whereNotNull('datum')
             ->whereNotNull('einddatum')
@@ -83,19 +83,19 @@ class EvenementenController extends Controller
                 $query->whereNotNull('afbeelding')
                     ->orWhere('afbeelding', '!=', '');
             });
-
+    
         if (in_array($categorieFilter, ['blokborrel', 'education'])) {
             $query->where('categorie', $categorieFilter);
         }
 
-
+        
         if ($isAfgelopen) {
             $query->whereDate('einddatum', '<', Carbon::today());
-
+            
         }else {
             $query->whereDate('einddatum', '>=', Carbon::today());
         }
-
+        
         if ($onlyMyEvents && auth()->check()) {
             $query->whereHas('registrations', function ($q) {
                 $q->where('user_id', auth()->id());
@@ -104,10 +104,10 @@ class EvenementenController extends Controller
         $evenementen = $query->orderBy('datum', $sortOrder)
             ->orderBy('starttijd', $sortOrder)
             ->paginate(6);
-
+    
         return view('index_evenement', compact('evenementen', 'sortOrder', 'categorieFilter', 'onlyMyEvents'));
     }
-
+    
 
     /**
      * Display the specified resource.
@@ -129,33 +129,10 @@ class EvenementenController extends Controller
         'event' => $event,
         'registeredCount' => $registeredCount,
         'availableSpots' => $availableSpots
-    ]);
-
+    ]); 
+    
     }
 
-    /**
-     * Get the latest event.
-     */
-    public function latest()
-    {
-        $event = Evenementen::orderBy('created_at', 'desc')->first();
-
-        if (!$event) {
-            return [
-                'event' => null,
-                'registeredCount' => 0,
-                'availableSpots' => 0
-            ];
-        }
-
-        $registeredCount = $event->registrations()->count();
-        $availableSpots = $event->aantal_beschikbare_plekken ?? 0;
-
-        return [
-            'event' => $event,
-            'registeredCount' => $registeredCount,
-            'availableSpots' => $availableSpots
-        ];
-    }
+    
 }
 
