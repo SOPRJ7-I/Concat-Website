@@ -37,7 +37,7 @@
                             class="p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500"
                             aria-label="Filter op mijn evenementen">
                         <option value="0" {{ !$onlyMyEvents ? 'selected' : '' }}>Alles</option>
-                        <option value="1" {{ $onlyMyEvents ? 'selected' : '' }}>Aangemeld </option>
+                        <option value="1" {{ $onlyMyEvents ? 'selected' : '' }}>Ingeschreven </option>
 
                     </select>
                 </div>
@@ -83,11 +83,11 @@
                             @auth
                                 @if($evenement->isUserRegistered(auth()->id()))
                                     <span class="inline-block mb-2 bg-green-100 text-green-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
-                                        aangemeld
+                                        Ingeschreven
                                     </span>
                                 @else
                                     <span class="inline-block mb-2 bg-red-100 text-red-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
-                                        Niet aangemeld
+                                        Niet ingeschreven
                                     </span>
                                 @endif
                             @endauth
