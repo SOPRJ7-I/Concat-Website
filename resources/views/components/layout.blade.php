@@ -39,9 +39,13 @@
             </a>
             <div class="flex horizontal spaced centered">
                 <div class="flex" id="menu-links">
+                    <a href="/" class="flex items-center mr-2">
+                        <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="<LOGO>" class="h-8 w-auto">
+                    </a>
                     <x-nav-link href="/events/index">Evenementen</x-nav-link>
                     <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
                     <x-nav-link href="/gallery">Gallerij</x-nav-link>
+                    <x-nav-link href="/about-us">Over ons</x-nav-link>
                     <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
 
                     @guest
@@ -106,7 +110,6 @@
 
 
     <div class="overlay"></div>
-
     <div class="flex justify-center items-center p-6 lg:mt-200">
         {{ $slot }}
     </div>
@@ -145,6 +148,8 @@
                     <a href="/privacyverklaring" class="hover:text-gray-400">Privacyverklaring</a>
                     <span class="hidden md:inline">|</span>
                     <a href="mailto:info@svconcat.nl" class="hover:text-gray-400">info@svconcat.nl</a>
+                    <span class="hidden md:inline">|</span>
+                    <a href="{{ asset('pdfs/statutensvconcat.pdf') }}" class="hover:text-gray-400">Regels en statuten</a>
                 </div>
             </div>
         </div>
