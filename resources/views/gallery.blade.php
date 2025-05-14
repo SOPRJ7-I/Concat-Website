@@ -1,10 +1,10 @@
 <x-layout>
     <div class="w-full">
-        <div class="max-w-7xl mx-auto px-6">
+        <div class="max-w-7xl mx-auto px-6 bg-white p-6 rounded-xl shadow-lg w-full my-5">
             <!-- Gecentreerde titel -->
-            <div class="text-center mb-6">
-                <h1 class="text-4xl font-bold" id="gallery-title">Gallerij</h1>
-            </div>
+            <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1 text-center w-full mb-5">
+                Gallerij
+            </h1>
 
             <!-- Sorteerknop links / Filter -->
             <form method="GET" id="filterForm" class="mb-6">
