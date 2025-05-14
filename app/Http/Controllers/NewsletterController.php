@@ -34,12 +34,12 @@ class NewsletterController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'titel' => 'required|string|max:255',
+            'titel' => 'required|string|max:255|unique:newsletters,titel',
             'publicatiedatum' => 'required|string',
             'pdf' => 'required|file|mimes:pdf|max:2048',
         ],
         [
-            'titel.mimes' => 'Titel bestaat al!',
+            'titel.unique' => 'Een nieuwsbrief met deze titel bestaat al.',
             'pdf.required' => 'Selecteer een pdf bestand',
             'pdf.mimes' => 'Alleen PDF-bestanden zijn toegestaan.', 
         ]   );
