@@ -35,7 +35,7 @@
             <div class="flex horizontal spaced centered">
                 <div class="flex" id="menu-links">
                     <a href="/" class="flex items-center mr-2">
-                        <img src="{{ asset('storage/logo/concat_logo.png') }}" alt="<LOGO>" class="h-8 w-auto">
+                        <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="<LOGO>" class="h-8 w-auto">
                     </a>
                     <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
                     <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
@@ -87,7 +87,7 @@
         <div id="menu-links-mobile">
             <button class="close-btn">✕</button>
             <a href="/" class="flex items-center mr-2">
-                        <img src="{{ asset('storage/logo/concat_logo.png') }}" alt="<LOGO>" class="h-8 w-auto">
+                        <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="<LOGO>" class="h-8 w-auto">
                     </a>
                     <x-nav-link href="/index_evenement">Evenementen</x-nav-link>
                     <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
@@ -155,7 +155,7 @@
                     <span class="hidden md:inline">|</span>
                     <a href="mailto:info@svconcat.nl" class="hover:text-gray-400">info@svconcat.nl</a>
                     <span class="hidden md:inline">|</span>
-                    <a href="" class="hover:text-gray-400">Regels en statuten</a>
+                    <a href="{{ asset('pdfs/statutensvconcat.pdf') }}" class="hover:text-gray-400">Regels en statuten</a>
                 </div>
             </div>
         </div>
