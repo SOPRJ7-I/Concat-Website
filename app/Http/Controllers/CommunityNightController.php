@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CommunityNight;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CommunityNightController extends Controller
 {
@@ -81,7 +82,7 @@ class CommunityNightController extends Controller
      */
     public function edit(CommunityNight $communityNight)
     {
-        //
+        return view('community-nights.edit' , ['communityNight' => $communityNight]);
     }
 
     /**
@@ -89,7 +90,51 @@ class CommunityNightController extends Controller
      */
     public function update(Request $request, CommunityNight $communityNight)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required',
+            'description' => 'required|min:10',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'location' => 'required',
+            'link'=> 'nullable',
+            'capacity' => 'nullable|integer|min:0',
+
+        ],
+        [
+            'title.required' => 'Titel is verplicht.',
+            'description.required' => 'Beschrijving is verplicht.',
+            'description.min' => 'Beschrijving moet minimaal 10 tekens bevatten.',
+            'start_time.required' => 'Starttijd is verplicht.',
+            'end_time.required' => 'Eindtijd is verplicht.',
+            'location.required' => 'Locatie is verplicht.',
+        ]);
+
+
+        $communityNight->title = $validated['title'];
+        $communityNight->description = $validated['description'];
+        $communityNight->start_time = $validated['start_time'];
+        $communityNight->end_time = $validated['end_time'];
+        $communityNight->location = $validated['location'];
+        $communityNight->link = $validated['link'] ?? null;
+        $communityNight->capacity = $validated['capacity'] ?? null;
+
+        if ($request->hasFile('image')) {
+            
+            if ($communityNight->image) {
+                Storage::delete($communityNight->image);
+            }
+    
+            $imagePath = $request->file('image')->store('community-nights', 'public');
+    
+            $communityNight->image = $imagePath;
+            }
+
+            $communityNight->save();
+
+            // Redirect naar de detailpagina of een andere gewenste pagina
+            return redirect()->route('community-nights.edit', $communityNight->id)
+                     ->with('success', 'Community avond succesvol bijgewerkt!');
+        
     }
 
     /**
@@ -97,7 +142,14 @@ class CommunityNightController extends Controller
      */
     public function destroy(CommunityNight $communityNight)
     {
-        //
+        if ($communityNight->image) {
+            Storage::delete($communityNight->image);
+        }
+
+        $communityNight->delete();
+
+        return redirect()->route('community-nights.index')
+        ->with('success', 'Community Night succesvol verwijderd.');
     }
 
     /**

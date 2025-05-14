@@ -22,7 +22,7 @@
         </div>
 
         <!-- Hoofdinhoud van het evenement -->
-        <div class="p-6 md:p-14 mr-11">
+        <div class="p-6 md:p-14 ">
             <div class="flex flex-col lg:flex-row gap-8 mr-11">
                 
                 <div class="flex-1">
@@ -59,16 +59,17 @@
                             </div>
                         @endif
 
-                        <!-- Datum & Tijd -->
-                        <div class="flex items-center text-gray-500 mb-4">
-                            <i class="flex-shrink-0 fa-solid fa-calendar text-3xl" alt="Datum en tijd evenement" aria-hidden="true"></i>
-                            <span class="text-lg font-bold ml-2">
-                                {{ $event->datum ?? 'Datum onbekend' }}, 
-                                {{ $event->starttijd ?? 'Tijd onbekend' }} <br> 
-                                {{ $event->einddatum ?? 'Einddatum onbekend' }},
-                                {{ $event->eindtijd ?? 'Eindtijd onbekend' }}
-                            </span>
-                        </div>
+                    <!-- Datum & Tijd -->
+                    <div class="flex items-center text-gray-500 mb-4">
+                        <i class="flex-shrink-0 fa-solid fa-calendar text-3xl" alt="Datum en tijd evenement" aria-hidden="true"></i>
+                        <span class="text-lg font-bold ml-2">
+                            {{ \Carbon\Carbon::parse($event->datum)->format('d-m-Y') ?? 'Datum onbekend' }}, 
+                            {{ \Carbon\Carbon::parse($event->starttijd)->format('H:i') ?? 'Tijd onbekend' }} <br> 
+                            {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') ?? 'Einddatum onbekend' }},
+                            {{ \Carbon\Carbon::parse($event->eindtijd)->format('H:i') ?? 'Eindtijd onbekend' }}
+                        </span> 
+                    </div>
+
 
                         <!-- Locatie -->
                         <div class="flex items-center text-gray-500 mb-4">

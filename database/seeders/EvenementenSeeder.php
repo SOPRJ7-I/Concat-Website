@@ -124,5 +124,19 @@ class EvenementenSeeder extends Seeder
             'betaal_link' => 'https://dancefestivalrotterdam.com/tickets',
             'afbeelding' => 'dansfestival.jpg',
         ]);
+
+        Evenementen::create([
+            'titel' => 'Filmfestival Tilburg',
+            'categorie' => 'blokborrel',
+            'beschrijving' => 'Een internationaal filmfestival met vertoningen van onafhankelijke en buitenlandse films.',
+            'locatie' => 'Tilburg',
+            'datum' => '2025-05-09',
+            'einddatum' => '2025-05-10',
+            'starttijd' => '12:00:00',
+            'eindtijd' => '23:00:00',
+            'aantal_beschikbare_plekken' => 300,
+            'betaal_link' => 'https://filmfestivalleiden.com/tickets',
+            'afbeelding' => 'film_festival.jpg',
+        ]);
     }
 }

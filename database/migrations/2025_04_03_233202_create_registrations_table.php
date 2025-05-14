@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('evenement_id')->constrained('evenementen')->onDelete('cascade');
             $table->string('naam');
             $table->string('email');
-            $table->timestamps();
+            $table->timestamps();   
         });
     }
 
