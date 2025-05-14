@@ -72,12 +72,14 @@
         <div id="mobile-menu">
             <div id="menu-links-mobile">
                 <button class="close-btn">✕</button>
-                <a href="/" class="flex items-center mr-8">
-                    <img src="{{ asset('') }}" alt="<LOGO>" class="h-8 w-auto">
+                <a href="/" class="flex items-center mr-2">
+                    <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="Concat Logo" class="h-10 w-auto">
                 </a>
                 <x-nav-link href="/events/index">Evenementen</x-nav-link>
                 <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
                 <x-nav-link href="/gallery">Gallerij</x-nav-link>
+                <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
+                <x-nav-link href="/about-us">Over ons</x-nav-link>
                 <a href="https://sv-concat.myspreadshop.nl/">Webshop</a>
 
                 @guest
