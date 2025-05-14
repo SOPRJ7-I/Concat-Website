@@ -32,6 +32,7 @@
 
 
                         <a href="{{ route('community-nights.show', $communityNight) }}">
+                            {{-- TODO: Fix displaying of image --}}
                             {{-- Temporarily disabled, breaks at times for unknown reasons --}}
                             {{-- @if(isset($communityNight->image))
                                 <img src="{{ $communityNight->image }}" alt="{{ $communityNight->title }}" class="h-44 w-full object-cover">
@@ -41,14 +42,14 @@
                             </div>
                             {{-- @endif --}}
                         </a>
-                           
-                        
+
+
                         @auth
                         @if(auth()->user()->role === 'admin')
                         <div class="flex justify-end mb-4 gap-2 pt-2 pr-2">
                         <a href="{{ route('community-nights.edit', $communityNight->id) }}" class="bg-[#3129FF] rounded-lg text-white py-2 px-4 hover:bg-[#E39FF6] transition">
                             Bewerken
-                        </a>                  
+                        </a>
                         <form action="{{ route('community-nights.destroy', $communityNight->id) }}" method="POST" class="inline">
                         @csrf
                         @method('DELETE')
