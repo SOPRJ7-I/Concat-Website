@@ -42,6 +42,7 @@
                     <x-nav-link href="/events/index">Evenementen</x-nav-link>
                     <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
                     <x-nav-link href="/gallery">Gallerij</x-nav-link>
+                    <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
                     <x-nav-link href="/about-us">Over ons</x-nav-link>
                     <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
 

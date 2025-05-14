@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Announcement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class HomeController extends Controller
 {
@@ -71,7 +72,18 @@ class HomeController extends Controller
         // Groepeer aankondigingen
         $groupedAnnouncements = $this->groupAnnouncements($announcements);
 
-        return view('home', compact('photos', 'groupedAnnouncements'));
+        // Laatste community en event ophalen
+        $communityNight = App::make(CommunityNightController::class)->latest();
+        $eventData = App::make(EvenementenController::class)->latest();
+
+        return view('home', [
+            'photos' => $photos,
+            'groupedAnnouncements' => $groupedAnnouncements,
+            'event' => $eventData['event'],
+            'registeredCount' => $eventData['registeredCount'],
+            'availableSpots' => $eventData['availableSpots'],
+            'communityNight' => $communityNight
+        ]);
     }
 
     private function groupAnnouncements($announcements)
