@@ -50,6 +50,14 @@ footer {
     /* Add other footer styles */
 }
 
+li {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+    color: var(--black);
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
 .nav-container {
     position: sticky;
     top: 2%;
