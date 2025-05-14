@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Sponsor;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Storage;
 
 class SponsorController extends Controller
 {
@@ -120,6 +121,8 @@ class SponsorController extends Controller
     public function destroy(Sponsor $sponsor)
     {
         $this->authorize('delete', $sponsor);
+
+        Storage::disk('public')->delete($sponsor->image_path);
 
         $sponsor->delete();
 
