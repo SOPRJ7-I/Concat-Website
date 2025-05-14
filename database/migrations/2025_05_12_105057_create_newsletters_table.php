@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('newsletters', function (Blueprint $table) {
-            $table->id();
             $table->string('titel')->primary(); ;
             $table->date('publicatiedatum');
             $table->string('pdf'); // Pad naar het PDF-bestand
