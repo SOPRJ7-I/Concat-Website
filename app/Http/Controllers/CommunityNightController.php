@@ -149,7 +149,7 @@ class CommunityNightController extends Controller
         $communityNight->delete();
 
         return redirect()->route('community-nights.index')
-        ->with('success', 'Community Night succesvol verwijderd.');
+        ->with('success', 'Community Avond succesvol verwijderd.');
     }
 
     /**
