@@ -171,21 +171,43 @@
                     Aankondigingen
                 </h2>
 
-                <div class="space-y-4">
-                    @if(count($groupedAnnouncements) > 0)
-                        @include('announcements.partials.list', ['groupedAnnouncements' => $groupedAnnouncements])
-                    @else
-                        <div class="text-center p-8 bg-gray-50 rounded-lg">
-                            <p class="text-gray-500 italic">Er zijn momenteel geen aankondigingen</p>
-                        </div>
-                    @endif
+                <div class="relative">
+                    <!-- Container met vaste hoogte en scroll -->
+                    <div id="announcements-scroll-container" class="space-y-4 max-h-[600px] overflow-y-auto pb-4">
+                        @if(count($groupedAnnouncements) > 0)
+                            @include('announcements.partials.list', ['groupedAnnouncements' => $groupedAnnouncements])
+                        @else
+                            <div class="text-center p-8 bg-gray-50 rounded-lg">
+                                <p class="text-gray-500 italic">Er zijn momenteel geen aankondigingen</p>
+                            </div>
+                        @endif
+                    </div>
+                    
+                    <!-- Gradient overlay voor scroll indicatie -->
+                    <div class="pointer-events-none absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent"></div>
+
+
                 </div>
             </div>
         </div>
+
         @push('scripts')
-            <!-- Swiper JS -->
             <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
             <script>
+                function expandAnnouncements() {
+                    const container = document.getElementById('announcements-scroll-container');
+                    const button = document.getElementById('load-more-button');
+
+                    // Verhoog de maximale hoogte of verwijder deze volledig
+                    if(container.classList.contains('max-h-[600px]')) {
+                        container.classList.remove('max-h-[600px]');
+                        button.textContent = 'Minder tonen';
+                    } else {
+                        container.classList.add('max-h-[600px]');
+                        button.textContent = 'Meer laden';
+                    }
+                }
+
                 document.addEventListener('DOMContentLoaded', function() {
                     new Swiper('.swiper-container', {
                         loop: true,

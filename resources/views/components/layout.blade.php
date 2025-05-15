@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <title>Example Page</title>
+    <title>SV Concat</title>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
     {{-- @vite(['resources/img/logo-white.png']) --}}
