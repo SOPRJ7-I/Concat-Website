@@ -2,7 +2,7 @@
     <div class="container max-w-4xl mx-auto px-4 py-8 bg-white rounded-lg shadow-xl mt-5">
         <div class="flex flex-col mb-8">
             <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1 text-center w-full">
-                Announcements
+                Aankondigingen
             </h1>
 
             @auth
