@@ -149,7 +149,7 @@
                     <span class="hidden md:inline">|</span>
                     <a href="mailto:info@svconcat.nl" class="hover:text-gray-400">info@svconcat.nl</a>
                     <span class="hidden md:inline">|</span>
-                    <a href="{{ asset('pdfs/statutensvconcat.pdf') }}" class="hover:text-gray-400">Regels en statuten</a>
+                    <a href="{{ asset('storage/pdfs/statutensvconcat.pdf') }}" class="hover:text-gray-400">Regels en statuten</a>
                 </div>
             </div>
         </div>
