@@ -72,12 +72,14 @@
         <div id="mobile-menu">
             <div id="menu-links-mobile">
                 <button class="close-btn">✕</button>
-                <a href="/" class="flex items-center mr-8">
-                    <img src="{{ asset('') }}" alt="<LOGO>" class="h-8 w-auto">
+                <a href="/" class="flex items-center mr-2">
+                    <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="Concat Logo" class="h-10 w-auto">
                 </a>
                 <x-nav-link href="/events/index">Evenementen</x-nav-link>
                 <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
                 <x-nav-link href="/gallery">Gallerij</x-nav-link>
+                <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
+                <x-nav-link href="/about-us">Over ons</x-nav-link>
                 <a href="https://sv-concat.myspreadshop.nl/">Webshop</a>
 
                 @guest
@@ -147,7 +149,7 @@
                     <span class="hidden md:inline">|</span>
                     <a href="mailto:info@svconcat.nl" class="hover:text-gray-400">info@svconcat.nl</a>
                     <span class="hidden md:inline">|</span>
-                    <a href="{{ asset('pdfs/statutensvconcat.pdf') }}" class="hover:text-gray-400">Regels en statuten</a>
+                    <a href="{{ asset('storage/pdfs/statutensvconcat.pdf') }}" class="hover:text-gray-400">Regels en statuten</a>
                 </div>
             </div>
         </div>

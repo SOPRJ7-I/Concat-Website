@@ -16,6 +16,7 @@ class RegistrationsController extends Controller
         ]);
 
         registration::create([
+            'user_id' => auth()->check() ? auth()->id() : null,
             'evenement_id' => $request->evenement_id,
             'naam' => $request->naam,
             'email' => $request->email,
