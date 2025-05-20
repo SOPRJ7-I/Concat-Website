@@ -92,13 +92,13 @@ class SponsorController extends Controller
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'logo' => ['image', 'max:10240'],
+            'logo' => ['image', 'max:1024'],
         ], [
             'name.required' => 'Naam is verplicht.',
             'name.string' => 'Naam moet een string zijn.',
             'name.max' => 'Naam mag niet langer zijn dan 255 tekens.',
             'logo.image' => 'Logo moet een afbeelding zijn.',
-            'logo.max' => 'Logo mag niet groter zijn dan 10MB.',
+            'logo.max' => 'Logo mag niet groter zijn dan 1000kb.',
         ]);
 
         if ($request->hasFile('logo')) {
