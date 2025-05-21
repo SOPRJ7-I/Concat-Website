@@ -44,7 +44,7 @@
                 aria-label="Sluit modal">×</button>
             <img src="" id="modalPhoto" alt="" class="max-h-[80vh] max-w-full w-auto object-contain mx-auto rounded" />
             <div class="flex justify-between mt-4 text-sm text-gray-700">
-                <span id="eventName">Evenement naam</span>
+                <span id="eventName">Event naam</span>
                 <span id="eventDate">Datum</span>
             </div>
         </div>

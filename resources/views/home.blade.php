@@ -4,11 +4,11 @@
             <div class="flex flex-col gap-6 lg:flex-row">
                 {{-- Events Section Wrapper --}}
                 <div class="w-full lg:max-w-6/12">
-                    <h1 class="text-3xl font-bold mb-2 text-left">Evenementen</h1>
+                    <h1 class="text-3xl font-bold mb-2 text-left">Events</h1>
                     <hr class="border-b-4 border-purple-500 mb-4">
                     <div class="grid gap-8 lg:gap-6">
                         <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
-                            <a href="{{ route('evenementen.show', $event->id) }}"
+                            <a href="{{ route('events.show', $event->id) }}"
                                aria-label="Details bekijken van {{ $event->titel }}">
                                 @if(isset($event->afbeelding) && isset($event->start_datum) && isset($event->einddatum) && isset($event->locatie))
                                     <img src="{{ $event->afbeelding }}"
@@ -57,7 +57,7 @@
                                 </div>
 
                                 <div class="flex items-center text-gray-500 mb-4">
-                                    <i class="flex-shrink-0 fa-solid fa-users text-3xl" alt="Aantal inschrijvingen evenement" aria-hidden="true"></i>
+                                    <i class="flex-shrink-0 fa-solid fa-users text-3xl" alt="Aantal inschrijvingen event" aria-hidden="true"></i>
                                     <div class="ml-2">
                                         <!-- Totaal aantal plekken -->
                                         <div class="text-lg font-bold">
@@ -79,7 +79,7 @@
                                 </div>
 
                                 {{-- Lees meer knop --}}
-                                <a href="{{ route('evenementen.show', $event->id) }}"
+                                <a href="{{ route('events.show', $event->id) }}"
                                    class="inline-flex items-center text-sm text-center bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold"
                                    aria-label="Lees meer over {{ $event->titel }}. Datum van {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}">
                                     Lees meer over {{ $event->titel }}
@@ -182,7 +182,7 @@
                             </div>
                         @endif
                     </div>
-                    
+
                     <!-- Gradient overlay voor scroll indicatie -->
                     <div class="pointer-events-none absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent"></div>
 

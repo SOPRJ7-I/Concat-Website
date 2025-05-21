@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         CommunityNight::factory(50)->create();
-        $this->call(EvenementenSeeder::class);
+        $this->call(EventsSeeder::class);
         $this->call(UsersSeeder::class);
         $this->call([AnnouncementSeeder::class,]);
         $this->call(SponsorSeeder::class);

@@ -54,7 +54,7 @@
                         <!-- Categorie -->
                         @if(isset($event->categorie))
                             <div class="flex items-center text-gray-500 mb-4">
-                                <i class="flex-shrink-0 fa-solid fa-tag text-3xl" alt="Evenement categorie" aria-hidden="true"></i>
+                                <i class="flex-shrink-0 fa-solid fa-tag text-3xl" alt="Evenementen categorie" aria-hidden="true"></i>
                                 <span class="text-lg font-bold ml-2">{{ $event->categorie }}</span>
                             </div>
                         @endif
@@ -120,7 +120,7 @@
                     </div>
 
                     <!-- Button om formulier te openen -->
-                    <button id="openFormButton" class="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mb-6" alt="Inschrijven voor evenement">
+                    <button id="openFormButton" class="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mb-6" alt="Inschrijven voor event">
                         Inschrijven
                     </button>
                                     <!-- Foutmelding of Succesbericht -->
@@ -142,7 +142,7 @@
             <h3 class="text-xl font-bold mb-6 text-gray-800" alt="Titel formulier inschrijven">Inschrijven</h3>
             <form action="{{ route('registration') }}" method="POST">
                 @csrf
-                <input type="hidden" name="evenement_id" value="{{ $event->id }}">
+                <input type="hidden" name="event_id" value="{{ $event->id }}">
 
                 @auth
                 <input type="hidden" name="naam" value="{{ auth()->user()->name }}">

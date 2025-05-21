@@ -10,14 +10,14 @@ class RegistrationsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'evenement_id' => 'required|exists:evenementen,id',
+            'event_id' => 'required|exists:events,id',
             'naam' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:registrations,email,NULL,id,evenement_id,' . $request->evenement_id,
+            'email' => 'required|email|max:255|unique:registrations,email,NULL,id,event_id,' . $request->event_id,
         ]);
 
         registration::create([
             'user_id' => auth()->check() ? auth()->id() : null,
-            'evenement_id' => $request->evenement_id,
+            'event_id' => $request->event_id,
             'naam' => $request->naam,
             'email' => $request->email,
         ]);

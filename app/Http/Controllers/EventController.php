@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Listeners\Discord\Events\NewEventAdded;
 use Illuminate\Http\Request;
-use App\Models\Evenementen;
+use App\Models\Events;
 use Carbon\Carbon;
 
-class EvenementenController extends Controller
+class EventController extends Controller
 {
     public function create()
     {
@@ -46,12 +47,21 @@ class EvenementenController extends Controller
     );
 
         if ($request->hasFile('afbeelding')) {
-            $data['afbeelding'] = $request->file('afbeelding')->store('evenementen_fotos', 'public');
+            $data['afbeelding'] = $request->file('afbeelding')->store('event_images', 'public');
         }
 
-        Evenementen::create($data);
+        $event = Events::create($data);
 
-        return redirect('/events/index')->with('success', 'Evenement succesvol toegevoegd!');
+        // Dispatch het event
+        event(new NewEventAdded(
+            $event->titel,
+            $event->beschrijving,
+            $event->datum,
+            route('events.show', $event->id) // Gebruik de show route voor de URL
+        ));
+
+
+        return redirect('/events/index')->with('success', 'Event succesvol toegevoegd!');
     }
 
     public function index(Request $request)
@@ -70,7 +80,7 @@ class EvenementenController extends Controller
             $sortOrder = 'asc';
         }
 
-        $query = Evenementen::whereNotNull('titel')->where('titel', '!=', '')
+        $query = Events::whereNotNull('titel')->where('titel', '!=', '')
             ->whereNotNull('datum')
             ->whereNotNull('einddatum')
             ->whereNotNull('starttijd')
@@ -95,18 +105,18 @@ class EvenementenController extends Controller
                 $q->where('user_id', auth()->id());
             });
         }
-        $evenementen = $query->orderBy('datum', $sortOrder)
+        $events = $query->orderBy('datum', $sortOrder)
             ->orderBy('starttijd', $sortOrder)
             ->paginate(6);
 
-        return view('events/index', compact('evenementen', 'sortOrder', 'categorieFilter', 'onlyMyEvents'));
+        return view('events/index', compact('events', 'sortOrder', 'categorieFilter', 'onlyMyEvents'));
     }
 
 
     /**
      * Display the specified resource.
      */
-    public function show(Evenementen $event)
+    public function show(Events $event)
     {
     // Get the number of registrations for the event
     $registeredCount = $event->registrations()->count();
@@ -132,7 +142,7 @@ class EvenementenController extends Controller
      */
     public function latest()
     {
-        $event = Evenementen::orderBy('created_at', 'desc')->first();
+        $event = Events::orderBy('created_at', 'desc')->first();
 
         if (!$event) {
             return [
