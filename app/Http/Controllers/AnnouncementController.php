@@ -36,7 +36,9 @@ class AnnouncementController extends Controller
     {
         $grouped = [];
         foreach($announcements as $announcement) {
-            $group = $this->getDateGroup($announcement->published_at);
+            // Use published_at if available, otherwise fallback to created_at
+            $date = $announcement->published_at ?? $announcement->created_at;
+            $group = $this->getDateGroup($date);
             $grouped[$group][] = $announcement;
         }
         return $grouped;
