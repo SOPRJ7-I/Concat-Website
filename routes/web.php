@@ -7,7 +7,7 @@ use App\Http\Controllers\SponsorController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EvenementenController;
-use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\GaleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegistrationsController;
 
@@ -40,7 +40,8 @@ Route::put('/community-nights/{communityNight}/update', [CommunityNightControlle
 Route::get('/evenementen/{event}', [EvenementenController::class, 'show'])->name('evenementen.show');
 
 //galerij
-Route::get('/gallery', [GalleryController::class, 'index']);
+Route::get('/galery/galery', [GaleryController::class, 'index']);
+
 Route::get('/register',[AuthController::class, 'showRegister'])->name('show.register');
 Route::get('/login',[AuthController::class, 'showLogin'])->name('show.login');
 //Registreren
