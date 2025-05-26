@@ -17,9 +17,11 @@ class SponsorController extends Controller
     public function index()
     {
         $sponsors = Sponsor::all();
+        $inactiveSponsors = Sponsor::onlyTrashed()->get();
 
         return view('sponsors.index', [
-            'sponsors' => $sponsors
+            'sponsors' => $sponsors,
+            'inactiveSponsors' => $inactiveSponsors
         ]);
     }
 
@@ -41,24 +43,29 @@ class SponsorController extends Controller
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'logo' => ['required', 'image', 'max:10240'],
+            'logo' => ['required', 'image', 'max:1000'],
         ], [
             'name.required' => 'Naam is verplicht.',
             'name.string' => 'Naam moet een string zijn.',
             'name.max' => 'Naam mag niet langer zijn dan 255 tekens.',
             'logo.required' => 'Logo is verplicht.',
             'logo.image' => 'Logo moet een afbeelding zijn.',
-            'logo.max' => 'Logo mag niet groter zijn dan 10MB.',
+            'logo.max' => 'Logo mag niet groter zijn dan 1000kb.',
         ]);
 
         $imagePath = $request->file('logo')->store('sponsor_logos', 'public');
 
-        Sponsor::create([
+        $sponsor = Sponsor::create([
             'name' => $request['name'],
             'description' => $request['description'],
             'url' => $request['url'],
             'image_path' => $imagePath
         ]);
+
+        if ($request['hide'] === 'on')
+        {
+            $sponsor->delete();
+        }
 
         return redirect()->route('sponsors.index');
     }
@@ -84,21 +91,37 @@ class SponsorController extends Controller
     }
 
     /**
+     * Show the form for editing a hidden sponsor.
+     */
+    public function editHidden($id)
+    {
+        $sponsor = Sponsor::withTrashed()->findOrFail($id);
+
+        $this->authorize('update', $sponsor);
+
+        return view('sponsors.edit', [
+            'sponsor' => $sponsor
+        ]);
+    }
+
+    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Sponsor $sponsor)
+    public function update(Request $request, $id)
     {
+        $sponsor = Sponsor::withTrashed()->findOrFail($id);
+
         $this->authorize('update', $sponsor);
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'logo' => ['image', 'max:10240'],
+            'logo' => ['image', 'max:1024'],
         ], [
             'name.required' => 'Naam is verplicht.',
             'name.string' => 'Naam moet een string zijn.',
             'name.max' => 'Naam mag niet langer zijn dan 255 tekens.',
             'logo.image' => 'Logo moet een afbeelding zijn.',
-            'logo.max' => 'Logo mag niet groter zijn dan 10MB.',
+            'logo.max' => 'Logo mag niet groter zijn dan 1000kb.',
         ]);
 
         if ($request->hasFile('logo')) {
@@ -112,6 +135,17 @@ class SponsorController extends Controller
             'image_path' => $imagePath ?? $sponsor->image_path
         ]);
 
+        if ($request->has('hide'))
+        {
+            if (!$sponsor->trashed()) {
+                $sponsor->delete();
+            }
+        } else {
+            if ($sponsor->trashed()) {
+                $sponsor->restore();
+            }
+        }
+
         return redirect()->route('sponsors.index');
     }
 
@@ -122,10 +156,28 @@ class SponsorController extends Controller
     {
         $this->authorize('delete', $sponsor);
 
-        Storage::disk('public')->delete($sponsor->image_path);
-
         $sponsor->delete();
 
         return redirect()->route('sponsors.index');
+    }
+
+    public function forceDelete($id)
+    {
+        $sponsor = Sponsor::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('forceDelete', $sponsor);
+
+        Storage::disk('public')->delete($sponsor->image_path);
+
+        $sponsor->forceDelete();
+
+        return redirect()->route('sponsors.index')->with('success', 'Sponsor definitief verwijderd.');
+    }
+
+    public function restore($id)
+    {
+        $sponsor = Sponsor::onlyTrashed()->findOrFail($id)->restore();
+
+        return redirect()->route('sponsors.index')->with('success', 'Sponsor hersteld.');
     }
 }
