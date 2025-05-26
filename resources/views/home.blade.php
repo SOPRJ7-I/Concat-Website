@@ -3,20 +3,20 @@
         <div class="flex flex-col gap-6 justify-start w-full lg:w-3/4">
             <div class="flex flex-col gap-6 lg:flex-row">
                 {{-- Events Section Wrapper --}}
-                <div class="w-full lg:max-w-6/12">
+                <div class="w-full lg:max-w-6/12 flex flex-col h-full">
                     <h1 class="text-3xl font-bold mb-2 text-left">Evenementen</h1>
                     <hr class="border-b-4 border-purple-500 mb-4">
                     <div class="grid gap-8 lg:gap-6">
-                        <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+                        <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden flex flex-col h-full">
                             <a href="{{ route('evenementen.show', $event->id) }}"
                                aria-label="Details bekijken van {{ $event->titel }}">
                                 @if(isset($event->afbeelding) && isset($event->start_datum) && isset($event->einddatum) && isset($event->locatie))
                                     <img src="{{ $event->afbeelding }}"
                                          alt="Afbeelding van {{ $event->titel }}. Datum: {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}"
-                                         class="h-44 w-full object-cover">
+                                         class="w-full object-cover">
                                 @else
                                     <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500" aria-hidden="true">
-                                        <h1 class="text-white text-3xl font-bold">{{ $event->titel }}</h1>
+                                        <h1 class="text-white text-3xl font-bold text-center w-full break-words">{{ $event->titel }}</h1>
                                     </div>
                                 @endif
                             </a>
@@ -89,29 +89,28 @@
                     </div>
                 </div>
                 {{-- Community Night Section Wrapper --}}
-                <div class="w-full lg:max-w-6/12">
+                <div class="w-full lg:max-w-6/12 flex flex-col h-full">
                     <h1 class="text-3xl font-bold mb-2 text-left">Community-avonden</h1>
                     <hr class="border-b-4 border-purple-500 mb-4">
                     <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
                         <a href="{{ route('community-nights.show', $communityNight) }}">
                             {{-- Temporarily disabled, breaks at times for unknown reasons --}}
-                            {{-- @if(isset($communityNight->image))
-                                <img src="{{ $communityNight->image }}" alt="{{ $communityNight->title }}" class="h-44 w-full object-cover">
-                             @else --}}
+                            @if(isset($communityNight->image))
+                                <img src="{{ $communityNight->image }}" alt="{{ $communityNight->title }}" class="aspect-square object-cover w-full">
+                            @else
                             <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
-                                <h1 class="text-white text-3xl font-bold">{{ $communityNight->title ?? 'Community Night' }}</h1>
+                                <h1 class="text-white text-3xl font-bold text-center w-full break-words">{{ $communityNight->title ?? 'Community Night' }}</h1>
                             </div>
-                            {{-- @endif --}}
+                            @endif
                         </a>
 
                         <div class="p-5">
                             {{-- Temporarily disabled, breaks at times for unknown reasons --}}
-                            {{-- @if(isset($communityNight->image))
+                            @if(isset($communityNight->image))
                                 <a href="{{ route('community-nights.show', $communityNight) }}">
                                     <h5 class="text-2xl font-bold tracking-tight text-gray-900 mb-4">{{ $communityNight->title }}</h5>
                                 </a>
-                                <!--- <hr class="mb-4 border-2 border-gray-400 rounded"> -->
-                            @endif --}}
+                            @endif
 
                             @if(isset($communityNight->date))
                                 <div class="flex items-center text-gray-500 mb-4">
@@ -133,9 +132,11 @@
                                 <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-b from-transparent to-white"></div>
                             </div>
 
-                            <a href="{{ route('community-nights.show', $communityNight) }}" class="inline-flex items-center text-sm text-center bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold">
-                                Lees meer...
-                            </a>
+                            <div class="mt-auto"> {{-- Pushes button to bottom --}}
+                                <a href="{{ route('community-nights.show', $communityNight) }}" class="inline-flex items-center text-sm text-center bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold">
+                                    Lees meer...
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -182,7 +183,7 @@
                             </div>
                         @endif
                     </div>
-                    
+
                     <!-- Gradient overlay voor scroll indicatie -->
                     <div class="pointer-events-none absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent"></div>
 
