@@ -68,7 +68,7 @@
             </div>
         </div>
 
-        @if(Auth::user()->isAdmin())
+        @if(Auth::check() && Auth::user()->isAdmin())
             <h2 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1 mt-8 text-center w-full">
                 Inactieve Sponsoren
             </h2>
