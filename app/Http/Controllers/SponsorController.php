@@ -81,7 +81,19 @@ class SponsorController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Sponsor $sponsor)
+    {
+        $this->authorize('update', $sponsor);
+
+        return view('sponsors.edit', [
+            'sponsor' => $sponsor
+        ]);
+    }
+
+    /**
+     * Show the form for editing a hidden sponsor.
+     */
+    public function editHidden($id)
     {
         $sponsor = Sponsor::withTrashed()->findOrFail($id);
 

@@ -21,7 +21,8 @@ Route::resource('community-nights', CommunityNightController::class);
 
 // Sponsors
 Route::resource('sponsors', SponsorController::class);
-Route::post('sponsors/{sponsor}/force-delete', [SponsorController::class, 'forceDelete'])->name('sponsors.force-delete');
+Route::get('/sponsors/{sponsor}/edit-hidden', [SponsorController::class, 'editHidden'])->name('sponsors.edit-hidden');
+Route::post('/sponsors/{sponsor}/force-delete', [SponsorController::class, 'forceDelete'])->name('sponsors.force-delete');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 

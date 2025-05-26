@@ -92,7 +92,7 @@
                             @auth
                                 @if(auth()->user()->isAdmin())
                                     <div class="flex justify-end mt-4 mr-4">
-                                        <a href="{{ route('sponsors.edit', $inactiveSponsor) }}"
+                                        <a href="{{ route('sponsors.edit-hidden', $inactiveSponsor) }}"
                                            class="bg-blue-500 text-white py-1 px-3 rounded-md text-sm mr-2 hover:bg-blue-600 transition"
                                            aria-label="Bewerk sponsor {{ $inactiveSponsor->name }}">
                                             <i class="fa-solid fa-pencil mr-1" aria-hidden="true"></i> Bewerken
