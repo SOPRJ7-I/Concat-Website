@@ -87,6 +87,10 @@
                 @endguest
 
                 @auth
+                    <x-nav-link href="/news">Nieuwsbrief</x-nav-link>
+                @endauth
+
+                @auth
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="x-nav-link">Uitloggen</button>
