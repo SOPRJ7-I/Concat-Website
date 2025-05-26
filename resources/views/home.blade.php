@@ -4,7 +4,7 @@
             <div class="flex flex-col gap-6 lg:flex-row">
                 {{-- Events Section Wrapper --}}
                 <div class="w-full lg:max-w-6/12 flex flex-col h-full">
-                    <h1 class="text-3xl font-bold mb-2 text-left">Evenementen</h1>
+                    <h1 class="text-2xl font-bold mb-2 text-left">Eerstvolgend evenement</h1>
                     <hr class="border-b-4 border-purple-500 mb-4">
                     <div class="grid gap-8 lg:gap-6 flex-grow">
                         <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden flex flex-col h-full">
@@ -96,7 +96,7 @@
                 </div>
                 {{-- Community Night Section Wrapper --}}
                 <div class="w-full lg:max-w-6/12 flex flex-col h-full">
-                    <h1 class="text-3xl font-bold mb-2 text-left">Community-avonden</h1>
+                    <h1 class="text-2xl font-bold mb-2 text-left">Eerstvolgende community-avond</h1>
                     <hr class="border-b-4 border-purple-500 mb-4">
                     <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
                         <a href="{{ route('community-nights.show', $communityNight) }}">
@@ -179,7 +179,8 @@
 
                 <div class="relative">
                     <!-- Container met vaste hoogte en scroll -->
-                    <div id="announcements-scroll-container" class="space-y-4 max-h-[600px] overflow-y-auto pb-4">
+                    {{-- TODO: Hoogte moet dynamisch worden gemaakt --}}
+                    <div id="announcements-scroll-container" class="space-y-4 max-h-[1112px] overflow-y-auto pb-4">
                         @if(count($groupedAnnouncements) > 0)
                             @include('announcements.partials.list', ['groupedAnnouncements' => $groupedAnnouncements])
                         @else
