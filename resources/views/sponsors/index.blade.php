@@ -81,7 +81,7 @@
                         <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
                             <a href="{{ $inactiveSponsor->url }}" aria-label="Bezoek website van {{ $inactiveSponsor->name }}" target="_blank" rel="noopener noreferrer">
                                 @if(isset($inactiveSponsor->image_path))
-                                    <img src="{{ asset('storage/' . $inactiveSponsor->image_path) }}" alt="{{ $inactiveSponsor->name }}" class="h-44 p-8 w-full object-contain">
+                                    <img src="{{ asset('storage/' . $inactiveSponsor->image_path) }}" alt="{{ $inactiveSponsor->name }}" class="h-44 p-8 w-full object-contain grayscale">
                                 @else
                                     <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500" aria-hidden="true">
                                         <h1 class="text-white text-3xl font-bold">{{ $inactiveSponsor->name ?? 'Sponsor' }}</h1>
