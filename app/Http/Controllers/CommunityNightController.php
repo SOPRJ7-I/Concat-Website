@@ -46,7 +46,7 @@ class CommunityNightController extends Controller
             'end_time.required' => 'Eindtijd is verplicht.',
             'location.required' => 'Locatie is verplicht.',
         ]
-        
+
         );
 
         $imagePath = null;
@@ -57,7 +57,7 @@ class CommunityNightController extends Controller
 
         CommunityNight::create([
             'title' => $communityNight->input('title'),
-            'image' => $imagePath ? basename($imagePath) : null,
+            'image' => $imagePath,
             'description' => $communityNight->input('description'),
             'start_time' => $communityNight->input('start_time'),
             'end_time' => $communityNight->input('end_time'),
@@ -119,22 +119,22 @@ class CommunityNightController extends Controller
         $communityNight->capacity = $validated['capacity'] ?? null;
 
         if ($request->hasFile('image')) {
-            
+
             if ($communityNight->image) {
                 Storage::delete($communityNight->image);
             }
-    
+
             $imagePath = $request->file('image')->store('community-nights', 'public');
-    
+
             $communityNight->image = $imagePath;
-            }
+        }
 
-            $communityNight->save();
+        $communityNight->save();
 
-            // Redirect naar de detailpagina of een andere gewenste pagina
-            return redirect()->route('community-nights.edit', $communityNight->id)
-                     ->with('success', 'Community avond succesvol bijgewerkt!');
-        
+        // Redirect naar de detailpagina of een andere gewenste pagina
+        return redirect()->route('community-nights.edit', $communityNight->id)
+                 ->with('success', 'Community avond succesvol bijgewerkt!');
+
     }
 
     /**
