@@ -17,9 +17,11 @@ class SponsorController extends Controller
     public function index()
     {
         $sponsors = Sponsor::all();
+        $inactiveSponsors = Sponsor::onlyTrashed()->get();
 
         return view('sponsors.index', [
-            'sponsors' => $sponsors
+            'sponsors' => $sponsors,
+            'inactiveSponsors' => $inactiveSponsors
         ]);
     }
 
@@ -53,12 +55,17 @@ class SponsorController extends Controller
 
         $imagePath = $request->file('logo')->store('sponsor_logos', 'public');
 
-        Sponsor::create([
+        $sponsor = Sponsor::create([
             'name' => $request['name'],
             'description' => $request['description'],
             'url' => $request['url'],
             'image_path' => $imagePath
         ]);
+
+        if ($request['hide'] === 'on')
+        {
+            $sponsor->delete();
+        }
 
         return redirect()->route('sponsors.index');
     }
@@ -74,8 +81,10 @@ class SponsorController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Sponsor $sponsor)
+    public function edit($id)
     {
+        $sponsor = Sponsor::withTrashed()->findOrFail($id);
+
         $this->authorize('update', $sponsor);
 
         return view('sponsors.edit', [
@@ -86,8 +95,10 @@ class SponsorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Sponsor $sponsor)
+    public function update(Request $request, $id)
     {
+        $sponsor = Sponsor::withTrashed()->findOrFail($id);
+
         $this->authorize('update', $sponsor);
 
         $request->validate([
@@ -112,6 +123,17 @@ class SponsorController extends Controller
             'image_path' => $imagePath ?? $sponsor->image_path
         ]);
 
+        if ($request->has('hide'))
+        {
+            if (!$sponsor->trashed()) {
+                $sponsor->delete();
+            }
+        } else {
+            if ($sponsor->trashed()) {
+                $sponsor->restore();
+            }
+        }
+
         return redirect()->route('sponsors.index');
     }
 
@@ -122,10 +144,28 @@ class SponsorController extends Controller
     {
         $this->authorize('delete', $sponsor);
 
-        Storage::disk('public')->delete($sponsor->image_path);
-
         $sponsor->delete();
 
         return redirect()->route('sponsors.index');
+    }
+
+    public function forceDelete($id)
+    {
+        $sponsor = Sponsor::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('forceDelete', $sponsor);
+
+        Storage::disk('public')->delete($sponsor->image_path);
+
+        $sponsor->forceDelete();
+
+        return redirect()->route('sponsors.index')->with('success', 'Sponsor definitief verwijderd.');
+    }
+
+    public function restore($id)
+    {
+        $sponsor = Sponsor::onlyTrashed()->findOrFail($id)->restore();
+
+        return redirect()->route('sponsors.index')->with('success', 'Sponsor hersteld.');
     }
 }

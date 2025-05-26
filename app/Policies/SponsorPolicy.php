@@ -44,8 +44,8 @@ class SponsorPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-//    public function forceDelete(User $user, Sponsor $sponsor): bool
-//    {
-//        return false;
-//    }
+    public function forceDelete(User $user, Sponsor $sponsor): bool
+    {
+        return $user->role === 'admin';
+    }
 }
