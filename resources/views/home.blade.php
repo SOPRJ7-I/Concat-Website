@@ -16,7 +16,7 @@
                                          alt="Afbeelding van {{ $event->titel }}. Datum: {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}"
                                          class="w-full object-cover">
                                 @else
-                                    <div class="p-5 flex h-full w-fill items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500" aria-hidden="true">
+                                    <div class="p-5 flex h-full w-full items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500" aria-hidden="true">
                                         <h1 class="text-white text-3xl font-bold text-center w-full break-words">{{ $event->titel }}</h1>
                                     </div>
                                 @endif
