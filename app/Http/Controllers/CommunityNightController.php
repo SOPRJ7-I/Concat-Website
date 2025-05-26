@@ -6,11 +6,17 @@ use App\Models\CommunityNight;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+
 class CommunityNightController extends Controller
 {
+
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
         return view('community-nights.index', [
@@ -23,6 +29,7 @@ class CommunityNightController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', CommunityNight::class);
         return view('community-nights.create');
     }
 
@@ -31,6 +38,8 @@ class CommunityNightController extends Controller
      */
     public function store(Request $communityNight)
     {
+        $this->authorize('create', CommunityNight::class);
+
         $communityNight->validate([
             'title' => 'required',
             'description' => 'required|min:10',
@@ -82,6 +91,7 @@ class CommunityNightController extends Controller
      */
     public function edit(CommunityNight $communityNight)
     {
+        $this->authorize('update', $communityNight);
         return view('community-nights.edit' , ['communityNight' => $communityNight]);
     }
 
@@ -90,6 +100,9 @@ class CommunityNightController extends Controller
      */
     public function update(Request $request, CommunityNight $communityNight)
     {
+
+        $this->authorize('update', $communityNight);
+
         $validated = $request->validate([
             'title' => 'required',
             'description' => 'required|min:10',
@@ -142,6 +155,8 @@ class CommunityNightController extends Controller
      */
     public function destroy(CommunityNight $communityNight)
     {
+        
+        $this->authorize('destroy', $communityNight);
         if ($communityNight->image) {
             Storage::delete($communityNight->image);
         }
