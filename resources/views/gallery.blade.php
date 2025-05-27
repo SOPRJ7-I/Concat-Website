@@ -1,3 +1,4 @@
+@Vite('resources/css/app.css')
 <x-layout>
     <div class="w-full">
         <div class="max-w-7xl mx-auto px-6 bg-gray-50 p-6 rounded-xl shadow-lg w-full my-5">
@@ -27,8 +28,6 @@
                         onkeypress="if(event.key === 'Enter' || event.key === ' ') openModal('{{ e($photo['title']) }}', '{{ e($photo['date']) }}', '{{ e($photo['src']) }}')">
                         <img src="{{ $photo['src'] }}" alt="{{ $photo['title'] }}"
                             class="h-40 w-full object-contain bg-gray-100 rounded-lg mb-2" />
-                        <div class="text-sm text-gray-700 font-medium">{{ $photo['title'] }}</div>
-                        <div class="text-xs text-gray-500">{{ $photo['date'] }}</div>
                     </div>
                 @endforeach
             </div>
@@ -37,18 +36,20 @@
 
     <!-- Modal -->
     <div id="photoModal" role="dialog" aria-modal="true" aria-labelledby="eventName" aria-describedby="eventDate"
-        onclick="handleBackdropClick(event)" class="fixed inset-0 z-50 hidden items-center justify-center modal-bg p-4"
-        aria-hidden="true">
-        <div class="bg-white rounded-lg shadow-lg max-w-6xl w-full relative p-4">
-            <button class="absolute top-2 right-4 text-xl font-bold" onclick="closeModal()"
-                aria-label="Sluit modal">×</button>
-            <img src="" id="modalPhoto" alt="" class="max-h-[80vh] max-w-full w-auto object-contain mx-auto rounded" />
-            <div class="flex justify-between mt-4 text-sm text-gray-700">
-                <span id="eventName">Evenement naam</span>
-                <span id="eventDate">Datum</span>
-            </div>
+    onclick="handleBackdropClick(event)"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-80"
+    aria-hidden="true">
+    
+    <div class="relative max-w-full max-h-full overflow-hidden">
+        <button class="absolute top-4 right-4 text-white text-3xl font-bold z-10" onclick="closeModal()" aria-label="Sluit modal">×</button>
+        <img src="" id="modalPhoto" alt=""
+            class="max-h-screen max-w-screen object-contain block m-auto rounded" />
+        <div class="flex justify-between mt-4 text-sm text-white px-4">
+            <span id="eventName">Evenement naam</span>
+            <span id="eventDate">Datum</span>
         </div>
     </div>
+</div>
 
     <script>
         const modal = document.getElementById('photoModal');
@@ -68,6 +69,9 @@
             modal.classList.remove('hidden');
             modal.classList.add('flex');
 
+            // Disable menubar
+            document.getElementById('main-nav').classList.add('nav-disabled');
+
             // Focus op de sluitknop
             modal.querySelector('button').focus();
         }
@@ -76,6 +80,9 @@
             modal.setAttribute('aria-hidden', 'true');
             modal.classList.remove('flex');
             modal.classList.add('hidden');
+
+            // Herstel menubar
+            document.getElementById('main-nav').classList.remove('nav-disabled');
 
             // Focus terug naar waar we waren
             if (lastFocusedElement) {
