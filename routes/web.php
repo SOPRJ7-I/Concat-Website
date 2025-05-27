@@ -10,6 +10,7 @@ use App\Http\Controllers\EvenementenController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegistrationsController;
+use App\Http\Controllers\RoostersController;
 
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\AboutUsController;
@@ -73,3 +74,7 @@ Route::get('/news/create', [NewsletterController::class, 'create'])->name('news.
 
 //about us
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about-us.index');
+//rooster
+Route::get('/roosters', [RoostersController::class, 'index']);
+Route::post('/roosters', [RoostersController::class, 'store']);
+Route::delete('/roosters/{rooster}', [RoostersController::class, 'destroy'])->name('roosters.destroy');
