@@ -102,7 +102,7 @@
                         <a href="{{ route('community-nights.show', $communityNight) }}">
                             {{-- Temporarily disabled, breaks at times for unknown reasons --}}
                             @if(isset($communityNight->image))
-                                <img src="{{ $communityNight->image }}" alt="{{ $communityNight->title }}" class="aspect-square object-cover w-full">
+                                <img src="{{ asset('storage/' . $communityNight->image) }}" alt="{{ $communityNight->title }}" class="aspect-square object-cover w-full">
                             @else
                             <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
                                 <h1 class="text-white text-3xl font-bold text-center w-full break-words">{{ $communityNight->title ?? 'Community Night' }}</h1>
