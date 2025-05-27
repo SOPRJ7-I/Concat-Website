@@ -70,13 +70,13 @@ Append the related issue ID to the branch name to make it easier to identity and
 6. Run the following commands:  
    ```sh
    php artisan key:generate
+   php artisan storage:link
    php artisan migrate
    ```  
    - When prompted, enter `yes`.
    <br>
    
    ```sh
-   php artisan serve
    npm install
    ```  
 7. Ensure Laravel Herd has access to the application folder. Within Laravel Herd navigate to **General → Add Path** and add the folder containing the project. Like so:
