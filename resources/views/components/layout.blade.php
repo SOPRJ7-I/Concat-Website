@@ -32,24 +32,61 @@
     @endif
 
     <div class="nav-container px-6">
-        <!-- Desktop Navigation -->
-        <nav id="main-nav">
-            <a href="/" class="flex items-center mr-2">
-                <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="Concat Logo" class="h-10 w-auto">
-            </a>
-            <div class="flex horizontal spaced centered">
-                <div class="flex" id="menu-links">
+        <div class="flex justify-end flex-wrap">
+            <!-- Desktop Navigation -->
+            <nav id="main-nav" class="mb-4">
+                <a href="/" class="flex items-center mr-2">
+                    <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="Concat Logo" class="h-10 w-auto">
+                </a>
+                <div class="flex horizontal spaced centered">
+                    <div class="flex" id="menu-links">
+                        <x-nav-link href="/events/index">Evenementen</x-nav-link>
+                        <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
+                        <x-nav-link href="/gallery">Gallerij</x-nav-link>
+                        <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
+                        <x-nav-link href="/about-us">Over ons</x-nav-link>
+                        <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
+
+                        @guest
+                            <!-- <x-nav-link href="/register">Registreren</x-nav-link> -->
+                            <x-nav-link href="/login">Inloggen</x-nav-link>
+                        @endguest
+                        @auth
+                            <x-nav-link href="/news">Nieuwsbrief</x-nav-link>
+                        @endauth
+
+                        @auth
+                            <form action="{{ route('logout') }}" method="POST" style="display:flex;">
+                                @csrf
+                                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
+                                   class="x-nav-link">
+                                    <i class="fa-solid fa-right-from-bracket text-xl"></i>
+                                </a>
+                            </form>
+                        @endauth
+
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu">
+                <div id="menu-links-mobile">
+                    <button class="close-btn">✕</button>
+                    <a href="/" class="flex items-center mr-2">
+                        <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="Concat Logo" class="h-10 w-auto">
+                    </a>
                     <x-nav-link href="/events/index">Evenementen</x-nav-link>
                     <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
                     <x-nav-link href="/gallery">Gallerij</x-nav-link>
                     <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
                     <x-nav-link href="/about-us">Over ons</x-nav-link>
-                    <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
+                    <a href="https://sv-concat.myspreadshop.nl/">Webshop</a>
 
                     @guest
-                        <!-- <x-nav-link href="/register">Registreren</x-nav-link> -->
                         <x-nav-link href="/login">Inloggen</x-nav-link>
                     @endguest
+
                     @auth
                         <x-nav-link href="/news">Nieuwsbrief</x-nav-link>
                     @endauth
@@ -58,59 +95,24 @@
                         <form action="{{ route('logout') }}" method="POST" style="display:flex;">
                             @csrf
                             <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
-                                class="x-nav-link">
+                               class="x-nav-link">
                                 Uitloggen
                             </a>
                         </form>
                     @endauth
-
                 </div>
             </div>
-        </nav>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu">
-            <div id="menu-links-mobile">
-                <button class="close-btn">✕</button>
-                <a href="/" class="flex items-center mr-2">
-                    <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="Concat Logo" class="h-10 w-auto">
-                </a>
-                <x-nav-link href="/events/index">Evenementen</x-nav-link>
-                <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
-                <x-nav-link href="/gallery">Gallerij</x-nav-link>
-                <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
-                <x-nav-link href="/about-us">Over ons</x-nav-link>
-                <a href="https://sv-concat.myspreadshop.nl/">Webshop</a>
+            <a href="{{ route('announcements.index') }}" id="bell-icon"
+               class="z-50 flex items-center justify-center h-16 w-16 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-105"
+               title="Bekijk aankondigingen" aria-label="Aankondigingen">
+                <i class="fa-solid fa-bell text-gray-700 text-xl"></i>
+                <!-- Notificatie indicator
+                <span class="absolute -top-1 -right-1 bg-red-500 text-xs text-white rounded-full px-2 py-1"></span>-->
+            </a>
 
-                @guest
-                    <x-nav-link href="/login">Inloggen</x-nav-link>
-                @endguest
-
-                @auth
-                    <x-nav-link href="/news">Nieuwsbrief</x-nav-link>
-                @endauth
-
-                @auth
-                    <form action="{{ route('logout') }}" method="POST" style="display:flex;">
-                        @csrf
-                        <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
-                           class="x-nav-link">
-                            Uitloggen
-                        </a>
-                    </form>
-                @endauth
-            </div>
+            <button id="nav-button" class="hamburger"></button>
         </div>
-
-        <a href="{{ route('announcements.index') }}" id="bell-icon"
-        class="absolute right-[2%] z-50 flex items-center justify-center h-16 w-16 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-105"
-        title="Bekijk aankondigingen" aria-label="Aankondigingen">
-        <i class="fa-solid fa-bell text-gray-700 text-xl"></i>
-        <!-- Notificatie indicator
-        <span class="absolute -top-1 -right-1 bg-red-500 text-xs text-white rounded-full px-2 py-1"></span>-->
-        </a>
-
-        <button id="nav-button" class="hamburger"></button>
     </div>
 
     <!-- Nieuwe bel-icoon knop -->
