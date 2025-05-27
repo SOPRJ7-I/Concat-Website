@@ -91,9 +91,12 @@
                 @endauth
 
                 @auth
-                    <form action="{{ route('logout') }}" method="POST">
+                    <form action="{{ route('logout') }}" method="POST" style="display:flex;">
                         @csrf
-                        <button type="submit" class="x-nav-link">Uitloggen</button>
+                        <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
+                           class="x-nav-link">
+                            Uitloggen
+                        </a>
                     </form>
                 @endauth
             </div>
