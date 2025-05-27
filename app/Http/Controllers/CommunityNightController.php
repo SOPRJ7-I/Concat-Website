@@ -6,11 +6,17 @@ use App\Models\CommunityNight;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+
 class CommunityNightController extends Controller
 {
+
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
         return view('community-nights.index', [
@@ -23,6 +29,7 @@ class CommunityNightController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', CommunityNight::class);
         return view('community-nights.create');
     }
 
@@ -31,6 +38,8 @@ class CommunityNightController extends Controller
      */
     public function store(Request $communityNight)
     {
+        $this->authorize('create', CommunityNight::class);
+
         $communityNight->validate([
             'title' => 'required',
             'description' => 'required|min:10',
@@ -46,7 +55,7 @@ class CommunityNightController extends Controller
             'end_time.required' => 'Eindtijd is verplicht.',
             'location.required' => 'Locatie is verplicht.',
         ]
-        
+
         );
 
         $imagePath = null;
@@ -57,7 +66,7 @@ class CommunityNightController extends Controller
 
         CommunityNight::create([
             'title' => $communityNight->input('title'),
-            'image' => $imagePath ? basename($imagePath) : null,
+            'image' => $imagePath,
             'description' => $communityNight->input('description'),
             'start_time' => $communityNight->input('start_time'),
             'end_time' => $communityNight->input('end_time'),
@@ -82,6 +91,7 @@ class CommunityNightController extends Controller
      */
     public function edit(CommunityNight $communityNight)
     {
+        $this->authorize('update', $communityNight);
         return view('community-nights.edit' , ['communityNight' => $communityNight]);
     }
 
@@ -90,6 +100,9 @@ class CommunityNightController extends Controller
      */
     public function update(Request $request, CommunityNight $communityNight)
     {
+
+        $this->authorize('update', $communityNight);
+
         $validated = $request->validate([
             'title' => 'required',
             'description' => 'required|min:10',
@@ -119,22 +132,22 @@ class CommunityNightController extends Controller
         $communityNight->capacity = $validated['capacity'] ?? null;
 
         if ($request->hasFile('image')) {
-            
+
             if ($communityNight->image) {
                 Storage::delete($communityNight->image);
             }
-    
+
             $imagePath = $request->file('image')->store('community-nights', 'public');
-    
+
             $communityNight->image = $imagePath;
-            }
+        }
 
-            $communityNight->save();
+        $communityNight->save();
 
-            // Redirect naar de detailpagina of een andere gewenste pagina
-            return redirect()->route('community-nights.edit', $communityNight->id)
-                     ->with('success', 'Community avond succesvol bijgewerkt!');
-        
+        // Redirect naar de detailpagina of een andere gewenste pagina
+        return redirect()->route('community-nights.edit', $communityNight->id)
+                 ->with('success', 'Community avond succesvol bijgewerkt!');
+
     }
 
     /**
@@ -142,6 +155,8 @@ class CommunityNightController extends Controller
      */
     public function destroy(CommunityNight $communityNight)
     {
+        
+        $this->authorize('destroy', $communityNight);
         if ($communityNight->image) {
             Storage::delete($communityNight->image);
         }
