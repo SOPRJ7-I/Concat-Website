@@ -17,7 +17,7 @@ class GalleryController extends Controller
 
     $photos = $query->get();
 
-    return view('gallery.gallery', compact('photos'));
+    return view('gallery.index', compact('photos'));
 }
 
     public function create()

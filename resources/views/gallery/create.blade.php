@@ -4,13 +4,8 @@
             Foto toevoegen
         </h1>
 
-        <form method="POST" action="{{ isset($photo) ? route('gallery.update', $photo) : route('gallery.store') }}"
-              enctype="multipart/form-data"
-              class="mt-4 space-y-4" onsubmit="return validateGalleryForm()">
+        <form method="POST" action="{{ route('gallery.store') }}" enctype="multipart/form-data" class="mt-4 space-y-4">
             @csrf
-            @if(isset($photo))
-                @method('PUT')
-            @endif
 
             <div>
                 <label for="title" class="block text-l font-bold">Titel*</label>
@@ -46,7 +41,7 @@
             </div>
 
             <div>
-                <label for="image" class="block text-l font-bold">Afbeelding{{ isset($photo) ? '' : '*' }}</label>
+                <label for="image" class="block text-l font-bold">Afbeelding*</label>
                 <input type="file" name="image" id="image" accept="image/*"
                        class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                 @error('image')
@@ -54,14 +49,7 @@
                 @enderror
             </div>
 
-            @if(isset($photo) && $photo->src)
-                <div>
-                    <p class="text-sm text-gray-600 mb-1">Huidige afbeelding:</p>
-                    <img src="{{ asset($photo->src) }}" class="max-h-40 rounded-lg shadow" alt="Afbeelding">
-                </div>
-            @endif
-
-            <input type="submit" value="{{ isset($photo) ? 'Wijzigen' : 'Toevoegen' }}"
+            <input type="submit" value="Opslaan"
                    class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer">
         </form>
     </div>

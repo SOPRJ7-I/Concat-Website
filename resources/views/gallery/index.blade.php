@@ -7,6 +7,18 @@
                 Galerij
             </h1>
 
+            @auth
+            @if(auth()->user()->isAdmin())
+            <div class="flex justify-end mb-4">
+                <a href="{{ route('gallery.create') }}"
+                class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
+                aria-label="Nieuwe foto toevoegen">
+                <i class="fa-solid fa-plus mr-2" aria-hidden="true"></i>Foto toevoegen
+                </a>
+            </div>
+            @endif
+            @endauth
+
             <!-- Sorteerknop links / Filter -->
             <form method="GET" id="filterForm" class="mb-6">
                 <label for="type" class="block text-sm font-medium text-gray-700 mb-1">Filter op:</label>
@@ -26,8 +38,7 @@
                         aria-label="Bekijk foto {{ $photo['title'] }} van {{ $photo['date'] }}"
                         onclick="openModal('{{ e($photo['title']) }}', '{{ e($photo['date']) }}', '{{ e($photo['src']) }}')"
                         onkeypress="if(event.key === 'Enter' || event.key === ' ') openModal('{{ e($photo['title']) }}', '{{ e($photo['date']) }}', '{{ e($photo['src']) }}')">
-                        <img src="{{ $photo['src'] }}" alt="{{ $photo['title'] }}"
-                            class="h-40 w-full object-contain bg-gray-100 rounded-lg mb-2" />
+                        <img src="{{ $photo['src'] }}" alt="Foto" class="h-40 w-full object-contain bg-gray-100 rounded-lg mb-2" />
                     </div>
                 @endforeach
             </div>
@@ -42,8 +53,7 @@
     
     <div class="relative max-w-full max-h-full overflow-hidden">
         <button class="absolute top-4 right-4 text-white text-3xl font-bold z-10" onclick="closeModal()" aria-label="Sluit modal">×</button>
-        <img src="" id="modalPhoto" alt=""
-            class="max-h-screen max-w-screen object-contain block m-auto rounded" />
+        <img src="" id="modalPhoto" alt="" class="max-h-[80vh] max-w-[90vw] object-contain block m-auto rounded-lg shadow-lg" />
         <div class="flex justify-between mt-4 text-sm text-white px-4">
             <span id="eventName">Evenement naam</span>
             <span id="eventDate">Datum</span>
