@@ -14,10 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        CommunityNight::factory(50)->create();
-        $this->call(EventsSeeder::class);
-        $this->call(UsersSeeder::class);
-        $this->call([AnnouncementSeeder::class,]);
-        $this->call(SponsorSeeder::class);
+        $this->call([
+            EvenementenSeeder::class,
+            UsersSeeder::class,
+            AnnouncementSeeder::class,
+            SponsorSeeder::class,
+            CommunityNightsSeeder::class,
+        ]);
     }
 }

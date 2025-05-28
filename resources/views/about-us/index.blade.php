@@ -35,30 +35,28 @@
         </h2>
 
         {{-- Bestuursleden cards --}}
-        <div class="grid sm:grid-cols-2 gap-8" role="list">
-            @foreach ($currentBoard as $member)
-                <div role="listitem" class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden flex flex-col" tabindex="0">
-                    <img src="{{ $member['photo'] }}" alt="Foto van {{ $member['name'] }}" class="h-48 w-full object-contain bg-white p-2">
-                    <div class="p-5 flex flex-col flex-grow">
-                        <h3 class="text-xl font-bold text-gray-800">{{ $member['name'] }}</h3>
-                        <p class="text-purple-700 font-semibold mb-3">{{ $member['role'] }}</p>
-                        <div class="text-gray-700 grow bio-container" id="bio-{{ $loop->index }}">
-                            <p class="bio-short">{{ Str::limit($member['bio'], 100) }}</p>
-                            <p class="bio-full hidden">{{ $member['bio'] }}</p>
-                            <button 
-                                class="text-purple-500 mt-2" 
-                                onclick="toggleBio('{{ $loop->index }}', this)"
-                                aria-expanded="false"
-                                aria-controls="bio-{{ $loop->index }}"
-                                aria-label="Lees meer over {{ $member['name'] }}"
-                            >
-                                Lees meer
-                            </button>
-                        </div>
-                    </div>
+<div class="grid sm:grid-cols-2 gap-8" role="list">
+    @foreach ($currentBoard as $member)
+        <div role="listitem" class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden p-5 flex flex-col space-y-4" tabindex="0">
+            {{-- Header met naam, rol en foto naast elkaar --}}
+            <div class="flex justify-between items-start space-x-4">
+                <div class="flex-1">
+                    <h3 class="text-xl font-bold text-gray-800">{{ $member['name'] }}</h3>
+                    <p class="text-purple-700 font-semibold">{{ $member['role'] }}</p>
                 </div>
-            @endforeach
+                <img 
+                    src="{{ $member['photo'] }}" 
+                    alt="Foto van {{ $member['name'] }}" 
+                    class="w-32 h-32 object-cover rounded-lg shadow"
+                >
+            </div>
+            {{-- Volledige bio --}}
+            <p class="text-gray-700 whitespace-pre-line">
+                {{ $member['bio'] }}
+            </p>
         </div>
+    @endforeach
+</div>
 
         {{-- Titel Vorige Besturen --}}
         <h2 class="text-xl font-bold border-b-4 border-purple-500 inline-block mt-10 pb-1 text-center w-full mb-8">
@@ -83,11 +81,11 @@
 
             <div id="timeline" class="flex space-x-6 overflow-x-auto pb-4 scroll-smooth" role="list">
                 @foreach ($previousBoards as $board)
-                    <div role="listitem" class="min-w-[220px] bg-white border border-purple-200 p-4 rounded-lg shadow-sm" tabindex="0">
+                    <div role="listitem" class="min-w-[400px] min-h-[300px] bg-white border border-purple-200 p-4 rounded-lg shadow-sm" tabindex="0">
                         <h4 class="text-lg font-bold text-purple-700">{{ $board['year'] }}</h4>
                         
                         @if (!empty($board['photo']))
-                            <img src="{{ $board['photo'] }}" alt="Groepsfoto van bestuur uit {{ $board['year'] }}" class="w-full h-32 object-cover rounded mt-2 mb-3">
+                            <img src="{{ $board['photo'] }}" alt="Groepsfoto van bestuur uit {{ $board['year'] }}" class="w-full h-46 object-cover rounded mt-2 mb-3">
                         @endif
 
                         <p class="text-gray-700 text-sm whitespace-pre-line">

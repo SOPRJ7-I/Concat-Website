@@ -21,6 +21,8 @@ Route::resource('community-nights', CommunityNightController::class);
 
 // Sponsors
 Route::resource('sponsors', SponsorController::class);
+Route::get('/sponsors/{sponsor}/edit-hidden', [SponsorController::class, 'editHidden'])->name('sponsors.edit-hidden');
+Route::post('/sponsors/{sponsor}/force-delete', [SponsorController::class, 'forceDelete'])->name('sponsors.force-delete');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -40,7 +42,8 @@ Route::put('/community-nights/{communityNight}/update', [CommunityNightControlle
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
 //galerij
-Route::get('/gallery', [GalleryController::class, 'index']);
+Route::get('/gallery/gallery', [GalleryController::class, 'index']);
+
 Route::get('/register',[AuthController::class, 'showRegister'])->name('show.register');
 Route::get('/login',[AuthController::class, 'showLogin'])->name('show.login');
 //Registreren

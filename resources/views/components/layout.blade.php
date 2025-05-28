@@ -41,7 +41,7 @@
                 <div class="flex" id="menu-links">
                     <x-nav-link href="/events/index">Evenementen</x-nav-link>
                     <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
-                    <x-nav-link href="/gallery">Gallerij</x-nav-link>
+                    <x-nav-link href="/gallery/gallery">Galerij</x-nav-link>
                     <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
                     <x-nav-link href="/about-us">Over ons</x-nav-link>
                     <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
@@ -77,7 +77,7 @@
                 </a>
                 <x-nav-link href="/events/index">Evenementen</x-nav-link>
                 <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
-                <x-nav-link href="/gallery">Gallerij</x-nav-link>
+                <x-nav-link href="/gallery/gallery">Galerij</x-nav-link>
                 <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
                 <x-nav-link href="/about-us">Over ons</x-nav-link>
                 <a href="https://sv-concat.myspreadshop.nl/">Webshop</a>
@@ -87,9 +87,16 @@
                 @endguest
 
                 @auth
-                    <form action="{{ route('logout') }}" method="POST">
+                    <x-nav-link href="/news">Nieuwsbrief</x-nav-link>
+                @endauth
+
+                @auth
+                    <form action="{{ route('logout') }}" method="POST" style="display:flex;">
                         @csrf
-                        <button type="submit" class="x-nav-link">Uitloggen</button>
+                        <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
+                           class="x-nav-link">
+                            Uitloggen
+                        </a>
                     </form>
                 @endauth
             </div>
