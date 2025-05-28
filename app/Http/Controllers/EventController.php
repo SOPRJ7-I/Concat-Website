@@ -57,6 +57,9 @@ class EventController extends Controller
             $event->titel,
             $event->beschrijving,
             $event->datum,
+            $event->starttijd,
+            $event->locatie,
+            $event->aantal_beschikbare_plekken,
             route('events.show', $event->id) // Gebruik de show route voor de URL
         ));
 

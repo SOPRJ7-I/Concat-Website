@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Listeners\Discord\Events;
+namespace App\Listeners\Discord\CommunityNights;
 
 use Illuminate\Foundation\Events\Dispatchable;
 
-class NewEventAdded
+class NewCommunityNightAdded
 {
     use Dispatchable;
 
@@ -26,7 +26,5 @@ class NewEventAdded
         $this->location = $location;
         $this->spotsAvailable = $spotsAvailable;
         $this->url = $url;
-        $this->type = 'event';
     }
 }
-
