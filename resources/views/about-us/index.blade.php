@@ -82,10 +82,9 @@
             <div id="timeline" class="flex space-x-6 overflow-x-auto pb-4 scroll-smooth" role="list">
                 @foreach ($previousBoards as $board)
                     <div role="listitem" class="min-w-[400px] min-h-[300px] bg-white border border-purple-200 p-4 rounded-lg shadow-sm" tabindex="0">
-                        <h4 class="text-lg font-bold text-purple-700">{{ $board['year'] }}</h4>
-                        
+                        <h4 class="text-lg font-bold text-purple-700">{{ $board['from'] }} - {{ $board['to'] }}</h4>
                         @if (!empty($board['photo']))
-                            <img src="{{ $board['photo'] }}" alt="Groepsfoto van bestuur uit {{ $board['year'] }}" class="w-full h-46 object-cover rounded mt-2 mb-3">
+                            <img src="{{ $board['photo'] }}" alt="Groepsfoto van bestuur uit {{ $board['from'] }} - {{ $board['to'] }}" class="w-full h-46 object-cover rounded mt-2 mb-3">
                         @endif
 
                         <p class="text-gray-700 text-sm whitespace-pre-line">
