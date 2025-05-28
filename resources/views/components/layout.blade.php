@@ -39,7 +39,7 @@
             </a>
             <div class="flex horizontal spaced centered">
                 <div class="flex" id="menu-links">
-                    <x-nav-link href="/events/index">Events</x-nav-link>
+                    <x-nav-link href="/events/index">Evenementen</x-nav-link>
                     <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
                     <x-nav-link href="/gallery/gallery">Galerij</x-nav-link>
                     <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
@@ -75,7 +75,7 @@
                 <a href="/" class="flex items-center mr-2">
                     <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="Concat Logo" class="h-10 w-auto">
                 </a>
-                <x-nav-link href="/events/index">Events</x-nav-link>
+                <x-nav-link href="/events/index">Evenementen</x-nav-link>
                 <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
                 <x-nav-link href="/gallery/gallery">Galerij</x-nav-link>
                 <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
