@@ -54,7 +54,7 @@
                         <!-- Categorie -->
                         @if(isset($event->categorie))
                             <div class="flex items-center text-gray-500 mb-4">
-                                <i class="flex-shrink-0 fa-solid fa-tag text-3xl" alt="Evenementen categorie" aria-hidden="true"></i>
+                                <i class="flex-shrink-0 fa-solid fa-tag text-3xl" alt="Events categorie" aria-hidden="true"></i>
                                 <span class="text-lg font-bold ml-2">{{ $event->categorie }}</span>
                             </div>
                         @endif

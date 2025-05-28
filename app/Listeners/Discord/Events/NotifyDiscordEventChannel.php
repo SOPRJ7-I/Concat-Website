@@ -23,7 +23,7 @@ class NotifyDiscordEventChannel
                 [
                     // Gebruik author voor de SV Concat link bovenaan
                     'author' => [
-                        'name' => 'SV Concat Evenementen',
+                        'name' => 'SV Concat Events',
                         'url' => $event->url, // Link naar SV Concat website
                         'icon_url' => 'https://media.licdn.com/dms/image/v2/C4D0BAQFWHZvu8s8ugg/company-logo_400_400-alternative/company-logo_400_400-alternative/0/1630520127352?e=2147483647&v=beta&t=g331t3valI0YipGszLqGl4MhTak2EiiCNgGsv-7YOLQ'
                     ],
