@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('roosters', function (Blueprint $table) {
             $table->id();
             $table->string('ical_url');
+            $table->unsignedTinyInteger('klas');
             $table->timestamps();
         });
 

@@ -1,4 +1,14 @@
 <x-layout>
+    @php
+        // Kleur per klas, zelf aanpassen naar wens
+        $klasColors = [
+            1 => '#e6194b', // rood
+            2 => '#3cb44b', // groen
+            3 => '#ffe119', // geel
+            4 => '#4363d8', // blauw
+        ];
+    @endphp
+
     <div class="max-w-7xl mx-auto p-6 flex gap-6">
 
         {{-- Left side: Calendar --}}
@@ -7,32 +17,28 @@
             <div id="inlineCalendar" class="select-none"></div>
         </div>
 
-        {{-- Middle: Events --}}
+        {{-- Middle: Bar Chart only --}}
         <div class="flex-1 p-4 border rounded shadow-sm">
-            <h2 class="text-xl font-semibold mb-3">Evenementen</h2>
-            <ul id="eventsList" class="space-y-3 max-h-[600px] overflow-y-auto">
-                @foreach($events as $event)
-                    <li class="p-3 border rounded shadow-sm event-item"
-                        data-calendar="{{ $event['calendar_name'] }}"
-                        data-start="{{ \Carbon\Carbon::createFromFormat('d-m-Y H:i', $event['start'])->format('Y-m-d') }}"
-                        style="border-left: 5px solid {{ $event['color'] }};">
-                        <strong>{{ $event['title'] }}</strong><br>
-                        Start: {{ $event['start'] }}<br>
-                        Eind: {{ $event['end'] }}
-                    </li>
-                @endforeach
-            </ul>
+            <h2 class="text-xl font-semibold mb-3">Uurlijkse drukte (08:00 - 22:00)</h2>
+            <canvas id="hourlyChart" height="150"></canvas>
         </div>
 
-        {{-- Right side: Rooster toevoegen + calendar toggles --}}
+        {{-- Right side: Rooster toevoegen + kalender toggles --}}
         <div class="w-1/4 p-4 border rounded shadow-sm space-y-6">
-            {{-- Rooster toevoegen --}}
             <div>
                 <h1 class="text-2xl font-bold mb-4">Rooster toevoegen</h1>
                 <form action="/roosters" method="POST" class="mb-4">
                     @csrf
                     <input type="url" name="ical_url" placeholder="https://rooster.avans.nl/gcal/..." required
-                           class="w-full p-2 border rounded mb-2">
+                        class="w-full p-2 border rounded mb-2">
+                    <select name="klas" required class="w-full p-2 border rounded mb-2">
+                        <option value="">Selecteer een klas</option>
+                        <option value="1">Klas 1</option>
+                        <option value="2">Klas 2</option>
+                        <option value="3">Klas 3</option>
+                        <option value="4">Klas 4</option>
+                    </select>
+
                     <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded w-full">Toevoegen</button>
                 </form>
 
@@ -41,24 +47,23 @@
                 @endif
             </div>
 
-            {{-- Kalender selecties --}}
             <div>
                 <h2 class="text-xl font-semibold mb-3">Kalenders selecteren</h2>
-
                 @if($roosters->count() > 0)
-                    @foreach($roosters as $index => $rooster)
+                    @foreach($roosters as $rooster)
                         @php
                             $shortName = substr($rooster->ical_url, -10);
-                            $color = $colors[$index % count($colors)];
+                            $color = $klasColors[$rooster->klas] ?? '#999999';
                         @endphp
                         <div class="flex items-center justify-between mb-2 border rounded p-2">
                             <label class="inline-flex items-center cursor-pointer">
                                 <input type="checkbox" name="selected_calendars[]" value="{{ $shortName }}" checked
-                                       class="toggle-calendar" data-color="{{ $color }}">
+                                    class="toggle-calendar" data-color="{{ $color }}">
                                 <span class="ml-2" style="color: {{ $color }};">{{ $shortName }}</span>
                             </label>
 
-                            <form action="{{ route('roosters.destroy', $rooster->id) }}" method="POST" onsubmit="return confirm('Weet je zeker dat je deze kalender wilt verwijderen?');">
+                            <form action="{{ route('roosters.destroy', $rooster->id) }}" method="POST"
+                                onsubmit="return confirm('Weet je zeker dat je deze kalender wilt verwijderen?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:text-red-800 px-2" title="Verwijder rooster">
@@ -74,24 +79,94 @@
         </div>
     </div>
 
+    {{-- Hidden lessons list for filtering --}}
+    <ul id="lessonsList" class="hidden">
+        @foreach($events as $event)
+            @php
+                // Stel kleur in op basis van klas via roosters, of als event al kleur heeft gebruik die
+                // Voorbeeld hier, aan te passen naar je eigen logica
+                $eventColor = '#999999'; 
+                foreach($roosters as $r) {
+                    $shortName = substr($r->ical_url, -10);
+                    if($shortName === $event['calendar_name']) {
+                        $eventColor = $klasColors[$r->klas] ?? '#999999';
+                        break;
+                    }
+                }
+            @endphp
+            <li class="lesson-item"
+                data-calendar="{{ $event['calendar_name'] }}"
+                data-start="{{ \Carbon\Carbon::createFromFormat('d-m-Y H:i', $event['start'])->format('Y-m-d') }}"
+                data-start-time="{{ \Carbon\Carbon::createFromFormat('d-m-Y H:i', $event['start'])->format('H:i') }}"
+                style="border-left: 5px solid {{ $eventColor }};">
+                <strong>{{ $event['title'] }}</strong><br>
+                Start: {{ $event['start'] }}<br>
+                Eind: {{ $event['end'] }}
+            </li>
+        @endforeach
+    </ul>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        const startHour = 8;
+        const endHour = 22;
+        const hourLabels = [];
+        for (let h = startHour; h <= endHour; h++) {
+            hourLabels.push(`${h.toString().padStart(2, '0')}:00`);
+        }
+
+        const ctx = document.getElementById('hourlyChart').getContext('2d');
+        const hourlyChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: hourLabels,
+                datasets: []
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value) {
+                                if (Number.isInteger(value)) return value;
+                            },
+                            stepSize: 1,
+                            min: 0
+                        },
+                        title: { display: true, text: 'Aantal lessen' }
+                    },
+                    x: {
+                        stacked: true,
+                        title: { display: true, text: 'Uur van de dag' }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             const calendarCheckboxes = document.querySelectorAll('.toggle-calendar');
-            const eventItems = document.querySelectorAll('.event-item');
+            const lessonItems = document.querySelectorAll('.lesson-item');
 
             let selectedDate = null;
 
-            const eventDatesSet = new Set();
-            eventItems.forEach(ev => {
-                eventDatesSet.add(ev.getAttribute('data-start'));
-            });
-            const eventDates = Array.from(eventDatesSet);
+            const lessonDatesSet = new Set();
+            lessonItems.forEach(ev => lessonDatesSet.add(ev.getAttribute('data-start')));
+            const lessonDates = Array.from(lessonDatesSet);
 
             const calendarEl = document.getElementById('inlineCalendar');
 
             function createCalendar(year, month) {
                 calendarEl.innerHTML = '';
-
                 const monthNames = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
                 const daysOfWeek = ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za'];
 
@@ -102,20 +177,12 @@
                 const prevBtn = document.createElement('button');
                 prevBtn.textContent = '<';
                 prevBtn.classList.add('px-2', 'py-1', 'bg-gray-200', 'rounded');
-                prevBtn.onclick = () => {
-                    const prevMonth = month === 0 ? 11 : month - 1;
-                    const prevYear = month === 0 ? year - 1 : year;
-                    createCalendar(prevYear, prevMonth);
-                };
+                prevBtn.onclick = () => createCalendar(month === 0 ? year - 1 : year, (month + 11) % 12);
 
                 const nextBtn = document.createElement('button');
                 nextBtn.textContent = '>';
                 nextBtn.classList.add('px-2', 'py-1', 'bg-gray-200', 'rounded');
-                nextBtn.onclick = () => {
-                    const nextMonth = month === 11 ? 0 : month + 1;
-                    const nextYear = month === 11 ? year + 1 : year;
-                    createCalendar(nextYear, nextMonth);
-                };
+                nextBtn.onclick = () => createCalendar(month === 11 ? year + 1 : year, (month + 1) % 12);
 
                 const title = document.createElement('div');
                 title.textContent = `${monthNames[month]} ${year}`;
@@ -126,92 +193,126 @@
                 header.appendChild(nextBtn);
                 calendarEl.appendChild(header);
 
-                const daysRow = document.createElement('div');
-                daysRow.classList.add('grid', 'grid-cols-7', 'text-center', 'text-sm', 'font-semibold', 'mb-1');
-                daysOfWeek.forEach(d => {
-                    const dEl = document.createElement('div');
-                    dEl.textContent = d;
-                    daysRow.appendChild(dEl);
+                // Days of week header
+                const daysHeader = document.createElement('div');
+                daysHeader.classList.add('grid', 'grid-cols-7', 'gap-1', 'text-center', 'mb-1');
+                daysOfWeek.forEach(day => {
+                    const d = document.createElement('div');
+                    d.textContent = day;
+                    d.classList.add('font-medium');
+                    daysHeader.appendChild(d);
                 });
-                calendarEl.appendChild(daysRow);
+                calendarEl.appendChild(daysHeader);
 
-                const datesGrid = document.createElement('div');
-                datesGrid.classList.add('grid', 'grid-cols-7', 'gap-1', 'text-center', 'text-sm');
-
-                const firstDay = new Date(year, month, 1).getDay();
+                // Dates grid
+                const firstDayOfMonth = new Date(year, month, 1).getDay();
                 const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-                for (let i = 0; i < firstDay; i++) {
+                const grid = document.createElement('div');
+                grid.classList.add('grid', 'grid-cols-7', 'gap-1');
+
+                // Add empty slots before first day
+                for(let i = 0; i < firstDayOfMonth; i++) {
                     const emptyCell = document.createElement('div');
-                    emptyCell.innerHTML = '&nbsp;';
-                    datesGrid.appendChild(emptyCell);
+                    emptyCell.classList.add('p-2');
+                    grid.appendChild(emptyCell);
                 }
 
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const dateStr = `${year}-${String(month + 1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-                    const dateCell = document.createElement('div');
-                    dateCell.textContent = day;
-                    dateCell.classList.add('cursor-pointer', 'rounded', 'p-1');
+                for(let day = 1; day <= daysInMonth; day++) {
+                    const dateStr = `${year}-${(month+1).toString().padStart(2,'0')}-${day.toString().padStart(2,'0')}`;
+                    const cell = document.createElement('button');
+                    cell.textContent = day;
+                    cell.classList.add('p-2', 'rounded', 'hover:bg-gray-200');
+                    cell.style.userSelect = 'none';
+                    cell.type = 'button';
 
-                    if (eventDates.includes(dateStr)) {
-                        dateCell.classList.add('bg-green-200', 'font-bold');
+                    if (lessonDates.includes(dateStr)) {
+                        cell.classList.add('font-bold', 'cursor-pointer');
+                    } else {
+                        cell.classList.add('text-gray-400', 'cursor-default');
+                        cell.disabled = true;
                     }
 
                     if (selectedDate === dateStr) {
-                        dateCell.classList.add('bg-green-500', 'text-white');
+                        cell.classList.add('bg-blue-400', 'text-white');
                     }
 
-                    dateCell.onclick = () => {
-                        if (selectedDate === dateStr) {
-                            selectedDate = null;
-                        } else {
-                            selectedDate = dateStr;
-                        }
-                        updateEventsVisibility();
-                        createCalendar(year, month);
+                    cell.onclick = () => {
+                        selectedDate = dateStr;
+                        updateChart();
+                        createCalendar(year, month); // redraw calendar for highlight
                     };
 
-                    datesGrid.appendChild(dateCell);
+                    grid.appendChild(cell);
                 }
 
-                calendarEl.appendChild(datesGrid);
+                calendarEl.appendChild(grid);
             }
 
-            function updateEventsVisibility() {
-                const checkedCalendars = Array.from(calendarCheckboxes)
+            function updateChart() {
+                if (!selectedDate) {
+                    // Geen geselecteerde dag, maak chart leeg
+                    hourlyChart.data.datasets = [];
+                    hourlyChart.update();
+                    return;
+                }
+
+                // Welke kalenders zijn geselecteerd?
+                const selectedCalendars = Array.from(calendarCheckboxes)
                     .filter(cb => cb.checked)
-                    .map(cb => cb.value);
+                    .map(cb => ({name: cb.value, color: cb.dataset.color}));
 
-                eventItems.forEach(eventEl => {
-                    const calName = eventEl.getAttribute('data-calendar');
-                    const eventDate = eventEl.getAttribute('data-start');
+                if(selectedCalendars.length === 0) {
+                    // Geen kalenders geselecteerd
+                    hourlyChart.data.datasets = [];
+                    hourlyChart.update();
+                    return;
+                }
 
-                    const showByCalendar = checkedCalendars.includes(calName);
-                    const showByDate = !selectedDate || (eventDate === selectedDate);
+                // Maak voor elke geselecteerde kalender een dataset met 0 per uur
+                const datasets = selectedCalendars.map(c => ({
+                    label: c.name,
+                    backgroundColor: c.color,
+                    data: Array(endHour - startHour + 1).fill(0),
+                    stack: 'Stack 0'
+                }));
 
-                    eventEl.style.display = (showByCalendar && showByDate) ? 'block' : 'none';
+                // Loop over alle lessen
+                lessonItems.forEach(lesson => {
+                    const calName = lesson.getAttribute('data-calendar');
+                    const lessonDate = lesson.getAttribute('data-start');
+                    const startTime = lesson.getAttribute('data-start-time');
+
+                    if (!selectedCalendars.some(c => c.name === calName)) return;
+                    if (lessonDate !== selectedDate) return;
+
+                    // Uur uit starttijd halen
+                    const [h, m] = startTime.split(':').map(Number);
+                    if (h < startHour || h > endHour) return;
+
+                    // Index in datasets
+                    const dsIndex = selectedCalendars.findIndex(c => c.name === calName);
+                    if (dsIndex < 0) return;
+
+                    // Tel 1 op bij juiste uur
+                    datasets[dsIndex].data[h - startHour]++;
                 });
+
+                hourlyChart.data.datasets = datasets;
+                hourlyChart.update();
             }
 
+            // Wanneer een checkbox verandert, update chart
             calendarCheckboxes.forEach(cb => {
-                cb.addEventListener('change', () => {
-                    updateEventsVisibility();
-                });
+                cb.addEventListener('change', () => updateChart());
             });
 
-            const now = new Date();
-            createCalendar(now.getFullYear(), now.getMonth());
-            updateEventsVisibility();
+            // Init kalender op vandaag
+            const today = new Date();
+            createCalendar(today.getFullYear(), today.getMonth());
+
+            // Init chart zonder selectie
+            updateChart();
         });
     </script>
-
-    <style>
-        #inlineCalendar > div.grid > div {
-            user-select: none;
-            transition: background-color 0.3s;
-        }
-        #inlineCalendar > div.grid > div:hover {
-            background-color: #a7f3d0;
-        }
-    </style>
 </x-layout>

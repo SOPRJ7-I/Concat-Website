@@ -8,6 +8,6 @@ class Rooster extends Model
 {
     // Add this property to allow mass assignment of ical_url
     protected $fillable = [
-        'ical_url',
+        'ical_url', 'klas',
     ];
 }
