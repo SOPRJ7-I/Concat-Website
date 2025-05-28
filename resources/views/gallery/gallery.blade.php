@@ -4,7 +4,7 @@
         <div class="max-w-7xl mx-auto px-6 bg-gray-50 p-6 rounded-xl shadow-lg w-full my-5">
             <!-- Gecentreerde titel -->
             <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1 text-center w-full mb-5">
-                Gallerij
+                Galerij
             </h1>
 
             <!-- Sorteerknop links / Filter -->
@@ -12,7 +12,7 @@
                 <label for="type" class="block text-sm font-medium text-gray-700 mb-1">Filter op:</label>
                 <select id="type" name="type"
                     class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                    aria-labelledby="gallery-title" onchange="document.getElementById('filterForm').submit()">
+                    aria-labelledby="galery-title" onchange="document.getElementById('filterForm').submit()">
                     <option value="" {{ request('type') == '' ? 'selected' : '' }}>Alle</option>
                     <option value="blokborrel" {{ request('type') == 'blokborrel' ? 'selected' : '' }}>Blokborrel</option>
                     <option value="education" {{ request('type') == 'education' ? 'selected' : '' }}>Education</option>

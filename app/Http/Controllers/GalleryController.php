@@ -27,6 +27,6 @@ class GalleryController extends Controller
             });
         }
 
-        return view('gallery', compact('photos'));
+        return view('gallery.gallery', compact('photos'));
     }
 }
