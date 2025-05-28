@@ -3,30 +3,46 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Gallery;
 
 class GalleryController extends Controller
 {
     public function index(Request $request)
+{
+    $query = Gallery::query();
+
+    if ($request->filled('type')) {
+        $query->where('type', $request->type);
+    }
+
+    $photos = $query->get();
+
+    return view('gallery.gallery', compact('photos'));
+}
+
+    public function create()
     {
-        $photos = [
-            ['title' => 'Studiereis Gent','date' => '12-03-2024', 'type' => 'education', 'src' => asset('storage/gallery/concat_foto_1.png'),],
-            ['title' => 'Studiereis Gent','date' => '15-03-2024', 'type' => 'education', 'src' => asset('storage/gallery/concat_foto_2.png'),],
-            ['title' => 'Evenement A', 'date' => '12-03-2024', 'type' => 'education', 'src' => asset('storage/gallery/concat_foto_1.png')],
-            ['title' => 'Evenement B', 'date' => '15-03-2024', 'type' => 'blokborrel', 'src' => asset('storage/gallery/concat_foto_1.png')],
-            ['title' => 'Evenement C', 'date' => '18-03-2024', 'type' => 'blokborrel', 'src' => asset('storage/gallery/concat_foto_1.png')],
-            ['title' => 'Evenement D', 'date' => '20-03-2024', 'type' => 'blokborrel', 'src' => asset('storage/gallery/concat_foto_1.png')],
-            ['title' => 'Evenement E', 'date' => '22-03-2024', 'type' => 'blokborrel', 'src' => asset('storage/gallery/concat_foto_1.png')],
-            ['title' => 'Evenement F', 'date' => '25-03-2024', 'type' => 'blokborrel', 'src' => asset('storage/gallery/concat_foto_1.png')],
-            ['title' => 'Evenement G', 'date' => '12-03-2024', 'type' => 'education', 'src' => asset('storage/gallery/concat_foto_1.png')],
-            ['title' => 'Evenement H', 'date' => '15-03-2024', 'type' => 'education', 'src' => asset('storage/gallery/concat_foto_1.png')],
-        ];
+        return view('gallery.create');
+    }
 
-        if ($request->filled('type')) {
-            $photos = array_filter($photos, function ($photo) use ($request) {
-                return $photo['type'] === $request->type;
-            });
-        }
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'date' => 'required|date',
+            'type' => 'required|in:blokborrel,education',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
 
-        return view('gallery.gallery', compact('photos'));
+        $path = $request->file('image')->store('gallery', 'public');
+
+        Gallery::create([
+            'title' => $request->title,
+            'date' => $request->date,
+            'type' => $request->type,
+            'src' => 'storage/' . $path,
+        ]);
+
+        return redirect()->route('gallery.index')->with('success', 'Foto toegevoegd');
     }
 }

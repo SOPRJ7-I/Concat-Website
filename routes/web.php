@@ -42,7 +42,11 @@ Route::put('/community-nights/{communityNight}/update', [CommunityNightControlle
 Route::get('/evenementen/{event}', [EvenementenController::class, 'show'])->name('evenementen.show');
 
 //galerij
-Route::get('/gallery/gallery', [GalleryController::class, 'index']);
+Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/gallery/create', [GalleryController::class, 'create'])->name('gallery.create');
+    Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery.store');
+});
 
 Route::get('/register',[AuthController::class, 'showRegister'])->name('show.register');
 Route::get('/login',[AuthController::class, 'showLogin'])->name('show.login');
