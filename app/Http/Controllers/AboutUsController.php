@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\BoardMember;
 use App\Models\PreviousBoard;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class AboutUsController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index()
     {
 
@@ -32,6 +35,7 @@ class AboutUsController extends Controller
     public function edit_board_member($id)
     {
         $boardMember = BoardMember::findOrFail($id);
+        //$this->authorize('editBoardMember', $boardMember);
         return view('about-us.board_member_edit', compact('boardMember'));
     }
 
@@ -40,7 +44,7 @@ class AboutUsController extends Controller
     public function update_board_member(Request $request,  $id)
     {
         $boardMember = BoardMember::findOrFail($id);
-
+        //$this->authorize('updateBoardMember', $boardMember);
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'role' => 'required|string|max:255',
@@ -77,6 +81,7 @@ class AboutUsController extends Controller
     public function edit_previous_board($id)
     {
         $previousBoard = PreviousBoard::findOrFail($id);
+        //$this->authorize('editPreviousBoard', $previousBoard);
         return view('about-us.previous_board_edit', compact('previousBoard'));
     }
 
@@ -84,7 +89,7 @@ class AboutUsController extends Controller
     public function update_previous_board(Request $request, $id)
     {
         $previousBoard = PreviousBoard::findOrFail($id);
-
+        //$this->authorize('updatePreviousBoard', $previousBoard);
         $validated = $request->validate([
             'FromYear' => 'required|date',
             'ToYear' => 'required|date|after_or_equal:FromYear',

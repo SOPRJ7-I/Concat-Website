@@ -55,8 +55,8 @@
                 @enderror
             </div>
 
-            <input type="submit" value="Opslaan"
-                   class="w-full bg-purple-600 text-white p-2 rounded-lg hover:bg-purple-700 transition font-semibold cursor-pointer mt-4">
+           <input type="submit" value="Opslaan"
+                   class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer mt-4">
         </form>
     </div>
 </x-layout>
