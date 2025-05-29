@@ -1,90 +1,93 @@
 <x-layout>
     @php
-        // Kleur per klas, zelf aanpassen naar wens
         $klasColors = [
-            1 => '#e6194b', // rood
-            2 => '#3cb44b', // groen
-            3 => '#ffe119', // geel
-            4 => '#4363d8', // blauw
+            1 => '#e6194b',
+            2 => '#3cb44b',
+            3 => '#ffe119',
+            4 => '#4363d8',
         ];
     @endphp
 
-    <div class="max-w-7xl mx-auto p-6 flex gap-6">
+<div class="bg-white min-h-screen py-6 px-4 sm:px-6 lg:px-8 rounded-2xl">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
 
-        {{-- Left side: Calendar --}}
-        <div class="w-1/4 p-4 border rounded shadow-sm" style="min-width: 250px;">
-            <h2 class="text-xl font-semibold mb-3">Kalender</h2>
-            <div id="inlineCalendar" class="select-none"></div>
-        </div>
-
-        {{-- Middle: Bar Chart only --}}
-        <div class="flex-1 p-4 border rounded shadow-sm">
-            <h2 class="text-xl font-semibold mb-3">Uurlijkse drukte (08:00 - 22:00)</h2>
-            <canvas id="hourlyChart" height="150"></canvas>
-        </div>
-
-        {{-- Right side: Rooster toevoegen + kalender toggles --}}
-        <div class="w-1/4 p-4 border rounded shadow-sm space-y-6">
-            <div>
-                <h1 class="text-2xl font-bold mb-4">Rooster toevoegen</h1>
-                <form action="/roosters" method="POST" class="mb-4">
-                    @csrf
-                    <input type="url" name="ical_url" placeholder="https://rooster.avans.nl/gcal/..." required
-                        class="w-full p-2 border rounded mb-2">
-                    <select name="klas" required class="w-full p-2 border rounded mb-2">
-                        <option value="">Selecteer een klas</option>
-                        <option value="1">Klas 1</option>
-                        <option value="2">Klas 2</option>
-                        <option value="3">Klas 3</option>
-                        <option value="4">Klas 4</option>
-                    </select>
-
-                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded w-full">Toevoegen</button>
-                </form>
-
-                @if(session('success'))
-                    <p class="text-green-600 mb-4">{{ session('success') }}</p>
-                @endif
+            {{-- Left: Calendar --}}
+            <div class="w-full lg:w-1/4 p-4 border rounded shadow-sm">
+                <h2 class="text-xl font-semibold mb-3">Kalender</h2>
+                <div id="inlineCalendar" class="select-none"></div>
             </div>
 
-            <div>
-                <h2 class="text-xl font-semibold mb-3">Kalenders selecteren</h2>
-                @if($roosters->count() > 0)
-                    @foreach($roosters as $rooster)
-                        @php
-                            $shortName = substr($rooster->ical_url, -10);
-                            $color = $klasColors[$rooster->klas] ?? '#999999';
-                        @endphp
-                        <div class="flex items-center justify-between mb-2 border rounded p-2">
-                            <label class="inline-flex items-center cursor-pointer">
-                                <input type="checkbox" name="selected_calendars[]" value="{{ $shortName }}" checked
-                                    class="toggle-calendar" data-color="{{ $color }}">
-                                <span class="ml-2" style="color: {{ $color }};">{{ $shortName }}</span>
-                            </label>
+            {{-- Middle: Chart --}}
+            <div class="w-full lg:flex-1 p-4 border rounded shadow-sm">
+                <h2 class="text-xl font-semibold mb-3">Uurlijkse drukte (08:00 - 22:00)</h2>
+                <canvas id="hourlyChart" height="150"></canvas>
+                <div class="block sm:hidden text-gray-500 mt-2 text-sm italic">
+                    * Roosternamen zijn verborgen op mobiel
+                </div>
+            </div>
 
-                            <form action="{{ route('roosters.destroy', $rooster->id) }}" method="POST"
-                                onsubmit="return confirm('Weet je zeker dat je deze kalender wilt verwijderen?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-800 px-2" title="Verwijder rooster">
-                                    &times;
-                                </button>
-                            </form>
-                        </div>
-                    @endforeach
-                @else
-                    <p>Geen kalenders toegevoegd.</p>
-                @endif
+            {{-- Right: Rooster form and toggles --}}
+            <div class="w-full lg:w-1/4 p-4 border rounded shadow-sm space-y-6">
+                <div>
+                    <h1 class="text-2xl font-bold mb-4">Rooster toevoegen</h1>
+                    <form action="/roosters" method="POST" class="mb-4">
+                        @csrf
+                        <input type="url" name="ical_url" placeholder="https://rooster.avans.nl/gcal/..." required
+                            class="w-full p-2 border rounded mb-2">
+                        <select name="klas" required class="w-full p-2 border rounded mb-2">
+                            <option value="">Selecteer een klas</option>
+                            <option value="1">Klas 1</option>
+                            <option value="2">Klas 2</option>
+                            <option value="3">Klas 3</option>
+                            <option value="4">Klas 4</option>
+                        </select>
+
+                        <button type="submit"
+                            class="bg-green-500 text-white px-4 py-2 rounded w-full">Toevoegen</button>
+                    </form>
+
+                    @if(session('success'))
+                        <p class="text-green-600 mb-4">{{ session('success') }}</p>
+                    @endif
+                </div>
+
+                <div>
+                    <h2 class="text-xl font-semibold mb-3">Kalenders selecteren</h2>
+                    @if($roosters->count() > 0)
+                        @foreach($roosters as $rooster)
+                            @php
+                                $shortName = substr($rooster->ical_url, -10);
+                                $color = $klasColors[$rooster->klas] ?? '#999999';
+                            @endphp
+                            <div class="flex items-center justify-between mb-2 border rounded p-2">
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" name="selected_calendars[]" value="{{ $shortName }}" checked
+                                        class="toggle-calendar" data-color="{{ $color }}">
+                                    <span class="ml-2" style="color: {{ $color }};">{{ $shortName }}</span>
+                                </label>
+
+                                <form action="{{ route('roosters.destroy', $rooster->id) }}" method="POST"
+                                    onsubmit="return confirm('Weet je zeker dat je deze kalender wilt verwijderen?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-800 px-2" title="Verwijder rooster">
+                                        &times;
+                                    </button>
+                                </form>
+                            </div>
+                        @endforeach
+                    @else
+                        <p>Geen kalenders toegevoegd.</p>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
 
-    {{-- Hidden lessons list for filtering --}}
+    {{-- Hidden lessons list --}}
     <ul id="lessonsList" class="hidden">
         @foreach($events as $event)
             @php
-                // Stel kleur in op basis van klas via roosters, of als event al kleur heeft gebruik die
-                // Voorbeeld hier, aan te passen naar je eigen logica
                 $eventColor = '#999999'; 
                 foreach($roosters as $r) {
                     $shortName = substr($r->ical_url, -10);
@@ -142,12 +145,14 @@
                     }
                 },
                 plugins: {
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false
-                    },
+                    tooltip: { mode: 'index', intersect: false },
                     legend: {
-                        position: 'bottom'
+                        position: 'bottom',
+                        labels: {
+                            filter: function (item, chart) {
+                                return window.innerWidth >= 640; // Only show legend on sm+ screens
+                            }
+                        }
                     }
                 }
             }
@@ -156,13 +161,10 @@
         document.addEventListener('DOMContentLoaded', () => {
             const calendarCheckboxes = document.querySelectorAll('.toggle-calendar');
             const lessonItems = document.querySelectorAll('.lesson-item');
-
             let selectedDate = null;
-
             const lessonDatesSet = new Set();
             lessonItems.forEach(ev => lessonDatesSet.add(ev.getAttribute('data-start')));
             const lessonDates = Array.from(lessonDatesSet);
-
             const calendarEl = document.getElementById('inlineCalendar');
 
             function createCalendar(year, month) {
@@ -172,7 +174,6 @@
 
                 const header = document.createElement('div');
                 header.classList.add('flex', 'justify-between', 'items-center', 'mb-2');
-                header.style.userSelect = 'none';
 
                 const prevBtn = document.createElement('button');
                 prevBtn.textContent = '<';
@@ -193,7 +194,6 @@
                 header.appendChild(nextBtn);
                 calendarEl.appendChild(header);
 
-                // Days of week header
                 const daysHeader = document.createElement('div');
                 daysHeader.classList.add('grid', 'grid-cols-7', 'gap-1', 'text-center', 'mb-1');
                 daysOfWeek.forEach(day => {
@@ -204,14 +204,12 @@
                 });
                 calendarEl.appendChild(daysHeader);
 
-                // Dates grid
                 const firstDayOfMonth = new Date(year, month, 1).getDay();
                 const daysInMonth = new Date(year, month + 1, 0).getDate();
 
                 const grid = document.createElement('div');
                 grid.classList.add('grid', 'grid-cols-7', 'gap-1');
 
-                // Add empty slots before first day
                 for(let i = 0; i < firstDayOfMonth; i++) {
                     const emptyCell = document.createElement('div');
                     emptyCell.classList.add('p-2');
@@ -223,7 +221,6 @@
                     const cell = document.createElement('button');
                     cell.textContent = day;
                     cell.classList.add('p-2', 'rounded', 'hover:bg-gray-200');
-                    cell.style.userSelect = 'none';
                     cell.type = 'button';
 
                     if (lessonDates.includes(dateStr)) {
@@ -240,7 +237,7 @@
                     cell.onclick = () => {
                         selectedDate = dateStr;
                         updateChart();
-                        createCalendar(year, month); // redraw calendar for highlight
+                        createCalendar(year, month);
                     };
 
                     grid.appendChild(cell);
@@ -251,25 +248,21 @@
 
             function updateChart() {
                 if (!selectedDate) {
-                    // Geen geselecteerde dag, maak chart leeg
                     hourlyChart.data.datasets = [];
                     hourlyChart.update();
                     return;
                 }
 
-                // Welke kalenders zijn geselecteerd?
                 const selectedCalendars = Array.from(calendarCheckboxes)
                     .filter(cb => cb.checked)
                     .map(cb => ({name: cb.value, color: cb.dataset.color}));
 
                 if(selectedCalendars.length === 0) {
-                    // Geen kalenders geselecteerd
                     hourlyChart.data.datasets = [];
                     hourlyChart.update();
                     return;
                 }
 
-                // Maak voor elke geselecteerde kalender een dataset met 0 per uur
                 const datasets = selectedCalendars.map(c => ({
                     label: c.name,
                     backgroundColor: c.color,
@@ -277,7 +270,6 @@
                     stack: 'Stack 0'
                 }));
 
-                // Loop over alle lessen
                 lessonItems.forEach(lesson => {
                     const calName = lesson.getAttribute('data-calendar');
                     const lessonDate = lesson.getAttribute('data-start');
@@ -286,15 +278,12 @@
                     if (!selectedCalendars.some(c => c.name === calName)) return;
                     if (lessonDate !== selectedDate) return;
 
-                    // Uur uit starttijd halen
-                    const [h, m] = startTime.split(':').map(Number);
+                    const [h] = startTime.split(':').map(Number);
                     if (h < startHour || h > endHour) return;
 
-                    // Index in datasets
                     const dsIndex = selectedCalendars.findIndex(c => c.name === calName);
                     if (dsIndex < 0) return;
 
-                    // Tel 1 op bij juiste uur
                     datasets[dsIndex].data[h - startHour]++;
                 });
 
@@ -302,16 +291,12 @@
                 hourlyChart.update();
             }
 
-            // Wanneer een checkbox verandert, update chart
             calendarCheckboxes.forEach(cb => {
                 cb.addEventListener('change', () => updateChart());
             });
 
-            // Init kalender op vandaag
             const today = new Date();
             createCalendar(today.getFullYear(), today.getMonth());
-
-            // Init chart zonder selectie
             updateChart();
         });
     </script>
