@@ -62,6 +62,11 @@ Route::get('/announcements/load-older', [AnnouncementController::class, 'loadOld
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/admin/announcements', [AnnouncementController::class, 'adminIndex'])->name('announcements.admin');
+    //roosters
+    Route::get('/roosters', [RoostersController::class, 'index']);
+    Route::post('/roosters', [RoostersController::class, 'store']);
+    Route::delete('/roosters/{rooster}', [RoostersController::class, 'destroy'])->name('roosters.destroy');
+
 });
 
 Route::middleware(['auth'])->group(function () {

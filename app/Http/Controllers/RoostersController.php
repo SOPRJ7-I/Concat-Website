@@ -63,10 +63,13 @@ public function index()
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'ical_url' => 'required|url',
+            'ical_url' => 'required|url|unique:roosters,ical_url',
             'klas' => 'required|string|max:255',
 
-        ]);
+        ], [
+            'ical_url.unique' => 'Deze kalender URL is al toegevoegd.',
+            'ical_url.url' => 'De kalender URL moet een geldige link zijn.',
+          ]);
 
         Rooster::create([
             'ical_url' => $validated['ical_url'],

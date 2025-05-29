@@ -1,5 +1,5 @@
 <x-layout>
-    @php
+@php
         $klasColors = [
             1 => '#e6194b',
             2 => '#3cb44b',
@@ -8,50 +8,53 @@
         ];
     @endphp
 
-<div class="bg-white min-h-screen py-6 px-4 sm:px-6 lg:px-8 rounded-2xl">
+    <div class="bg-white min-h-screen py-6 px-4 sm:px-6 lg:px-8 rounded-2xl" data-dusk="rooster-page">
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
 
-            {{-- Left: Calendar --}}
-            <div class="w-full lg:w-1/4 p-4 border rounded shadow-sm">
-                <h2 class="text-xl font-semibold mb-3">Kalender</h2>
-                <div id="inlineCalendar" class="select-none"></div>
-            </div>
+            {{-- Linkerkolom: Kalender + Roostervorm --}}
+            <div class="w-full lg:w-1/3 space-y-6">
 
-            {{-- Middle: Chart --}}
-            <div class="w-full lg:flex-1 p-4 border rounded shadow-sm">
-                <h2 class="text-xl font-semibold mb-3">Uurlijkse drukte (08:00 - 22:00)</h2>
-                <canvas id="hourlyChart" height="150"></canvas>
-                <div class="block sm:hidden text-gray-500 mt-2 text-sm italic">
-                    * Roosternamen zijn verborgen op mobiel
+                {{-- Kalender --}}
+                <div class="p-4 border rounded shadow-sm">
+                    <h2 class="text-xl font-semibold mb-3">Kalender</h2>
+                    <div id="inlineCalendar" class="select-none" data-dusk="calendar"></div>
                 </div>
-            </div>
 
-            {{-- Right: Rooster form and toggles --}}
-            <div class="w-full lg:w-1/4 p-4 border rounded shadow-sm space-y-6">
-                <div>
-                    <h1 class="text-2xl font-bold mb-4">Rooster toevoegen</h1>
-                    <form action="/roosters" method="POST" class="mb-4">
+                {{-- Rooster toevoegen --}}
+                <div class="p-4 border rounded shadow-sm">
+                    <h2 class="text-xl font-semibold mb-3">Rooster toevoegen</h2>
+                    <form action="/roosters" method="POST" class="mb-4" data-dusk="rooster-form">
                         @csrf
-                        <input type="url" name="ical_url" placeholder="https://rooster.avans.nl/gcal/..." required
-                            class="w-full p-2 border rounded mb-2">
-                        <select name="klas" required class="w-full p-2 border rounded mb-2">
+                        <input type="url" name="ical_url" required placeholder="https://rooster.avans.nl/gcal/..."
+                            class="w-full p-2 border rounded mb-2" data-dusk="input-ical-url">
+                        <select name="klas" required class="w-full p-2 border rounded mb-2" data-dusk="select-klas">
                             <option value="">Selecteer een klas</option>
                             <option value="1">Klas 1</option>
                             <option value="2">Klas 2</option>
                             <option value="3">Klas 3</option>
                             <option value="4">Klas 4</option>
                         </select>
-
                         <button type="submit"
-                            class="bg-green-500 text-white px-4 py-2 rounded w-full">Toevoegen</button>
+                            class="bg-green-500 text-white px-4 py-2 rounded w-full" data-dusk="btn-add-rooster">Toevoegen</button>
                     </form>
 
                     @if(session('success'))
-                        <p class="text-green-600 mb-4">{{ session('success') }}</p>
+                        <p class="text-green-600 mb-4" data-dusk="form-success">{{ session('success') }}</p>
                     @endif
+                    @if ($errors->any())
+                        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+                            <ul class="list-disc pl-5">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                 </div>
 
-                <div>
+                {{-- Kalender selecties --}}
+                <div class="p-4 border rounded shadow-sm">
                     <h2 class="text-xl font-semibold mb-3">Kalenders selecteren</h2>
                     @if($roosters->count() > 0)
                         @foreach($roosters as $rooster)
@@ -59,32 +62,50 @@
                                 $shortName = substr($rooster->ical_url, -10);
                                 $color = $klasColors[$rooster->klas] ?? '#999999';
                             @endphp
-                            <div class="flex items-center justify-between mb-2 border rounded p-2">
+                            <div class="flex items-center justify-between mb-2 border rounded p-2" data-dusk="calendar-item-{{ $shortName }}">
                                 <label class="inline-flex items-center cursor-pointer">
                                     <input type="checkbox" name="selected_calendars[]" value="{{ $shortName }}" checked
-                                        class="toggle-calendar" data-color="{{ $color }}">
+                                        class="toggle-calendar" data-color="{{ $color }}" data-dusk="checkbox-{{ $shortName }}">
                                     <span class="ml-2" style="color: {{ $color }};">{{ $shortName }}</span>
                                 </label>
 
                                 <form action="{{ route('roosters.destroy', $rooster->id) }}" method="POST"
-                                    onsubmit="return confirm('Weet je zeker dat je deze kalender wilt verwijderen?');">
+                                    onsubmit="return confirm('Weet je zeker dat je deze kalender wilt verwijderen?');"
+                                    data-dusk="delete-form-{{ $shortName }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-800 px-2" title="Verwijder rooster">
+                                    <button type="submit" class="text-red-600 hover:text-red-800 px-2" title="Verwijder rooster" data-dusk="btn-delete-{{ $shortName }}">
                                         &times;
                                     </button>
                                 </form>
                             </div>
                         @endforeach
                     @else
-                        <p>Geen kalenders toegevoegd.</p>
+                        <p data-dusk="no-calendars">Geen kalenders toegevoegd.</p>
                     @endif
+                </div>
+            </div>
+
+            {{-- Rechterkolom: Grafiek --}}
+            <div class="w-full lg:w-2/3 p-4 border rounded shadow-sm">
+<h2 class="text-xl font-semibold mb-3">Uurlijkse drukte (08:00 - 22:00)</h2>
+
+@if(empty($events))
+    <div class="text-red-600 font-medium" data-dusk="no-data-message">
+        Geen data en/of webcal link is down.
+    </div>
+@else
+    <canvas id="hourlyChart" height="250" data-dusk="hourly-chart"></canvas>
+@endif
+
+                <div class="block sm:hidden text-gray-500 mt-2 text-sm italic">
+                    * Roosternamen zijn verborgen op mobiel
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Hidden lessons list --}}
+    {{-- Verborgen lessenlijst --}}
     <ul id="lessonsList" class="hidden">
         @foreach($events as $event)
             @php
@@ -101,7 +122,8 @@
                 data-calendar="{{ $event['calendar_name'] }}"
                 data-start="{{ \Carbon\Carbon::createFromFormat('d-m-Y H:i', $event['start'])->format('Y-m-d') }}"
                 data-start-time="{{ \Carbon\Carbon::createFromFormat('d-m-Y H:i', $event['start'])->format('H:i') }}"
-                style="border-left: 5px solid {{ $eventColor }};">
+                style="border-left: 5px solid {{ $eventColor }};"
+                data-dusk="lesson-{{ $loop->index }}">
                 <strong>{{ $event['title'] }}</strong><br>
                 Start: {{ $event['start'] }}<br>
                 Eind: {{ $event['end'] }}
@@ -109,6 +131,7 @@
         @endforeach
     </ul>
 
+    {{-- Chart and Calendar Scripts --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const startHour = 8;
@@ -150,7 +173,7 @@
                         position: 'bottom',
                         labels: {
                             filter: function (item, chart) {
-                                return window.innerWidth >= 640; // Only show legend on sm+ screens
+                                return window.innerWidth >= 640;
                             }
                         }
                     }
@@ -222,6 +245,8 @@
                     cell.textContent = day;
                     cell.classList.add('p-2', 'rounded', 'hover:bg-gray-200');
                     cell.type = 'button';
+                    cell.setAttribute('data-dusk', `calendar-day-${dateStr}`);
+                    cell.setAttribute('data-date', dateStr);
 
                     if (lessonDates.includes(dateStr)) {
                         cell.classList.add('font-bold', 'cursor-pointer');
