@@ -76,3 +76,13 @@ Route::get('/news/create', [NewsletterController::class, 'create'])->name('news.
 
 //about us
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about-us.index');
+
+// Board Members
+Route::get('/board-members/{id}/edit', [AboutUsController::class, 'edit_board_member'])->name('board-members.edit');
+Route::put('/board-members/{id}', [AboutUsController::class, 'update_board_member'])->name('board-members.update');
+
+// PreviousBoard
+
+Route::get('/previous-boards/{id}/edit', [AboutUsController::class, 'edit_previous_board'])->name('previous-boards.edit');
+Route::put('/previous-boards/{id}', [AboutUsController::class, 'update_previous_board'])->name('previous-boards.update');
+
