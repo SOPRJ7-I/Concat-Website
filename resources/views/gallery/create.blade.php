@@ -60,7 +60,7 @@
 
             <div>
                 <label for="image" class="block text-l font-bold">Afbeelding*</label>
-                <input type="file" name="image" id="image" multiple accept="image/*"
+                <input type="file" name="images[]" id="image" multiple accept="image/*"
                     class="w-full p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500">
                 @error('image')
                     <div class="text-red-500 text-l mt-1 font-bold">{{ $message }}</div>

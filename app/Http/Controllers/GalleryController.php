@@ -33,7 +33,10 @@ class GalleryController extends Controller
             'title' => 'required|string|max:255',
             'date' => 'required|date',
             'type' => 'required|in:blokborrel,education',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:1000'
+            'images' => 'required|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:1000',
+            'evenementen' => 'nullable|array',
+            'evenementen.*' => 'exists:evenementen,id',
         ], [
             'title.required' => 'De titel is verplicht.',
             'date.required' => 'De datum is verplicht.',
@@ -44,21 +47,28 @@ class GalleryController extends Controller
             'image.max' => 'De afbeelding mag niet groter zijn dan 1MB.'
         ]);
 
-        $path = $request->file('image')->store('gallery', 'public');
+        foreach ($request->file('images') as $image) {
+            $path = $image->store('gallery', 'public');
 
-        Gallery::create([
-            'title' => $request->title,
-            'date' => $request->date,
-            'type' => $request->type,
-            'src' => 'storage/' . $path,
-        ]);
+            $photo = Gallery::create([
+                'title' => $request->title,
+                'date' => $request->date,
+                'type' => $request->type,
+                'src' => 'storage/' . $path,
+            ]);
 
-        return redirect()->route('gallery.index')->with('success', 'Foto toegevoegd');
+            if ($request->has('evenementen')) {
+                $photo->evenementen()->attach($request->evenementen);
+            }
+        }
+
+        return redirect()->route('gallery.index')->with('success', 'Foto\'s succesvol toegevoegd');
     }
 
     public function edit(Gallery $gallery)
     {
-        return view('gallery.edit', compact('gallery'));
+        $evenementen = Evenementen::orderBy('datum', 'desc')->get();
+        return view('gallery.edit', compact('gallery', 'evenementen'));
     }
 
     public function update(Request $request, Gallery $gallery)
@@ -67,7 +77,17 @@ class GalleryController extends Controller
             'title' => 'required|string|max:255',
             'date' => 'required|date',
             'type' => 'required|in:blokborrel,education',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1000',
+            'evenementen' => 'nullable|array',
+            'evenementen.*' => 'exists:evenementen,id',
+        ], [
+            'title.required' => 'De titel is verplicht.',
+            'date.required' => 'De datum is verplicht.',
+            'type.required' => 'Het type evenement is verplicht.',
+            'image.required' => 'De afbeelding is verplicht.',
+            'image.image' => 'De afbeelding moet een geldig beeldbestand zijn.',
+            'image.mimes' => 'De afbeelding moet een van de volgende formaten hebben: jpeg, png, jpg, gif.',
+            'image.max' => 'De afbeelding mag niet groter zijn dan 1MB.'
         ]);
 
         if ($request->hasFile('image')) {
@@ -79,6 +99,9 @@ class GalleryController extends Controller
         $gallery->date = $request->date;
         $gallery->type = $request->type;
         $gallery->save();
+
+        // Sync evenementen
+        $gallery->evenementen()->sync($request->input('evenementen', []));
 
         return redirect()->route('gallery.index')->with('success', 'Foto bijgewerkt');
     }
