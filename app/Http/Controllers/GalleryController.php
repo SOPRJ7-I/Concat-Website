@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Gallery;
+use App\Models\Evenementen;
 
 class GalleryController extends Controller
 {
@@ -22,7 +23,8 @@ class GalleryController extends Controller
 
     public function create()
     {
-        return view('gallery.create');
+        $evenementen = Evenementen::orderBy('datum', 'desc')->get();
+        return view('gallery.create', compact('evenementen'));
     }
 
     public function store(Request $request)

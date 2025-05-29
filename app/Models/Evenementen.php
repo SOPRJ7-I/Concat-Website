@@ -21,4 +21,8 @@ class Evenementen extends Model
     {
         return $this->registrations()->where('user_id', $userId)->exists();
     }
+    public function gallery()
+{
+    return $this->belongsToMany(Gallery::class, 'evenementen_gallery');
+}
     }

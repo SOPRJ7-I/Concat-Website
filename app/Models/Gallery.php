@@ -15,4 +15,9 @@ class Gallery extends Model
         'type',
         'src',
     ];
+
+    public function evenementen()
+{
+    return $this->belongsToMany(Evenementen::class, 'evenementen_gallery');
+}
 }
