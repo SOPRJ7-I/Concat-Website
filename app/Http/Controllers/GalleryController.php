@@ -31,7 +31,15 @@ class GalleryController extends Controller
             'title' => 'required|string|max:255',
             'date' => 'required|date',
             'type' => 'required|in:blokborrel,education',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:1000'
+        ], [
+            'title.required' => 'De titel is verplicht.',
+            'date.required' => 'De datum is verplicht.',
+            'type.required' => 'Het type evenement is verplicht.',
+            'image.required' => 'De afbeelding is verplicht.',
+            'image.image' => 'De afbeelding moet een geldig beeldbestand zijn.',
+            'image.mimes' => 'De afbeelding moet een van de volgende formaten hebben: jpeg, png, jpg, gif.',
+            'image.max' => 'De afbeelding mag niet groter zijn dan 1MB.'
         ]);
 
         $path = $request->file('image')->store('gallery', 'public');
