@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             AnnouncementSeeder::class,
             SponsorSeeder::class,
             CommunityNightsSeeder::class,
+            AssignmentsSeeder::class,
         ]);
     }
 }

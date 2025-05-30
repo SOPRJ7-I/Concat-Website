@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CommunityNightController;
@@ -73,6 +74,9 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/news/create', [NewsletterController::class, 'create'])->name('news.create');
 
 });
+
+// assignments
+Route::resource('/assignments',AssignmentController::class);
 
 //about us
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about-us.index');
