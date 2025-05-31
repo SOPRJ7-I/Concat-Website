@@ -39,7 +39,7 @@
     onclick="handleBackdropClick(event)"
     class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-80"
     aria-hidden="true">
-    
+
     <div class="relative max-w-full max-h-full overflow-hidden">
         <button class="absolute top-4 right-4 text-white text-3xl font-bold z-10" onclick="closeModal()" aria-label="Sluit modal">×</button>
         <img src="" id="modalPhoto" alt=""

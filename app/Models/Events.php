@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Evenementen extends Model
+class Events extends Model
 {
     use HasFactory;
 
-    protected $table = 'evenementen';
+    protected $table = 'events';
 
     protected $guarded = [];
-    
+
     public function registrations()
     {
-        return $this->hasMany(Registration::class, 'evenement_id');  // Notice the second parameter for custom foreign key
+        return $this->hasMany(Registration::class, 'event_id');  // Notice the second parameter for custom foreign key
     }
     public function isUserRegistered($userId)
     {

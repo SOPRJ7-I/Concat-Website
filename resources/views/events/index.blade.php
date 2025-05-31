@@ -1,7 +1,7 @@
 <x-layout>
     <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl mt-5 mb-5">
         <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1 text-center w-full mb-5">
-            Evenementen
+            Events
         </h1>
 
         @auth
@@ -9,8 +9,8 @@
                 <div class="flex justify-end my-4" >
                     <a href="{{ url('/events/create') }}"
                        class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
-                       aria-label="Nieuw evenement toevoegen">
-                        <i class="fa-solid fa-plus mr-2" aria-hidden="true"></i> Evenement toevoegen
+                       aria-label="Nieuw event toevoegen">
+                        <i class="fa-solid fa-plus mr-2" aria-hidden="true"></i> Event toevoegen
                     </a>
                 </div>
             @endif
@@ -23,7 +23,7 @@
                 <select name="categorie" id="categorie"
                         onchange="this.form.submit()"
                         class="p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500"
-                        aria-label="Filter evenementen op categorie">
+                        aria-label="Filter events op categorie">
                     <option value="all" {{ $categorieFilter === 'all' ? 'selected' : '' }}>Alle categorieën</option>
                     <option value="blokborrel" {{ $categorieFilter === 'blokborrel' ? 'selected' : '' }}>Blokborrel</option>
                     <option value="education" {{ $categorieFilter === 'education' ? 'selected' : '' }}>Education</option>
@@ -35,7 +35,7 @@
                     <select name="myevents" id="myevents"
                             onchange="this.form.submit()"
                             class="p-2 bg-purple-100 text-purple-700 rounded-lg outline-none border border-purple-300 focus:ring-2 focus:ring-purple-500"
-                            aria-label="Filter op mijn evenementen">
+                            aria-label="Filter op mijn events">
                         <option value="0" {{ !$onlyMyEvents ? 'selected' : '' }}>Alles</option>
                         <option value="1" {{ $onlyMyEvents ? 'selected' : '' }}>Ingeschreven </option>
 
@@ -43,45 +43,45 @@
                 </div>
             @endauth
 
-            {{-- Afgelopen evenementen knop --}}
+            {{-- Afgelopen events knop --}}
             <div>
                 <a href="{{ url('/events/index') . '?afgelopen=true&categorie=' . $categorieFilter }}"
                    class="inline-flex items-center bg-purple-100 text-gray-800 font-semibold py-2 px-4 rounded border-pink-300 hover:bg-[#E39FF6] transition"
-                   aria-label="Bekijk afgelopen evenementen">
-                    <i class="fa-solid fa-clock-rotate-left mr-2" aria-hidden="true"></i> Afgelopen evenementen
+                   aria-label="Bekijk afgelopen events">
+                    <i class="fa-solid fa-clock-rotate-left mr-2" aria-hidden="true"></i> Afgelopen events
                 </a>
             </div>
         </form>
 
-        {{-- Evenementenlijst --}}
+        {{-- Eventslijst --}}
         <div class="flex flex-col flex-wrap my-4">
             <div class="grid sm:grid-cols-2 gap-8 lg:gap-6 mx-auto">
-                @foreach($evenementen as $evenement)
+                @foreach($events as $event)
                     <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
-                        <a href="{{ route('evenementen.show', $evenement->id) }}"
-                           aria-label="Details bekijken van {{ $evenement->titel }}">
-                            @if(isset($evenement->afbeelding) && isset($evenement->start_datum) && isset($evenement->einddatum) && isset($evenement->locatie))
-                                <img src="{{ $evenement->afbeelding }}"
-                                     alt="Afbeelding van {{ $evenement->titel }}. Datum: {{ \Carbon\Carbon::parse($evenement->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($evenement->einddatum)->format('d-m-Y') }} in {{ $evenement->locatie }}"
+                        <a href="{{ route('events.show', $event->id) }}"
+                           aria-label="Details bekijken van {{ $event->titel }}">
+                            @if(isset($event->afbeelding) && isset($event->start_datum) && isset($event->einddatum) && isset($event->locatie))
+                                <img src="{{ $event->afbeelding }}"
+                                     alt="Afbeelding van {{ $event->titel }}. Datum: {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}"
                                      class="h-44 w-full object-cover">
                             @else
                                 <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500" aria-hidden="true">
-                                    <h1 class="text-white text-3xl font-bold">{{ $evenement->titel }}</h1>
+                                    <h1 class="text-white text-3xl font-bold">{{ $event->titel }}</h1>
                                 </div>
                             @endif
                         </a>
 
                         <div class="p-5">
                             {{-- Categorie --}}
-                            @if(isset($evenement->categorie))
+                            @if(isset($event->categorie))
                                 <span class="inline-block mb-2 bg-purple-100 text-purple-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
-                                    {{ ucfirst($evenement->categorie) }}
+                                    {{ ucfirst($event->categorie) }}
                                 </span>
                             @endif
 
                             {{-- Registration Status --}}
                             @auth
-                                @if($evenement->isUserRegistered(auth()->id()))
+                                @if($event->isUserRegistered(auth()->id()))
                                     <span class="inline-block mb-2 bg-green-100 text-green-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
                                         Ingeschreven
                                     </span>
@@ -92,34 +92,34 @@
                                 @endif
                             @endauth
 
-                            @if(isset($evenement->datum))
+                            @if(isset($event->datum))
                                 <div class="flex items-center text-gray-500 mb-4 mt-3">
                                     <i class="flex flex-shrink-0 fa-solid fa-calendar fa-fw text-3xl"></i>
-                                    <span class="text-lg font-bold">{{ $evenement->datum }}, {{ $evenement->starttijd }} - {{ $evenement->eindtijd }}</span>
+                                    <span class="text-lg font-bold">{{ $event->datum }}, {{ $event->starttijd }} - {{ $event->eindtijd }}</span>
                                 </div>
                             @endif
 
                             {{-- Locatie --}}
-                            @if(isset($evenement->locatie))
+                            @if(isset($event->locatie))
                                 <div class="flex items-center text-gray-500 mb-4">
                                     <i class="flex flex-shrink-0 fa-solid fa-location-dot fa-fw text-3xl" aria-hidden="true"></i>
-                                    <span class="text-md font-bold ml-2">{{ $evenement->locatie }}</span>
+                                    <span class="text-md font-bold ml-2">{{ $event->locatie }}</span>
                                 </div>
                             @endif
 
                             {{-- Beschrijving --}}
                             <div class="mb-4 grow text-gray-700 relative overflow-hidden max-h-32">
                                 <p class="mb-3 font-normal text-gray-700">
-                                    {{ \Illuminate\Support\Str::limit(strip_tags($evenement->beschrijving), 150, '...') }}
+                                    {{ \Illuminate\Support\Str::limit(strip_tags($event->beschrijving), 150, '...') }}
                                 </p>
                                 <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-b from-transparent to-white" aria-hidden="true"></div>
                             </div>
 
                             {{-- Lees meer knop --}}
-                            <a href="{{ route('evenementen.show', $evenement->id) }}"
+                            <a href="{{ route('events.show', $event->id) }}"
                                class="inline-flex items-center text-sm text-center bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold"
-                               aria-label="Lees meer over {{ $evenement->titel }}. Datum van {{ \Carbon\Carbon::parse($evenement->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($evenement->einddatum)->format('d-m-Y') }} in {{ $evenement->locatie }}">
-                                Lees meer over {{ $evenement->titel }}
+                               aria-label="Lees meer over {{ $event->titel }}. Datum van {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}">
+                                Lees meer over {{ $event->titel }}
                             </a>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
 
             {{-- Paginatie --}}
             <div id="pagination-container" class="mt-6 text-center" role="navigation" aria-label="Paginanavigatie">
-                {{ $evenementen->links('vendor.pagination.tailwind') }}
+                {{ $events->links('vendor.pagination.tailwind') }}
             </div>
         </div>
     </div>

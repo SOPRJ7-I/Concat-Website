@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Listeners\Discord\CommunityNights\NewCommunityNightAdded;
 use App\Models\CommunityNight;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -11,12 +12,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CommunityNightController extends Controller
 {
-
-    use AuthorizesRequests;
-    /**
-     * Display a listing of the resource.
-     */
-
     public function index()
     {
         return view('community-nights.index', [
@@ -24,18 +19,12 @@ class CommunityNightController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $this->authorize('create', CommunityNight::class);
         return view('community-nights.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $communityNight)
     {
         $this->authorize('create', CommunityNight::class);
@@ -75,29 +64,30 @@ class CommunityNightController extends Controller
             'capacity' => $communityNight->input('capacity')
         ]);
 
+        // Gebruik de juiste velden van het model
+        event(new NewCommunityNightAdded(
+            $communityNight->title,
+            $communityNight->description,
+            $communityNight->start_time ? date('d-m-Y', strtotime($communityNight->start_time)) : null, // Alleen datum
+            $communityNight->start_time ? date('H:i', strtotime($communityNight->start_time)) : null, // Alleen tijd
+            $communityNight->location ?? null, // Locatie
+            $communityNight->capacity ?? null, // Beschikbare plekken
+            route('community-nights.show', $communityNight->id)
+        ));
         return redirect()->route('community-nights.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(CommunityNight $communityNight)
     {
         return view('community-nights.detail' , ['communityNight' => $communityNight]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(CommunityNight $communityNight)
     {
         $this->authorize('update', $communityNight);
         return view('community-nights.edit' , ['communityNight' => $communityNight]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, CommunityNight $communityNight)
     {
 
@@ -150,12 +140,9 @@ class CommunityNightController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(CommunityNight $communityNight)
     {
-        
+
         $this->authorize('destroy', $communityNight);
         if ($communityNight->image) {
             Storage::delete($communityNight->image);
@@ -167,9 +154,6 @@ class CommunityNightController extends Controller
         ->with('success', 'Community Avond succesvol verwijderd.');
     }
 
-    /**
-     * Get the latest community night.
-     */
     public function latest()
     {
         return CommunityNight::orderBy('created_at', 'desc')->first();

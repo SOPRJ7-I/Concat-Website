@@ -2,12 +2,12 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Evenementen;
+use App\Models\Events;
 
 
-class EvenementenFactory extends Factory
+class EventsFactory extends Factory
 {
-    protected $model = Evenementen::class;
+    protected $model = Events::class;
 
     public function definition(): array
     {
@@ -22,7 +22,7 @@ class EvenementenFactory extends Factory
             'locatie' => $this->faker->city,
             'aantal_beschikbare_plekken' => $this->faker->numberBetween(10, 100),
             'betaal_link' => $this->faker->url,
-            'afbeelding' => 'https://via.placeholder.com/600x400.png?text=Evenement',
+            'afbeelding' => 'https://via.placeholder.com/600x400.png?text=Event',
         ];
     }
 }

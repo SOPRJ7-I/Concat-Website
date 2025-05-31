@@ -53,7 +53,7 @@ class HomeController extends Controller
                 'src' => asset('storage/gallery/concat_foto_8.png')
             ],
             [
-                'title' => 'Netwerkevenement Partners',
+                'title' => 'Netwerkevent Partners',
                 'date' => '05-04-2024',
                 'src' => asset('storage/gallery/concat_foto_9.png')
             ],
@@ -74,7 +74,7 @@ class HomeController extends Controller
 
         // Laatste community en event ophalen
         $communityNight = App::make(CommunityNightController::class)->latest();
-        $eventData = App::make(EvenementenController::class)->latest();
+        $eventData = App::make(EventController::class)->latest();
 
         return view('home', [
             'photos' => $photos,

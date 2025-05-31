@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Listeners\Discord\Announcements\NewAnnouncementAdded;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -81,6 +82,13 @@ class AnnouncementController extends Controller
 
         // Automatisch published_at instellen bij aanmaken
         if ($announcement->isVisible) {
+
+            event(new NewAnnouncementAdded(
+            $announcement->titel,
+            $announcement->inhoud,
+            route('announcements.index')
+            ));
+
             $announcement->update(['published_at' => now()]);
         }
 

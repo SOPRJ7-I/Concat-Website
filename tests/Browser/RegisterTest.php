@@ -22,8 +22,8 @@ class RegisterTest extends DuskTestCase
     //                 ->type('password','test12345')
     //                 ->type('password_confirmation','test12345')
     //                 ->press('Register')
-    //                 ->assertPathIs('/index_evenement')
-    //                 ->assertSee('Evenementen');
+    //                 ->assertPathIs('/index_event')
+    //                 ->assertSee('Events');
     //     });
     // }
 
@@ -55,8 +55,8 @@ class RegisterTest extends DuskTestCase
     //                 ->type('email','client@outlook.nl')
     //                 ->type('password','client123')
     //                 ->press('Login')
-    //                 ->assertPathIs('/index_evenement')
-    //                 ->assertSee('Evenementen');
+    //                 ->assertPathIs('/index_event')
+    //                 ->assertSee('Events');
     //     });
     // }
 
