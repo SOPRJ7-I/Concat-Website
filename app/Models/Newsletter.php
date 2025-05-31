@@ -9,5 +9,5 @@ class Newsletter extends Model
 {
         use HasFactory;
 
-    protected $fillable = ['titel', 'publicatiedatum', 'pdf'];
+    protected $fillable = ['titel', 'publicatiedatum', ' inhoud', 'pdf'];
 }

@@ -6,6 +6,8 @@ use App\Models\Newsletter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class NewsletterController extends Controller
 {
@@ -37,26 +39,32 @@ class NewsletterController extends Controller
     {
         $validated = $request->validate([
             'titel' => 'required|string|max:255|unique:newsletters,titel',
-            'publicatiedatum' => 'required|date', // ✅ better to validate as 'date'
-            'pdf' => 'required|file|mimes:pdf|max:2048',
-        ],
-        [
-            'titel.unique' => 'Een nieuwsbrief met deze titel bestaat al.',
-            'pdf.required' => 'Selecteer een pdf-bestand.',
-            'pdf.mimes' => 'Alleen PDF-bestanden zijn toegestaan.',
+            'publicatiedatum' => 'required|date',
+            'inhoud' => 'required|string',
         ]);
 
-        // ✅ Opslaan van PDF-bestand in 'storage/app/public/newsletters'
-        $pdfPath = $request->file('pdf')->store('newsletters', 'public');
+        // PDF genereren vanuit Blade-view 'news.pdf'
+        $pdf = Pdf::loadView('news.pdf', [
+            'title' => $validated['titel'],
+            'content' => $validated['inhoud'],
+        ]);
 
-        // ✅ Aanmaken nieuwsbrief record
+        // Unieke bestandsnaam maken (slug + timestamp)
+        $filename = Str::slug($validated['titel']) . '-' . time() . '.pdf';
+
+        // Opslaan in 'public/newsletters'
+        $pdfPath = 'newsletters/' . $filename;
+        Storage::disk('public')->put($pdfPath, $pdf->output());
+
+        // Nieuwe nieuwsbrief opslaan met PDF-pad
         Newsletter::create([
             'titel' => $validated['titel'],
             'publicatiedatum' => $validated['publicatiedatum'],
-            'pdf' => $pdfPath, // ⬅️ Bijv: newsletters/mijnbestand.pdf
+            'inhoud' => $validated['inhoud'],
+            'pdf' => $pdfPath,
         ]);
 
-        return redirect()->route('newsletters.index') 
-            ->with('success', 'Nieuwsbrief succesvol aangemaakt.');
+        return redirect()->route('newsletters.index')
+            ->with('success', 'Nieuwsbrief succesvol aangemaakt en PDF gegenereerd.');
     }
 }
