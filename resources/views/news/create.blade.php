@@ -2,42 +2,42 @@
     <div class="max-w-2xl mx-auto p-6">
         <h1 class="text-2xl font-bold mb-6">Nieuwe Nieuwsbrief</h1>
 
-        <form method="POST" action="{{ route('newsletters.store') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('newsletters.store') }}" enctype="multipart/form-data" aria-label="Formulier voor nieuwe nieuwsbrief">
             @csrf
 
             <div class="mb-4">
                 <label for="titel" class="block font-semibold mb-1">Titel*:</label>
-                <input type="text" name="titel" id="titel" class="w-full border border-gray-300 rounded px-3 py-2"
-                    value="{{ old('titel') }}">
+                <input type="text" name="titel" id="titel" aria-required="true" aria-describedby="titel-error"
+                    class="w-full border border-gray-300 rounded px-3 py-2" value="{{ old('titel') }}">
                 @error('titel')
-                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    <p id="titel-error" class="text-red-600 text-sm mt-1" role="alert">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="mb-4">
                 <label for="publicatiedatum" class="block font-semibold mb-1">Publicatiedatum*:</label>
-                <input type="date" name="publicatiedatum" id="publicatiedatum"
+                <input type="date" name="publicatiedatum" id="publicatiedatum" aria-required="true" aria-describedby="datum-error"
                     class="w-full border border-gray-300 rounded px-3 py-2" value="{{ old('publicatiedatum') }}">
                 @error('publicatiedatum')
-                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    <p id="datum-error" class="text-red-600 text-sm mt-1" role="alert">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="mb-6">
                 <label for="inhoud" class="block font-semibold mb-1">Inhoud*:</label>
-                <textarea name="inhoud" id="inhoud" rows="8"
+                <textarea name="inhoud" id="inhoud" rows="8" aria-required="true" aria-describedby="inhoud-error"
                     class="w-full border border-gray-300 rounded px-3 py-2">{{ old('inhoud') }}</textarea>
                 @error('inhoud')
-                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    <p id="inhoud-error" class="text-red-600 text-sm mt-1" role="alert">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="mb-4">
-                <label for="image">Afbeelding (optioneel):</label>
+                <label for="images" class="block font-semibold mb-1">Afbeelding(en) (optioneel):</label>
                 <input type="file" name="images[]" id="images" class="w-full border border-gray-300 rounded px-3 py-2"
-                    multiple accept="image/*">
+                    multiple accept="image/*" aria-describedby="images-error">
                 @error('image.*')
-                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    <p id="images-error" class="text-red-600 text-sm mt-1" role="alert">{{ $message }}</p>
                 @enderror
             </div>
 
