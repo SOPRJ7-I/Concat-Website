@@ -12,7 +12,30 @@ use DatabaseTransactions;
 class EventRegistrationTest extends DuskTestCase
 {
     use DatabaseMigrations;
+/** @test */
+    public function link_zet_in_agenda_is_aanwezig_en_werkt()
+    {
+        // Maak eerst een test-evenement aan in de database
+        $evenement = Evenementen::factory()->create([
+            'titel' => 'Test Evenement Dusk',
+            'datum' => '2025-03-07',
+            'starttijd' => '18:00',
+            'eindtijd' => '22:00',
+            'beschrijving' => 'Test beschrijving',
+            'locatie' => 'Test Locatie',
+            'aantal_beschikbare_plekken' => 50,
+            'betaal_link' => 'https://test-betaal-link.com',
+        ]);
 
+        $this->browse(function (Browser $browser) use ($evenement) {
+            $href = route('events.ics', $evenement->id);
+
+            $browser->visit("/evenementen/{$evenement->id}") // Pas URL aan naar je route voor event details
+                ->assertSeeLink('Zet in agenda') // Check dat linktekst zichtbaar is
+                ->assertAttribute('a[href="'.$href.'"]', 'href', $href) // Controleer of de link met href aanwezig is
+                ->clickLink('Zet in agenda'); // Klik op de link
+        });
+    }
     /**
      * A Dusk test example.
      */
@@ -151,7 +174,7 @@ public function test_event_filter_dropdown_options()
             ->pause(500)
             ->assertSelected('select#myevents', '1')
 
-            ->assertSee('Aangemeld')
+            ->assertSee('Ingeschreven')
 
             ->select('select#myevents', '0')
             ->pause(500)
