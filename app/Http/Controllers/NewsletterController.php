@@ -41,27 +41,40 @@ class NewsletterController extends Controller
             'titel' => 'required|string|max:255|unique:newsletters,titel',
             'publicatiedatum' => 'required|date',
             'inhoud' => 'required|string',
+            'images.*' => 'image|max:2048', // elke afbeelding max 2MB, optioneel
         ]);
 
-        // PDF genereren vanuit Blade-view 'news.pdf'
+        // Afbeeldingen uploaden en paden verzamelen
+        $imagePaths = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('newsletters/images', 'public');
+                // Absoluut pad voor DomPDF
+                $imagePaths[] = public_path('storage/' . $path);
+            }
+        }
+
+        // PDF genereren vanuit Blade view
         $pdf = Pdf::loadView('news.pdf', [
             'title' => $validated['titel'],
             'content' => $validated['inhoud'],
+            'images' => $imagePaths,
         ]);
 
-        // Unieke bestandsnaam maken (slug + timestamp)
+        // Unieke bestandsnaam PDF
         $filename = Str::slug($validated['titel']) . '-' . time() . '.pdf';
-
-        // Opslaan in 'public/newsletters'
         $pdfPath = 'newsletters/' . $filename;
+
+        // PDF opslaan
         Storage::disk('public')->put($pdfPath, $pdf->output());
 
-        // Nieuwe nieuwsbrief opslaan met PDF-pad
+        // Nieuwsbrief aanmaken in database, images als JSON opslaan
         Newsletter::create([
             'titel' => $validated['titel'],
             'publicatiedatum' => $validated['publicatiedatum'],
             'inhoud' => $validated['inhoud'],
             'pdf' => $pdfPath,
+            'images' => json_encode($imagePaths),
         ]);
 
         return redirect()->route('newsletters.index')

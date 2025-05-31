@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Newsletter extends Model
 {
-        use HasFactory;
+    use HasFactory;
 
     protected $fillable = ['titel', 'publicatiedatum', ' inhoud', 'pdf'];
+
+    protected $casts = [
+        'images' => 'array',
+    ];
 }
