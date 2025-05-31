@@ -35,8 +35,8 @@
 <body>
     <h1>{{ $title }}</h1>
 
-    <div class="content">{!! nl2br(e($content)) !!}</div>
-
+    <div class="content">{!! $content !!}</div>
+    
     {{-- Afbeeldingen tonen --}}
     @if(!empty($images))
         @foreach ($images as $image)

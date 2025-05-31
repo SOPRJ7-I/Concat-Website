@@ -57,7 +57,7 @@ class NewsletterController extends Controller
         // PDF genereren vanuit Blade view
         $pdf = Pdf::loadView('news.pdf', [
             'title' => $validated['titel'],
-            'content' => $validated['inhoud'],
+            'content' => Str::markdown($validated['inhoud']),
             'images' => $imagePaths,
         ]);
 
