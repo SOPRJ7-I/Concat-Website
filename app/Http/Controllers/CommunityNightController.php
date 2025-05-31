@@ -25,7 +25,7 @@ class CommunityNightController extends Controller
         return view('community-nights.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $communityNight)
     {
         $this->authorize('create', CommunityNight::class);
 
@@ -49,8 +49,8 @@ class CommunityNightController extends Controller
 
         $imagePath = null;
 
-        if($request->hasFile('image')){
-            $imagePath = $request->file('image')->store('community-nights', 'public');
+        if($communityNight->hasFile('image')){
+            $imagePath = $communityNight->file('image')->store('community-nights', 'public');
         }
 
         CommunityNight::create([
