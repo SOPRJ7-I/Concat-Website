@@ -41,7 +41,14 @@ class NewsletterController extends Controller
             'titel' => 'required|string|max:255|unique:newsletters,titel',
             'publicatiedatum' => 'required|date',
             'inhoud' => 'required|string',
-            'images.*' => 'image|max:2048', // elke afbeelding max 2MB, optioneel
+            'images.*' => 'image|max:1000',
+        ],
+        [
+            'titel.required' => 'De titel is verplicht.',
+            'publicatiedatum.required' => 'De publicatiedatum is verplicht.',
+            'inhoud.required' => 'De inhoud is verplicht.',
+            'images.*.image' => 'Alleen afbeeldingen zijn toegestaan.',
+            'images.*.max' => 'Elke afbeelding mag maximaal 1MB zijn.',
         ]);
 
         // Afbeeldingen uploaden en paden verzamelen
