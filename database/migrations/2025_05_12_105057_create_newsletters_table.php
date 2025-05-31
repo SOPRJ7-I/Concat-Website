@@ -12,9 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('newsletters', function (Blueprint $table) {
-            $table->string('titel')->primary(); ;
+            $table->id();
+            $table->string('titel')->unique();
             $table->date('publicatiedatum');
-            $table->string('pdf'); // Pad naar het PDF-bestand
+            $table->string('pdf');
+            $table->json('images')->nullable();
             $table->timestamps();
         });
     }

@@ -6,6 +6,8 @@ use App\Models\Newsletter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class NewsletterController extends Controller
 {
@@ -37,26 +39,52 @@ class NewsletterController extends Controller
     {
         $validated = $request->validate([
             'titel' => 'required|string|max:255|unique:newsletters,titel',
-            'publicatiedatum' => 'required|date', // ✅ better to validate as 'date'
-            'pdf' => 'required|file|mimes:pdf|max:2048',
+            'publicatiedatum' => 'required|date',
+            'inhoud' => 'required|string',
+            'images.*' => 'image|max:1000',
         ],
         [
-            'titel.unique' => 'Een nieuwsbrief met deze titel bestaat al.',
-            'pdf.required' => 'Selecteer een pdf-bestand.',
-            'pdf.mimes' => 'Alleen PDF-bestanden zijn toegestaan.',
+            'titel.required' => 'De titel is verplicht.',
+            'publicatiedatum.required' => 'De publicatiedatum is verplicht.',
+            'inhoud.required' => 'De inhoud is verplicht.',
+            'images.*.image' => 'Alleen afbeeldingen zijn toegestaan.',
+            'images.*.max' => 'Elke afbeelding mag maximaal 1MB zijn.',
         ]);
 
-        // ✅ Opslaan van PDF-bestand in 'storage/app/public/newsletters'
-        $pdfPath = $request->file('pdf')->store('newsletters', 'public');
+        // Afbeeldingen uploaden en paden verzamelen
+        $imagePaths = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('newsletters/images', 'public');
+                // Absoluut pad voor DomPDF
+                $imagePaths[] = public_path('storage/' . $path);
+            }
+        }
 
-        // ✅ Aanmaken nieuwsbrief record
+        // PDF genereren vanuit Blade view
+        $pdf = Pdf::loadView('news.pdf', [
+            'title' => $validated['titel'],
+            'content' => Str::markdown($validated['inhoud']),
+            'images' => $imagePaths,
+        ]);
+
+        // Unieke bestandsnaam PDF
+        $filename = Str::slug($validated['titel']) . '-' . time() . '.pdf';
+        $pdfPath = 'newsletters/' . $filename;
+
+        // PDF opslaan
+        Storage::disk('public')->put($pdfPath, $pdf->output());
+
+        // Nieuwsbrief aanmaken in database, images als JSON opslaan
         Newsletter::create([
             'titel' => $validated['titel'],
             'publicatiedatum' => $validated['publicatiedatum'],
-            'pdf' => $pdfPath, // ⬅️ Bijv: newsletters/mijnbestand.pdf
+            'inhoud' => $validated['inhoud'],
+            'pdf' => $pdfPath,
+            'images' => json_encode($imagePaths),
         ]);
 
-        return redirect()->route('newsletters.index') 
-            ->with('success', 'Nieuwsbrief succesvol aangemaakt.');
+        return redirect()->route('newsletters.index')
+            ->with('success', 'Nieuwsbrief succesvol aangemaakt en PDF gegenereerd.');
     }
 }

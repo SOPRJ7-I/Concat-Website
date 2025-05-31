@@ -23,7 +23,8 @@
     --nav-shadow: 0px 4px 20px 2px #3129ff52;
 
     --page-background-color-1: #ECEBFF;
-    --page-background-color-2: var(--white); /* Used for card backgrounds etc, things that need to be seperate from the pinkish page back */
+    --page-background-color-2: var(--white);
+    /* Used for card backgrounds etc, things that need to be seperate from the pinkish page back */
     --page-background-color-3: #e4e2ff;
 }
 
@@ -33,18 +34,22 @@
 }
 
 body {
-    background: linear-gradient(to bottom, #dcdaff, #ecebff);    margin: 0;
-    min-height: 100vh; /* Full viewport height */
+    background: linear-gradient(to bottom, #dcdaff, #ecebff);
+    margin: 0;
+    min-height: 100vh;
+    /* Full viewport height */
     display: flex;
     flex-direction: column;
 }
 
 main {
-    flex: 1; /* Takes all available space */
+    flex: 1;
+    /* Takes all available space */
 }
 
 footer {
-    background: #3129FF; /* Your color */
+    background: #3129FF;
+    /* Your color */
     color: white;
     padding: 1rem;
     /* Add other footer styles */
@@ -136,7 +141,8 @@ li {
     background: var(--red);
     border-radius: 10px;
     transition: width 0.3s ease-in-out;
-    box-shadow:0 4px 6px 2px rgba(254, 64, 64, 0); /* Use box-shadow instead of filter */
+    box-shadow: 0 4px 6px 2px rgba(254, 64, 64, 0);
+    /* Use box-shadow instead of filter */
     z-index: -1;
 }
 
@@ -148,8 +154,10 @@ li {
 }
 
 #main-nav a:hover::after {
-    width: 80%; /* Expand the underline on hover */
-    box-shadow:0 0px 6px 2px rgba(254, 64, 64, 0.4); /* Use box-shadow instead of filter */
+    width: 80%;
+    /* Expand the underline on hover */
+    box-shadow: 0 0px 6px 2px rgba(254, 64, 64, 0.4);
+    /* Use box-shadow instead of filter */
     transition: ease-in-out 0.3s;
 }
 
@@ -158,7 +166,8 @@ li {
     color: var(--white);
     opacity: 1;
     background-image: linear-gradient(90deg, var(--red), var(--red));
-    background-size: 100% 3px; /* Ensure the underline is always visible */
+    background-size: 100% 3px;
+    /* Ensure the underline is always visible */
     background-position: left bottom;
     filter: drop-shadow(var(--link-shadow));
     transform: scale(1.1);
@@ -174,7 +183,8 @@ li {
     background: var(--red);
     border-radius: 10px;
     box-shadow: var(--link-shadow);
-    filter: drop-shadow(0px 0px 6px rgba(254, 64, 64, 0.4)); /* Shadow for current page */
+    filter: drop-shadow(0px 0px 6px rgba(254, 64, 64, 0.4));
+    /* Shadow for current page */
 }
 
 /* Mobile Menu */
@@ -267,7 +277,7 @@ li {
 
 .swiper-button-next,
 .swiper-button-prev {
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     padding: 1rem;
     border-radius: 50%;
     width: 40px;
@@ -285,8 +295,29 @@ li {
     opacity: 0;
 }
 
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.content {
+    white-space: pre-line;
+    margin-bottom: 40px;
+}
+
+.image-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 /* Responsive Styles */
 @media (max-width: 1024px) {
+
     /* Change the nav-container to remain sticky in mobile view */
     .nav-container {
         position: sticky;
@@ -325,7 +356,8 @@ li {
         border-radius: 1.4em;
         background-color: var(--blue);
         box-shadow: var(--nav-shadow);
-        margin-left: auto; /* Push to right side */
+        margin-left: auto;
+        /* Push to right side */
     }
 
     /* Adjust the bell icon's inner content to be centered */
@@ -334,7 +366,8 @@ li {
         font-size: 1.5em;
     }
 
-    #nav-button::before, #nav-button::after {
+    #nav-button::before,
+    #nav-button::after {
         display: block;
         position: absolute;
         content: '';
