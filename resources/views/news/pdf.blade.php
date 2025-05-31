@@ -35,6 +35,8 @@
 <body>
     <h1>{{ $title }}</h1>
 
+    <div class="content">{!! nl2br(e($content)) !!}</div>
+
     {{-- Afbeeldingen tonen --}}
     @if(!empty($images))
         @foreach ($images as $image)
@@ -43,8 +45,6 @@
             </div>
         @endforeach
     @endif
-
-    <div class="content">{!! nl2br(e($content)) !!}</div>
 </body>
 
 </html>
