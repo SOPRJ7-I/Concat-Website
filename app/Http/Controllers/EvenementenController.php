@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Evenementen;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Response;
 
 class EvenementenController extends Controller
 {
@@ -151,5 +152,45 @@ class EvenementenController extends Controller
             'availableSpots' => $availableSpots
         ];
     }
+   public function downloadIcs(Evenementen $event)
+{
+
+    $startDateTime = Carbon::parse($event->datum . ' ' . $event->starttijd);
+    $endDateTime = Carbon::parse($event->einddatum . ' ' . $event->eindtijd);
+    $dtstamp = optional($event->created_at)->format('Ymd\THis\Z') ?? now()->format('Ymd\THis\Z');
+
+    // Escape function to sanitize ICS text fields
+    function escapeIcsText($text) {
+        return addcslashes($text, ",;\\\n\r");
+    }
+
+    $summary = escapeIcsText($event->titel ?? '');
+    $description = escapeIcsText($event->beschrijving ?? '');
+    $location = escapeIcsText($event->locatie ?? '');
+
+    $content = <<<ICS
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//YourApp//Rooster Calendar//NL
+BEGIN:VEVENT
+UID:{$event->id}@yourapp.com
+DTSTAMP:$dtstamp
+DTSTART:{$startDateTime->format('Ymd\THis')}
+DTEND:{$endDateTime->format('Ymd\THis')}
+SUMMARY:{$summary}
+DESCRIPTION:{$description}
+LOCATION:{$location}
+END:VEVENT
+END:VCALENDAR
+ICS;
+
+    return response($content, 200, [
+        'Content-Type' => 'text/calendar; charset=utf-8',
+        'Content-Disposition' => 'attachment; filename="evenement-'. $event->id .'.ics"',
+    ]);
+}
+
+
+
 }
 

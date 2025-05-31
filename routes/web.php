@@ -30,6 +30,8 @@ Route::post('/registration', [RegistrationsController::class, 'store'])->name('r
 
 Route::get('/events/create', [EvenementenController::class, 'create'])->name('events.create');
 Route::post('/events/create', [EvenementenController::class, 'store'])->name('events.store');
+// routes/web.php
+Route::get('/events/{event}/download-ics', [EvenementenController::class, 'downloadIcs'])->name('events.ics');
 
 Route::get('/events/index', [EvenementenController::class, 'index'])->name('events.index');
 Route::get('/community-nights/create', [CommunityNightController::class, 'create']);
