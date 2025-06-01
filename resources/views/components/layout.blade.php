@@ -33,7 +33,7 @@
 
     <div class="nav-container px-6">
         <!-- Desktop Navigation -->
-        <nav id="main-nav">
+        <nav id="main-nav" class="opacity-0 -translate-y-6 transition-all duration-700 ease-out">
             <a href="/" class="flex items-center mr-2">
                 <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="Concat Logo" class="h-10 w-auto">
             </a>
@@ -119,7 +119,7 @@
 
 
     <div class="overlay"></div>
-    <div class="flex justify-center items-center p-6 lg:mt-200">
+    <div id="page-content" class="flex justify-center items-center p-6 lg:mt-200 opacity-0 translate-y-4 transition-all duration-700 ease-out">
         {{ $slot }}
     </div>
 
@@ -163,6 +163,34 @@
             </div>
         </div>
     </footer>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const content = document.getElementById('page-content');
+            if (content) {
+                requestAnimationFrame(() => {
+                    content.classList.remove('opacity-0', 'translate-y-4');
+                    content.classList.add('opacity-100', 'translate-y-0');
+                });
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const nav = document.getElementById('main-nav');
+            const content = document.getElementById('page-content');
+
+            requestAnimationFrame(() => {
+                if (nav) {
+                    nav.classList.remove('opacity-0', '-translate-y-6');
+                    nav.classList.add('opacity-100', 'translate-y-0');
+                }
+
+                if (content) {
+                    content.classList.remove('opacity-0', 'translate-y-4');
+                    content.classList.add('opacity-100', 'translate-y-0');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -5,7 +5,7 @@ namespace Tests\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
-use App\Models\Evenementen;
+use App\Models\Events;
 use App\Models\User;
 use DatabaseTransactions;
 
@@ -20,14 +20,14 @@ class EventRegistrationTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                ->assertSee('Evenementen'); // You can add another string from the homepage to help identify content
+                ->assertSee('Events'); // You can add another string from the homepage to help identify content
         });
     }
 
     public function test_event_page_loads_and_registers()
     {
         // Create a dummy event
-        $event = Evenementen::factory()->create([
+        $event = Events::factory()->create([
             'titel' => 'Test Event',
             'datum' => '2025-04-15',
             'starttijd' => '18:00',
@@ -42,7 +42,7 @@ class EventRegistrationTest extends DuskTestCase
             // Login if necessary
 
             // Visit event registration page
-            $browser->visit("/evenementen/{$event->id}") // Ensure the event exists on this route
+            $browser->visit("/events/{$event->id}") // Ensure the event exists on this route
                 ->waitForText('Inschrijven')  // Wait for the 'Inschrijven' text to appear
                 ->assertSee('Inschrijven')  // Check that the registration button is visible
                 ->assertSee($event->titel)  // Verify event title is displayed
@@ -56,22 +56,22 @@ class EventRegistrationTest extends DuskTestCase
 
 
     // Create some dummy events for testing
-    $evenementen = Evenementen::factory()->count(5)->create();
+    $events = Events::factory()->count(5)->create();
 
-    $this->browse(function (Browser $browser) use ($evenementen) {
+    $this->browse(function (Browser $browser) use ($events) {
         // Visit the page that displays the events
         $browser->visit('/events/index')
             // Assert the page title is correct
-            ->assertSee('Evenementen')
+            ->assertSee('Events')
 
             // Assert the filter dropdown for categories is visible
             ->assertSee('Filter op categorie:')
             ->assertPresent('select#categorie')
 
             // Assert the event titles are visible
-            ->assertSee($evenementen[0]->titel)
-            ->assertSee($evenementen[1]->titel)
-            ->assertSee($evenementen[2]->titel);
+            ->assertSee($events[0]->titel)
+            ->assertSee($events[1]->titel)
+            ->assertSee($events[2]->titel);
 
             // Assert the pagination links are present
             });
@@ -85,7 +85,7 @@ public function test_event_detail_page_loads_and_registration_modal_functionalit
         'role' => 'admin', // Add the role field here
     ]);
 
-    $event = Evenementen::factory()->create([
+    $event = Events::factory()->create([
         'titel' => 'Test Event',
         'categorie' => 'Test Category',
         'datum' => '2025-05-01',
@@ -99,7 +99,7 @@ public function test_event_detail_page_loads_and_registration_modal_functionalit
     // Use the Dusk browser to interact with the page
     $this->browse(function (Browser $browser) use ($user, $event) {
         // Ensure the user is logged in
-        $browser->visit(route('evenementen.show', $event->id))
+        $browser->visit(route('events.show', $event->id))
             // Assert event details are visible
             ->assertSee($event->titel)
             ->assertSee($event->categorie)
@@ -128,7 +128,7 @@ public function test_event_filter_dropdown_options()
         'role' => 'admin',
     ]);
 
-    $event = Evenementen::factory()->create([
+    $event = Events::factory()->create([
         'titel' => 'Test Event',
         'datum' => '2025-04-15',
         'starttijd' => '18:00',
