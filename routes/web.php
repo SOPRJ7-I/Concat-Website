@@ -6,7 +6,7 @@ use App\Http\Controllers\CommunityNightController;
 use App\Http\Controllers\SponsorController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EvenementenController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegistrationsController;
@@ -33,7 +33,8 @@ Route::post('/events/create', [EvenementenController::class, 'store'])->name('ev
 // routes/web.php
 Route::get('/events/{event}/download-ics', [EvenementenController::class, 'downloadIcs'])->name('events.ics');
 
-Route::get('/events/index', [EvenementenController::class, 'index'])->name('events.index');
+
+Route::get('/events/index', [EventController::class, 'index'])->name('events.index');
 Route::get('/community-nights/create', [CommunityNightController::class, 'create']);
 
 Route::get('/community-nights/{id}/edit', [CommunityNightController::class, 'edit'])->name('community-nights.edit');
@@ -41,7 +42,7 @@ Route::get('/community-nights/{id}/edit', [CommunityNightController::class, 'edi
 Route::put('/community-nights/{communityNight}/update', [CommunityNightController::class, 'update'])->name('community-nights.update');
 
 
-Route::get('/evenementen/{event}', [EvenementenController::class, 'show'])->name('evenementen.show');
+Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
 //galerij
 Route::get('/gallery/gallery', [GalleryController::class, 'index']);
