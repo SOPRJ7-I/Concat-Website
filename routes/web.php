@@ -66,8 +66,9 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/admin/announcements', [AnnouncementController::class, 'adminIndex'])->name('announcements.admin');
 });
 
+//events
+Route::get('/news', [NewsletterController::class, 'index'])->name('newsletters.index');
 Route::middleware(['auth'])->group(function () {
-    Route::get('/news', [NewsletterController::class, 'index'])->name('newsletters.index');
     Route::get('/newsletters/{newsletter}', [NewsletterController::class, 'show'])->name('newsletters.show');
     Route::post('/newsletters', [NewsletterController::class, 'store'])->name('newsletters.store');
 Route::get('/news/create', [NewsletterController::class, 'create'])->name('news.create');
