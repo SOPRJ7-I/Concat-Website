@@ -14,8 +14,8 @@
         </h1>
 
         @auth
-            @if(auth()->user()->role === 'admin') {{-- Adjust role check as needed --}}
-                <div class="flex justify-end my-4">
+            @if(auth()->user()->role === 'admin')
+                <div class="flex justify-end mb-4">
                     <a href="{{ route('assignments.create') }}"
                        class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
                        aria-label="Nieuwe opdracht toevoegen">
@@ -25,7 +25,7 @@
             @endif
         @endauth
 
-        @if($assignments->count() > 0)
+        @if($assignments->isNotEmpty())
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 @foreach($assignments as $assignment)
                     <div class="bg-purple-50 border border-purple-200 p-4 rounded-lg shadow-sm transition-shadow duration-200">
@@ -55,10 +55,32 @@
                                 @endif
                             </div>
                         @endif
+
+                        @auth
+                            @if(auth()->user()->isAdmin())
+                                <div class="flex justify-end mt-3">
+                                    <a href="{{ route('assignments.edit', $assignment) }}"
+                                       class="bg-blue-500 text-white py-1 px-3 rounded-md text-sm mr-2 hover:bg-blue-600 transition"
+                                       aria-label="Bewerk opdracht {{ $assignment->name }}">
+                                        <i class="fa-solid fa-pencil mr-1" aria-hidden="true"></i> Bewerken
+                                    </a>
+
+                                    <form method="POST" action="{{ route('assignments.destroy', $assignment) }}" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                                class="bg-red-500 text-white py-1 px-3 rounded-md text-sm hover:bg-red-600 transition"
+                                                onclick="return confirm('Weet je zeker dat je deze opdracht wilt verwijderen?')"
+                                                aria-label="Verwijder opdracht {{ $assignment->name }}">
+                                            <i class="fa-solid fa-trash mr-1" aria-hidden="true"></i> Verwijderen
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        @endauth
                     </div>
                 @endforeach
             </div>
-
             <div id="pagination-container" class="mt-8 text-center">
                 {{ $assignments->links('vendor.pagination.tailwind') }}
             </div>
@@ -69,7 +91,7 @@
         @endif
 
         {{-- Contact Informatie Concat --}}
-        <div class="mt-12 bg-purple-50 p-6 rounded-lg shadow-inner" role="region" aria-labelledby="contact-concat-title">
+        <div class="border border-purple-200 p-4 rounded-lg shadow-sm" role="region" aria-labelledby="contact-concat-title">
             <h3 id="contact-concat-title" class="text-xl font-bold text-purple-700 mb-2">Opdracht Plaatsen?</h3>
             <p class="text-gray-700 mb-1">
                 Wilt u als bedrijf een opdracht op deze pagina plaatsen? Neem dan contact op met het bestuur van SV Concat.

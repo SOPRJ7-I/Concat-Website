@@ -51,4 +51,34 @@ class AssignmentController extends Controller
 
         return redirect()->route('assignments.index')->with('success', 'Opdracht succesvol aangemaakt.');
     }
+
+    public function edit(Assignment $assignment)
+    {
+        $this->authorize('update', $assignment);
+        return view('assignments.edit', compact('assignment'));
+    }
+
+    public function update(Request $request, Assignment $assignment)
+    {
+        $this->authorize('update', $assignment);
+
+        $validatedData = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'short_description' => ['required', 'string'],
+            'company_name' => ['required', 'string', 'max:255'],
+            'email' => ['nullable', 'email', 'max:255'],
+            'phone_number' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $assignment->update($validatedData);
+
+        return redirect()->route('assignments.index')->with('success', 'Opdracht succesvol bijgewerkt.');
+    }
+
+    public function destroy(Assignment $assignment)
+    {
+        $this->authorize('delete', $assignment);
+        $assignment->delete();
+        return redirect()->route('assignments.index')->with('success', 'Opdracht succesvol verwijderd.');
+    }
 }
