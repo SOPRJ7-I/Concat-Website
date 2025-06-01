@@ -15,11 +15,20 @@ class NewsletterController extends Controller
     public function index()
     {
         $today = Carbon::today();
-        $newsletters = Newsletter::whereDate('publicatiedatum', '<=', $today)
+
+        $published = Newsletter::whereDate('publicatiedatum', '<=', $today)
             ->orderByDesc('publicatiedatum')
             ->paginate(6);
 
-        return view('news.index', compact('newsletters'));
+        $upcoming = [];
+
+        if (auth()->check() && auth()->user()->isAdmin()) {
+            $upcoming = Newsletter::whereDate('publicatiedatum', '>', $today)
+                ->orderBy('publicatiedatum')
+                ->get();
+        }
+
+        return view('news.index', compact('published', 'upcoming'));
     }
 
     // Detailpagina van 1 newsletter (optioneel)
@@ -37,19 +46,21 @@ class NewsletterController extends Controller
     // Uploaden van een nieuwe newsletter
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'titel' => 'required|string|max:255|unique:newsletters,titel',
-            'publicatiedatum' => 'required|date',
-            'inhoud' => 'required|string',
-            'images.*' => 'image|max:1000',
-        ],
-        [
-            'titel.required' => 'De titel is verplicht.',
-            'publicatiedatum.required' => 'De publicatiedatum is verplicht.',
-            'inhoud.required' => 'De inhoud is verplicht.',
-            'images.*.image' => 'Alleen afbeeldingen zijn toegestaan.',
-            'images.*.max' => 'Elke afbeelding mag maximaal 1MB zijn.',
-        ]);
+        $validated = $request->validate(
+            [
+                'titel' => 'required|string|max:255|unique:newsletters,titel',
+                'publicatiedatum' => 'required|date',
+                'inhoud' => 'required|string',
+                'images.*' => 'image|max:1000',
+            ],
+            [
+                'titel.required' => 'De titel is verplicht.',
+                'publicatiedatum.required' => 'De publicatiedatum is verplicht.',
+                'inhoud.required' => 'De inhoud is verplicht.',
+                'images.*.image' => 'Alleen afbeeldingen zijn toegestaan.',
+                'images.*.max' => 'Elke afbeelding mag maximaal 1MB zijn.',
+            ]
+        );
 
         // Afbeeldingen uploaden en paden verzamelen
         $imagePaths = [];
