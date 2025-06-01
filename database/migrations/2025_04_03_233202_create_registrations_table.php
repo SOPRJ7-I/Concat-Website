@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('registrations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('evenement_id')->constrained('evenementen')->onDelete('cascade');
+            $table->foreignId('event_id')->constrained('events')->onDelete('cascade');
             $table->string('naam');
             $table->string('email');
-            $table->timestamps();   
+            $table->timestamps();
         });
     }
 
@@ -29,5 +29,5 @@ return new class extends Migration
         });
         Schema::dropIfExists('registrations');
 
-    } 
+    }
 };

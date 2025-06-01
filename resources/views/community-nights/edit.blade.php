@@ -1,6 +1,6 @@
 ﻿<x-layout>
     <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl mt-5 mb-5">
-        <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1" alt="Formulier voor het bewerken van een evenement">
+        <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1" alt="Formulier voor het bewerken van een event">
             Community avond bewerken
         </h1>
 
@@ -18,7 +18,7 @@
 
             <div>
                 <label for="title" class="block text-l font-bold">Titel*</label>
-                <input type="text" name="title" id="title" placeholder="Titel van het evenement" aria-label="Communityavond title bewerken"
+                <input type="text" name="title" id="title" placeholder="Titel van het event" aria-label="Communityavond title bewerken"
                        value="{{ old('title', $communityNight->title) }}"
                        class="w-full p-2 {{ $errors->has('title') ? 'bg-red-100 text-red-700 border-red-300' : 'bg-purple-100 text-purple-700 border-purple-300' }} rounded-lg outline-none border focus:ring-2 focus:ring-purple-500">
                 @error('title')
@@ -67,7 +67,7 @@
 
             <div>
                 <label for="location" class="block text-l font-bold">Locatie*</label>
-                <input type="text" name="location" id="location" placeholder="Locatie van het evenement" aria-label="Communityavond locatie bewerken"
+                <input type="text" name="location" id="location" placeholder="Locatie van het event" aria-label="Communityavond locatie bewerken"
                        value="{{ old('location', $communityNight->location) }}"
                        class="w-full p-2 {{ $errors->has('location') ? 'bg-red-100 text-red-700 border-red-300' : 'bg-purple-100 text-purple-700 border-purple-300' }} rounded-lg outline-none border focus:ring-2 focus:ring-purple-500">
                 @error('location')
@@ -77,7 +77,7 @@
 
             <div>
                 <label for="link" class="block text-l font-bold">Event Link</label>
-                <input type="url" name="link" id="link" placeholder="Link naar het evenement" aria-label="Communityavond link bewerken"
+                <input type="url" name="link" id="link" placeholder="Link naar het event" aria-label="Communityavond link bewerken"
                        value="{{ old('link', $communityNight->link) }}"
                        class="w-full p-2 {{ $errors->has('link') ? 'bg-red-100 text-red-700 border-red-300' : 'bg-purple-100 text-purple-700 border-purple-300' }} rounded-lg outline-none border focus:ring-2 focus:ring-purple-500">
                 @error('link')
