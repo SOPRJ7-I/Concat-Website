@@ -101,21 +101,13 @@
                                         <div class="ml-2">
                                             <!-- Totaal aantal plekken -->
                                             <div class="text-lg font-bold">
-                                                Totaal aantal plekken:
-                                                @if($availableSpots > 0)
-                                                    {{ $availableSpots }} plekken
+                                                Inschrijvingen:
+                                                @if($event->available_spots > 0)
+                                                    {{ $event->registered_count }} / {{ $event->available_spots }}
                                                 @else
                                                     Geen plaatsen beschikbaar
                                                 @endif
                                             </div>
-
-                                            <!-- Aantal ingeschreven -->
-                                            @if(auth()->user() && auth()->user()->is_admin)
-                                                <!-- Check if the user is admin -->
-                                                <div class="text-lg font-bold">
-                                                    Aantal ingeschreven: {{ $registeredCount }}
-                                                </div>
-                                            @endif
                                         </div>
                                     </div>
 
@@ -123,7 +115,7 @@
                                     <a href="{{ route('events.show', $event->id) }}"
                                        class="inline-flex items-center text-sm text-center bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold"
                                        aria-label="Lees meer over {{ $event->titel }}. Datum van {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}">
-                                        Lees meer over {{ $event->titel }}
+                                        Lees meer ...
                                     </a>
                                 </div>
                             </div>

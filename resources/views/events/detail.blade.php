@@ -23,7 +23,7 @@
 
         <!-- Hoofdinhoud van het evenement -->
         <div class="p-6 md:p-14 ">
-            <div class="flex flex-col lg:flex-row gap-8 mr-11">
+            <div class="flex flex-col lg:flex-row gap-8">
 
                 <div class="flex-1">
                     @if(session('success'))
@@ -97,27 +97,21 @@
                             <span>{{ \Carbon\Carbon::parse($event->updated_at)->format('d-m-Y H:i') }}</span>
                         </div>
                     @endif
-                    <div class="flex items-center text-gray-500 mb-4">
-                        <i class="flex-shrink-0 fa-solid fa-users text-3xl" alt="Aantal inschrijvingen evenement" aria-hidden="true"></i>
-                        <div class="ml-2">
-                            <!-- Totaal aantal plekken -->
-                            <div class="text-lg font-bold">
-                                Totaal aantal plekken:
-                                @if($availableSpots > 0)
-                                    {{ $availableSpots }} plekken
-                                @else
-                                    Geen plaatsen beschikbaar
-                                @endif
+                        <div class="flex items-center text-gray-500 mb-4">
+                            <i class="flex-shrink-0 fa-solid fa-users text-3xl"
+                               alt="Aantal inschrijvingen evenement" aria-hidden="true"></i>
+                            <div class="ml-2">
+                                <!-- Totaal aantal plekken -->
+                                <div class="text-lg font-bold">
+                                    Inschrijvingen:
+                                    @if($event->available_spots > 0)
+                                        {{ $event->registered_count }} / {{ $event->available_spots }}
+                                    @else
+                                        Geen plaatsen beschikbaar
+                                    @endif
+                                </div>
                             </div>
-
-                            <!-- Aantal ingeschreven -->
-                            @if(auth()->user() && auth()->user()->is_admin) <!-- Check if the user is admin -->
-                            <div class="text-lg font-bold">
-                                Aantal ingeschreven: {{ $registeredCount }}
-                            </div>
-                        @endif
                         </div>
-                    </div>
 
                     <!-- Button om formulier te openen -->
                     <button id="openFormButton" class="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mb-6" alt="Inschrijven voor event">

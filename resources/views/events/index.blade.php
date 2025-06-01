@@ -115,6 +115,22 @@
                                 <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-b from-transparent to-white" aria-hidden="true"></div>
                             </div>
 
+                            <div class="flex items-center text-gray-500 mb-4">
+                                <i class="flex-shrink-0 fa-solid fa-users text-3xl"
+                                   alt="Aantal inschrijvingen evenement" aria-hidden="true"></i>
+                                <div class="ml-2">
+                                    <!-- Totaal aantal plekken -->
+                                    <div class="text-lg font-bold">
+                                        Inschrijvingen:
+                                        @if($event->available_spots > 0)
+                                            {{ $event->registered_count }} / {{ $event->available_spots }}
+                                        @else
+                                            Geen plaatsen beschikbaar
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
                             {{-- Lees meer knop --}}
                             <a href="{{ route('events.show', $event->id) }}"
                                class="inline-flex items-center text-sm text-center bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold"

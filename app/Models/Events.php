@@ -17,8 +17,25 @@ class Events extends Model
     {
         return $this->hasMany(Registration::class, 'event_id');  // Notice the second parameter for custom foreign key
     }
+
     public function isUserRegistered($userId)
     {
         return $this->registrations()->where('user_id', $userId)->exists();
     }
+
+    /**
+     * Get the number of registered users for the event.
+     */
+    public function getRegisteredCountAttribute()
+    {
+        return $this->registrations()->count();
     }
+
+    /**
+     * Get the total number of available spots for the event.
+     */
+    public function getAvailableSpotsAttribute()
+    {
+        return $this->aantal_beschikbare_plekken ?? 0;
+    }
+}
