@@ -33,7 +33,7 @@
 
     <div class="nav-container px-6">
         <!-- Desktop Navigation -->
-        <nav id="main-nav">
+        <nav id="main-nav" class="opacity-0 -translate-y-6 transition-all duration-700 ease-out">
             <a href="/" class="flex items-center mr-2">
                 <img src="https://svconcat.nl/media/assets/logo-white.svg" alt="Concat Logo" class="h-10 w-auto">
             </a>
@@ -41,7 +41,7 @@
                 <div class="flex" id="menu-links">
                     <x-nav-link href="/events/index">Evenementen</x-nav-link>
                     <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
-                    <x-nav-link href="/gallery">Gallerij</x-nav-link>
+                    <x-nav-link href="/gallery/gallery">Galerij</x-nav-link>
                     <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
                     <x-nav-link href="/about-us">Over ons</x-nav-link>
                     <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
@@ -77,7 +77,7 @@
                 </a>
                 <x-nav-link href="/events/index">Evenementen</x-nav-link>
                 <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
-                <x-nav-link href="/gallery">Gallerij</x-nav-link>
+                <x-nav-link href="/gallery/gallery">Galerij</x-nav-link>
                 <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
                 <x-nav-link href="/about-us">Over ons</x-nav-link>
                 <a href="https://sv-concat.myspreadshop.nl/">Webshop</a>
@@ -87,9 +87,16 @@
                 @endguest
 
                 @auth
-                    <form action="{{ route('logout') }}" method="POST">
+                    <x-nav-link href="/news">Nieuwsbrief</x-nav-link>
+                @endauth
+
+                @auth
+                    <form action="{{ route('logout') }}" method="POST" style="display:flex;">
                         @csrf
-                        <button type="submit" class="x-nav-link">Uitloggen</button>
+                        <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
+                           class="x-nav-link">
+                            Uitloggen
+                        </a>
                     </form>
                 @endauth
             </div>
@@ -110,7 +117,7 @@
 
 
     <div class="overlay"></div>
-    <div class="flex justify-center items-center p-6 lg:mt-200">
+    <div id="page-content" class="flex justify-center items-center p-6 lg:mt-200 opacity-0 translate-y-4 transition-all duration-700 ease-out">
         {{ $slot }}
     </div>
 
@@ -154,6 +161,34 @@
             </div>
         </div>
     </footer>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const content = document.getElementById('page-content');
+            if (content) {
+                requestAnimationFrame(() => {
+                    content.classList.remove('opacity-0', 'translate-y-4');
+                    content.classList.add('opacity-100', 'translate-y-0');
+                });
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const nav = document.getElementById('main-nav');
+            const content = document.getElementById('page-content');
+
+            requestAnimationFrame(() => {
+                if (nav) {
+                    nav.classList.remove('opacity-0', '-translate-y-6');
+                    nav.classList.add('opacity-100', 'translate-y-0');
+                }
+
+                if (content) {
+                    content.classList.remove('opacity-0', 'translate-y-4');
+                    content.classList.add('opacity-100', 'translate-y-0');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

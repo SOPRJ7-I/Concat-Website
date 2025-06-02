@@ -6,7 +6,7 @@ use App\Http\Controllers\CommunityNightController;
 use App\Http\Controllers\SponsorController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EvenementenController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegistrationsController;
@@ -22,15 +22,17 @@ Route::resource('community-nights', CommunityNightController::class);
 
 // Sponsors
 Route::resource('sponsors', SponsorController::class);
+Route::get('/sponsors/{sponsor}/edit-hidden', [SponsorController::class, 'editHidden'])->name('sponsors.edit-hidden');
+Route::post('/sponsors/{sponsor}/force-delete', [SponsorController::class, 'forceDelete'])->name('sponsors.force-delete');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::post('/registration', [RegistrationsController::class, 'store'])->name('registration');
 
-Route::get('/events/create', [EvenementenController::class, 'create'])->name('events.create');
-Route::post('/events/create', [EvenementenController::class, 'store'])->name('events.store');
+Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
+Route::post('/events/create', [EventController::class, 'store'])->name('events.store');
 
-Route::get('/events/index', [EvenementenController::class, 'index'])->name('events.index');
+Route::get('/events/index', [EventController::class, 'index'])->name('events.index');
 Route::get('/community-nights/create', [CommunityNightController::class, 'create']);
 
 Route::get('/community-nights/{id}/edit', [CommunityNightController::class, 'edit'])->name('community-nights.edit');
@@ -38,10 +40,11 @@ Route::get('/community-nights/{id}/edit', [CommunityNightController::class, 'edi
 Route::put('/community-nights/{communityNight}/update', [CommunityNightController::class, 'update'])->name('community-nights.update');
 
 
-Route::get('/evenementen/{event}', [EvenementenController::class, 'show'])->name('evenementen.show');
+Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
 //galerij
-Route::get('/gallery', [GalleryController::class, 'index']);
+Route::get('/gallery/gallery', [GalleryController::class, 'index']);
+
 Route::get('/register',[AuthController::class, 'showRegister'])->name('show.register');
 Route::get('/login',[AuthController::class, 'showLogin'])->name('show.login');
 //Registreren

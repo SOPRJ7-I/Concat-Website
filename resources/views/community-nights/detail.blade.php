@@ -10,7 +10,7 @@
         <div class="relative bg-gray-200 overflow-hidden">
             @if(isset($communityNight->image))
                 <div class="lg:h-64">
-                    <img src="{{ asset('storage/' . $communityNight->image) }}" alt="{{ $communityNight->title }}" class="w-full h-full object-none">
+                    <img src="{{ asset('storage/' . $communityNight->image) }}" alt="{{ $communityNight->title }}" class="w-full h-full object-cover">
                 </div>
             @else
                 <div class="p-6 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500">
