@@ -15,34 +15,40 @@
         <div class="w-full lg:w-1/3 space-y-6">
 
             {{-- Kalender --}}
-            <div class="p-4 border rounded shadow-sm">
+            <div class="p-4 border rounded shadow-sm" role="region" aria-label="Kalender">
                 <h2 class="text-xl font-semibold mb-3">Kalender</h2>
-                <div id="inlineCalendar" class="select-none" data-dusk="calendar"></div>
+                <div id="inlineCalendar" class="select-none" data-dusk="calendar" aria-label="Interactieve kalender"></div>
             </div>
 
             {{-- Rooster toevoegen --}}
-            <div class="p-4 border rounded shadow-sm">
+            <div class="p-4 border rounded shadow-sm" role="region" aria-label="Rooster toevoegen">
                 <h2 class="text-xl font-semibold mb-3">Rooster toevoegen</h2>
-                <form action="/roosters" method="POST" class="mb-4" data-dusk="rooster-form">
+                <form action="/roosters" method="POST" class="mb-4" data-dusk="rooster-form" aria-label="Formulier om rooster toe te voegen">
                     @csrf
-                    <input type="url" name="ical_url" required placeholder="https://rooster.avans.nl/gcal/..."
-                        class="w-full p-2 border rounded mb-2" data-dusk="input-ical-url">
-                    <select name="klas" required class="w-full p-2 border rounded mb-2" data-dusk="select-klas">
+                    <label for="ical_url" class="sr-only">iCal URL</label>
+                    <input type="url" id="ical_url" name="ical_url" required placeholder="https://rooster.avans.nl/gcal/..."
+                        class="w-full p-2 border rounded mb-2" data-dusk="input-ical-url" aria-label="Voer de iCal URL in">
+
+                    <label for="klas" class="sr-only">Selecteer klas</label>
+                    <select id="klas" name="klas" required class="w-full p-2 border rounded mb-2" data-dusk="select-klas" aria-label="Selecteer een klas">
                         <option value="">Selecteer een klas</option>
                         <option value="1">Klas 1</option>
                         <option value="2">Klas 2</option>
                         <option value="3">Klas 3</option>
                         <option value="4">Klas 4</option>
                     </select>
+
                     <button type="submit"
-                        class="bg-green-500 text-white px-4 py-2 rounded w-full" data-dusk="btn-add-rooster">Toevoegen</button>
+                        class="bg-green-500 text-white px-4 py-2 rounded w-full" data-dusk="btn-add-rooster" aria-label="Rooster toevoegen">
+                        Toevoegen
+                    </button>
                 </form>
 
                 @if(session('success'))
-                    <p class="text-green-600 mb-4" data-dusk="form-success">{{ session('success') }}</p>
+                    <p class="text-green-600 mb-4" data-dusk="form-success" role="status">{{ session('success') }}</p>
                 @endif
                 @if ($errors->any())
-                    <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+                    <div class="bg-red-100 text-red-700 p-4 rounded mb-4" role="alert" aria-label="Foutenlijst">
                         <ul class="list-disc pl-5">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -50,11 +56,10 @@
                         </ul>
                     </div>
                 @endif
-
             </div>
 
             {{-- Kalender selecties --}}
-            <div class="p-4 border rounded shadow-sm">
+            <div class="p-4 border rounded shadow-sm" role="region" aria-label="Kalenders selecteren">
                 <h2 class="text-xl font-semibold mb-3">Kalenders selecteren</h2>
                 @if($roosters->count() > 0)
                     @foreach($roosters as $rooster)
@@ -63,44 +68,49 @@
                             $color = $klasColors[$rooster->klas] ?? '#999999';
                         @endphp
                         <div class="flex items-center justify-between mb-2 border rounded p-2" data-dusk="calendar-item-{{ $shortName }}">
-                            <label class="inline-flex items-center cursor-pointer">
+                            <label class="inline-flex items-center cursor-pointer" aria-label="Rooster {{ $shortName }} selectievakje">
                                 <input type="checkbox" name="selected_calendars[]" value="{{ $shortName }}" checked
-                                    class="toggle-calendar" data-color="{{ $color }}" data-dusk="checkbox-{{ $shortName }}">
+                                    class="toggle-calendar"
+                                    data-color="{{ $color }}"
+                                    data-dusk="checkbox-{{ $shortName }}"
+                                    aria-label="Selecteer rooster {{ $shortName }}">
                                 <span class="ml-2" style="color: {{ $color }};">{{ $shortName }}</span>
                             </label>
 
                             <form action="{{ route('roosters.destroy', $rooster->id) }}" method="POST"
                                 onsubmit="return confirm('Weet je zeker dat je deze kalender wilt verwijderen?');"
-                                data-dusk="delete-form-{{ $shortName }}">
+                                data-dusk="delete-form-{{ $shortName }}" aria-label="Verwijder rooster {{ $shortName }}">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-800 px-2" title="Verwijder rooster" data-dusk="btn-delete-{{ $shortName }}">
+                                <button type="submit" class="text-red-600 hover:text-red-800 px-2"
+                                    title="Verwijder rooster" data-dusk="btn-delete-{{ $shortName }}"
+                                    aria-label="Verwijder rooster {{ $shortName }}">
                                     &times;
                                 </button>
                             </form>
                         </div>
                     @endforeach
                 @else
-                    <p data-dusk="no-calendars">Geen kalenders toegevoegd.</p>
+                    <p data-dusk="no-calendars" aria-label="Geen kalenders toegevoegd">Geen kalenders toegevoegd.</p>
                 @endif
             </div>
         </div>
 
         {{-- Rechterkolom: Grafiek --}}
-        <div class="w-full lg:w-2/3 p-4 border rounded shadow-sm">
-            <h2 class="text-xl font-semibold mb-3"> Drukte </h2>
+        <div class="w-full lg:w-2/3 p-4 border rounded shadow-sm" role="region" aria-label="Drukte per uur grafiek">
+            <h2 class="text-xl font-semibold mb-3">Drukte</h2>
 
             @if(empty($events))
-                <div class="text-red-600 font-medium" data-dusk="no-data-message">
+                <div class="text-red-600 font-medium" data-dusk="no-data-message" role="alert" aria-label="Geen data beschikbaar">
                     Geen data en/of webcal link is down.
                 </div>
             @else
-                <canvas id="hourlyChart" height="250" data-dusk="hourly-chart"></canvas>
+                <canvas id="hourlyChart" height="250" role="img" aria-label="Grafiek van drukte per uur per klas" data-dusk="hourly-chart"></canvas>
 
                 {{-- Legenda onder de chart --}}
-            <div id="legend" class="flex flex-wrap gap-4 mt-4 justify-center" data-dusk="chart-legend">
+                <div id="legend" class="flex flex-wrap gap-4 mt-4 justify-center" data-dusk="chart-legend" role="group" aria-label="Legenda met kleuren per klas">
                     @foreach($klasColors as $klasNum => $color)
-                        <div class="flex items-center space-x-2">
+                        <div class="flex items-center space-x-2" aria-label="Klas {{ $klasNum }} kleur {{ $color }}">
                             <div style="width: 20px; height: 20px; background-color: {{ $color }}; border-radius: 4px;"></div>
                             <span class="font-medium">Klas {{ $klasNum }}</span>
                         </div>
@@ -108,12 +118,13 @@
                 </div>
             @endif
 
-            <div class="block sm:hidden text-gray-500 mt-2 text-sm italic">
+            <div class="block sm:hidden text-gray-500 mt-2 text-sm italic" aria-hidden="true">
                 * Roosternamen zijn verborgen op mobiel
             </div>
         </div>
     </div>
 </div>
+
 
 {{-- Verborgen lessenlijst --}}
 <ul id="lessonsList" class="hidden">

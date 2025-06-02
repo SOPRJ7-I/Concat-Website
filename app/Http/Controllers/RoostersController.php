@@ -124,5 +124,12 @@ public function index()
         'data' => array_values($hourlyCounts),
     ]);
 }
+public function adminIndex()
+{
+    if (auth()->user()->role !== 'admin') {
+        abort(403, 'Access denied');
+    }
 
+    // admin logic here...
+}
 }

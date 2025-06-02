@@ -68,10 +68,7 @@ Route::get('/announcements/load-older', [AnnouncementController::class, 'loadOld
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/admin/announcements', [AnnouncementController::class, 'adminIndex'])->name('announcements.admin');
-    //roosters
-    Route::get('/roosters', [RoostersController::class, 'index']);
-    Route::post('/roosters', [RoostersController::class, 'store']);
-    Route::delete('/roosters/{rooster}', [RoostersController::class, 'destroy'])->name('roosters.destroy');
+
 
 });
 
@@ -85,7 +82,18 @@ Route::get('/news/create', [NewsletterController::class, 'create'])->name('news.
 
 //about us
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about-us.index');
-//rooster
-Route::get('/roosters', [RoostersController::class, 'index']);
-Route::post('/roosters', [RoostersController::class, 'store']);
-Route::delete('/roosters/{rooster}', [RoostersController::class, 'destroy'])->name('roosters.destroy');
+
+//PROBLEMEN MET AUTHENTICATIE KIJK ERNAAR!!!
+Route::middleware('auth')->group(function () {
+    Route::group(['middleware' => function ($request, $next) {
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Access denied');
+        }
+        return $next($request);
+    }], function () {
+        Route::get('/admin/announcements', [AnnouncementController::class, 'adminIndex'])->name('announcements.admin');
+        Route::get('/roosters', [RoostersController::class, 'index']);
+        Route::post('/roosters', [RoostersController::class, 'store']);
+        Route::delete('/roosters/{rooster}', [RoostersController::class, 'destroy'])->name('roosters.destroy');
+    });
+});
