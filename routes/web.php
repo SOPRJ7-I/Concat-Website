@@ -10,7 +10,6 @@ use App\Http\Controllers\EvenementenController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegistrationsController;
-
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\AboutUsController;
 
@@ -44,12 +43,12 @@ Route::get('/evenementen/{event}', [EvenementenController::class, 'show'])->name
 //galerij
 Route::get('/gallery/gallery', [GalleryController::class, 'index']);
 
-Route::get('/register',[AuthController::class, 'showRegister'])->name('show.register');
-Route::get('/login',[AuthController::class, 'showLogin'])->name('show.login');
+Route::get('/register', [AuthController::class, 'showRegister'])->name('show.register');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('show.login');
 //Registreren
-Route::post('/register',[AuthController::class, 'Register'])->name('register');
-Route::post('/login',[AuthController::class, 'login'])->name('login');
-Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
+Route::post('/register', [AuthController::class, 'Register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // announcements
 Route::get('/announcements/create', [AnnouncementController::class, 'create'])->name('announcements.create');
@@ -66,12 +65,15 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/admin/announcements', [AnnouncementController::class, 'adminIndex'])->name('announcements.admin');
 });
 
-//events
-Route::get('/news', [NewsletterController::class, 'index'])->name('newsletters.index');
+//newsletters
+Route::get('/newsletters', [NewsletterController::class, 'index'])->name('newsletters.index');
 Route::middleware(['auth'])->group(function () {
-    Route::get('/newsletters/{newsletter}', [NewsletterController::class, 'show'])->name('newsletters.show');
+    Route::get('/newsletters/create', [NewsletterController::class, 'create'])->name('newsletters.create');
     Route::post('/newsletters', [NewsletterController::class, 'store'])->name('newsletters.store');
-Route::get('/news/create', [NewsletterController::class, 'create'])->name('news.create');
+    Route::get('newsletters/{newsletter}/edit', [NewsletterController::class, 'edit'])->name('newsletters.edit');
+    Route::put('/newsletters/{newsletter}', [NewsletterController::class, 'update'])->name('newsletters.update');
+    Route::get('/newsletters/{newsletter}', [NewsletterController::class, 'show'])->name(name: 'newsletters.show');
+
 
 });
 

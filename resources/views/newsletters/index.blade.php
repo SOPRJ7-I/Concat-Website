@@ -5,10 +5,9 @@
         @auth
             @if(auth()->user()->role === 'admin')
                 <div class="mb-6">
-                    <a href="{{ route('news.create') }}"
-                       dusk="nieuwsbrief-toevoegen"
-                       class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
-                       aria-label="Nieuwe nieuwsbrief toevoegen">
+                    <a href="{{ route('newsletters.create') }}" dusk="nieuwsbrief-toevoegen"
+                        class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
+                        aria-label="Nieuwe nieuwsbrief toevoegen">
                         Nieuwsbrief toevoegen
                     </a>
                 </div>
@@ -34,26 +33,32 @@
                         <div class="flex flex-wrap gap-2">
                             <button
                                 onclick="previewPDF('{{ asset('storage/' . $newsletter->pdf) }}', '{{ $newsletter->titel }}')"
-                                dusk="bekijk-newsletter"
-                                class="text-blue-600 hover:underline text-sm"
+                                dusk="bekijk-newsletter" class="text-blue-600 hover:underline text-sm"
                                 aria-label="Bekijk PDF van {{ $newsletter->titel }}">
                                 Bekijk
                             </button>
 
-                            <a href="{{ asset('storage/' . $newsletter->pdf) }}"
-                               target="_blank"
-                               rel="noopener noreferrer"
-                               class="text-green-600 hover:underline text-sm"
-                               aria-label="Open PDF van {{ $newsletter->titel }} in nieuw tabblad">
+                            <a href="{{ asset('storage/' . $newsletter->pdf) }}" target="_blank" rel="noopener noreferrer"
+                                class="text-green-600 hover:underline text-sm"
+                                aria-label="Open PDF van {{ $newsletter->titel }} in nieuw tabblad">
                                 Open in nieuw tabblad
                             </a>
 
-                            <a href="{{ asset('storage/' . $newsletter->pdf) }}"
-                               download
-                               class="text-purple-600 hover:underline text-sm"
-                               aria-label="Download PDF van {{ $newsletter->titel }}">
+                            <a href="{{ asset('storage/' . $newsletter->pdf) }}" download
+                                class="text-purple-600 hover:underline text-sm"
+                                aria-label="Download PDF van {{ $newsletter->titel }}">
                                 Download
                             </a>
+
+                            @auth
+                                @if(auth()->user()->isAdmin())
+                                    <a href="{{ route('newsletters.edit', $newsletter) }}"
+                                        class="text-orange-600 hover:underline text-sm"
+                                        aria-label="Bewerk nieuwsbrief {{ $newsletter->titel }}">
+                                        Bewerken
+                                    </a>
+                                @endif
+                            @endauth
                         </div>
                     </div>
                 @empty
@@ -67,25 +72,16 @@
 
             {{-- PDF Viewer --}}
             <div class="lg:col-span-2" aria-label="PDF Voorvertoning">
-                <h2 id="pdfTitle"
-                    class="text-xl font-semibold mb-2 hidden"
-                    aria-live="polite">
-                </h2>
+                <h2 id="pdfTitle" class="text-xl font-semibold mb-2 hidden" aria-live="polite"></h2>
 
-                <iframe id="pdfPreviewDesktop"
-                        src=""
-                        title="Voorvertoning van de nieuwsbrief PDF"
-                        class="hidden lg:block w-full h-[600px] border border-gray-300 rounded mb-4"></iframe>
+                <iframe id="pdfPreviewDesktop" src="" title="Voorvertoning van de nieuwsbrief PDF"
+                    class="hidden lg:block w-full h-[600px] border border-gray-300 rounded mb-4"></iframe>
 
-                <object id="pdfPreviewMobile"
-                        data=""
-                        type="application/pdf"
-                        class="block lg:hidden w-full h-[500px] border border-gray-300 rounded mb-4 hidden">
+                <object id="pdfPreviewMobile" data="" type="application/pdf"
+                    class="block lg:hidden w-full h-[500px] border border-gray-300 rounded mb-4 hidden">
                     <p class="text-gray-700 p-4">
                         Je apparaat ondersteunt geen directe PDF-weergave.
-                        <a id="fallbackDownload"
-                           href="#"
-                           class="text-blue-600 underline">
+                        <a id="fallbackDownload" href="#" class="text-blue-600 underline">
                             Klik hier om te downloaden
                         </a>.
                     </p>
@@ -102,7 +98,8 @@
                     <h2 class="text-xl font-bold mb-4 text-gray-500">Toekomstige nieuwsbrieven</h2>
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         @foreach ($upcoming as $newsletter)
-                            <div class="bg-yellow-50 p-3 rounded" role="group" aria-label="Toekomstige nieuwsbrief {{ $newsletter->titel }}">
+                            <div class="bg-yellow-50 p-3 rounded" role="group"
+                                aria-label="Toekomstige nieuwsbrief {{ $newsletter->titel }}">
                                 <div class="mb-2">
                                     <strong>{{ $newsletter->titel }}</strong><br>
                                     <span class="text-sm text-gray-600">{{ $newsletter->publicatiedatum }}</span>
@@ -116,19 +113,22 @@
                                         Bekijk
                                     </button>
 
-                                    <a href="{{ asset('storage/' . $newsletter->pdf) }}"
-                                       target="_blank"
-                                       rel="noopener noreferrer"
-                                       class="text-green-600 hover:underline text-sm"
-                                       aria-label="Open PDF van {{ $newsletter->titel }} in nieuw tabblad">
+                                    <a href="{{ asset('storage/' . $newsletter->pdf) }}" target="_blank" rel="noopener noreferrer"
+                                        class="text-green-600 hover:underline text-sm"
+                                        aria-label="Open PDF van {{ $newsletter->titel }} in nieuw tabblad">
                                         Open in nieuw tabblad
                                     </a>
 
-                                    <a href="{{ asset('storage/' . $newsletter->pdf) }}"
-                                       download
-                                       class="text-purple-600 hover:underline text-sm"
-                                       aria-label="Download PDF van {{ $newsletter->titel }}">
+                                    <a href="{{ asset('storage/' . $newsletter->pdf) }}" download
+                                        class="text-purple-600 hover:underline text-sm"
+                                        aria-label="Download PDF van {{ $newsletter->titel }}">
                                         Download
+                                    </a>
+
+                                    <a href="{{ route('newsletters.edit', $newsletter) }}"
+                                        class="text-orange-600 hover:underline text-sm"
+                                        aria-label="Bewerk nieuwsbrief {{ $newsletter->titel }}">
+                                        Bewerken
                                     </a>
                                 </div>
                             </div>

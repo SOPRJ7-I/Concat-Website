@@ -28,7 +28,7 @@ class NewsletterController extends Controller
                 ->get();
         }
 
-        return view('news.index', compact('published', 'upcoming'));
+        return view('newsletters.index', compact('published', 'upcoming'));
     }
 
     // Detailpagina van 1 newsletter (optioneel)
@@ -40,7 +40,7 @@ class NewsletterController extends Controller
     // Pagina voor het aanmaken van een nieuwe newsletter
     public function create()
     {
-        return view('news.create');
+        return view('newsletters.create');
     }
 
     // Uploaden van een nieuwe newsletter
@@ -73,7 +73,7 @@ class NewsletterController extends Controller
         }
 
         // PDF genereren vanuit Blade view
-        $pdf = Pdf::loadView('news.pdf', [
+        $pdf = Pdf::loadView('newsletters.pdf', [
             'title' => $validated['titel'],
             'content' => Str::markdown($validated['inhoud']),
             'images' => $imagePaths,
@@ -97,5 +97,53 @@ class NewsletterController extends Controller
 
         return redirect()->route('newsletters.index')
             ->with('success', 'Nieuwsbrief succesvol aangemaakt en PDF gegenereerd.');
+    }
+
+    public function edit(Newsletter $newsletter)
+    {
+        return view('newsletters.edit', compact('newsletter'));
+    }
+
+    public function update(Request $request, Newsletter $newsletter)
+    {
+        $validated = $request->validate([
+            'titel' => 'required|string|max:255|unique:newsletters,titel,' . $newsletter->id,
+            'publicatiedatum' => 'required|date',
+            'inhoud' => 'required|string',
+            'images.*' => 'image|max:1000',
+        ]);
+
+        // Eventueel nieuwe afbeeldingen toevoegen
+        $imagePaths = json_decode($newsletter->images ?? '[]', true);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('newsletters/images', 'public');
+                $imagePaths[] = public_path('storage/' . $path);
+            }
+        }
+
+        // PDF opnieuw genereren
+        $pdf = Pdf::loadView('newsletters.pdf', [
+            'title' => $validated['titel'],
+            'content' => Str::markdown($validated['inhoud']),
+            'images' => $imagePaths,
+        ]);
+
+        $filename = Str::slug($validated['titel']) . '-' . time() . '.pdf';
+        $pdfPath = 'newsletters/' . $filename;
+        Storage::disk('public')->put($pdfPath, $pdf->output());
+
+        // Update DB
+        $newsletter->update([
+            'titel' => $validated['titel'],
+            'publicatiedatum' => $validated['publicatiedatum'],
+            'inhoud' => $validated['inhoud'],
+            'pdf' => $pdfPath,
+            'images' => json_encode($imagePaths),
+        ]);
+
+        return redirect()->route('newsletters.index')
+            ->with('success', 'Nieuwsbrief succesvol bijgewerkt.');
     }
 }

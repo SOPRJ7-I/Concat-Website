@@ -9,7 +9,7 @@ class Newsletter extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['titel', 'publicatiedatum', ' inhoud', 'pdf'];
+    protected $fillable = ['titel', 'publicatiedatum', 'inhoud', 'pdf'];
 
     protected $casts = [
         'images' => 'array',

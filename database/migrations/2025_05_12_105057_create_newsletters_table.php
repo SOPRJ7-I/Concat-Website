@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('titel')->unique();
             $table->date('publicatiedatum');
+            $table->text('inhoud');
             $table->string('pdf');
             $table->json('images')->nullable();
             $table->timestamps();
