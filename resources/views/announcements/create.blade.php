@@ -10,7 +10,7 @@
             <div>
                 <label for="titel" class="block text-l font-bold">Titel*</label>
                 <input type="text" name="titel" id="titel" value="{{ old('titel') }}"
-                       placeholder="Titel van het evenement"
+                       placeholder="Titel van het event"
                        class="w-full p-2 {{ $errors->has('titel') ? 'bg-red-100 border-red-500' : 'bg-purple-100 border-purple-300' }} text-purple-700 rounded-lg outline-none border focus:ring-2 focus:ring-purple-500">
                 @error('titel')
                 <p class="text-red-600 text-sm mt-1 font-bold">{{ $message }}</p>

@@ -8,17 +8,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Registration extends Model
 {
     use HasFactory;
-    protected $table = 'registrations'; 
+    protected $table = 'registrations';
 
-    protected $fillable = ['evenement_id','user_id', 'naam', 'email'];
+    protected $fillable = ['event_id','user_id', 'naam', 'email'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function evenement()
+    public function event()
     {
-        return $this->belongsTo(Evenementen::class);
+        return $this->belongsTo(Events::class);
     }
 }
