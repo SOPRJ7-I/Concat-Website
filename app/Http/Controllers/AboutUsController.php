@@ -27,6 +27,7 @@ class AboutUsController extends Controller
             ];
             });
 
+
         return view('about-us.index', compact('currentBoard', 'previousBoards'));
     }
 
