@@ -57,21 +57,9 @@ Route::post('/login',[AuthController::class, 'login'])->name('login');
 Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
 
 // announcements
-Route::get('/announcements/create', [AnnouncementController::class, 'create'])->name('announcements.create');
-Route::post('/announcements', [AnnouncementController::class, 'store'])->name('announcements.store');
-Route::get('/announcements/{announcement}/edit', [AnnouncementController::class, 'edit'])->name('announcements.edit');
-Route::put('/announcements/{announcement}', [AnnouncementController::class, 'update'])->name('announcements.update');
-Route::delete('/announcements/{announcement}', [AnnouncementController::class, 'destroy'])->name('announcements.destroy');
-Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
+
 
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
-Route::get('/announcements/load-older', [AnnouncementController::class, 'loadOlder'])->name('announcements.load-older');
-
-Route::group(['middleware' => ['auth', 'admin']], function () {
-    Route::get('/admin/announcements', [AnnouncementController::class, 'adminIndex'])->name('announcements.admin');
-
-
-});
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/news', [NewsletterController::class, 'index'])->name('newsletters.index');
@@ -101,7 +89,12 @@ Route::middleware('auth')->group(function () {
         }
         return $next($request);
     }], function () {
-        Route::get('/admin/announcements', [AnnouncementController::class, 'adminIndex'])->name('announcements.admin');
+        Route::get('/announcements/create', [AnnouncementController::class, 'create'])->name('announcements.create');
+        Route::post('/announcements', [AnnouncementController::class, 'store'])->name('announcements.store');
+        Route::get('/announcements/{announcement}/edit', [AnnouncementController::class, 'edit'])->name('announcements.edit');
+        Route::put('/announcements/{announcement}', [AnnouncementController::class, 'update'])->name('announcements.update');
+        Route::delete('/announcements/{announcement}', [AnnouncementController::class, 'destroy'])->name('announcements.destroy');
+
         Route::get('/roosters', [RoostersController::class, 'index']);
         Route::post('/roosters', [RoostersController::class, 'store']);
         Route::delete('/roosters/{rooster}', [RoostersController::class, 'destroy'])->name('roosters.destroy');
