@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Storage;
 class CommunityNight extends Model
 {
     protected $guarded = [];
+
+    protected $casts = [
+    'start_time' => 'datetime',
+    ];
     
     use HasFactory;
 
