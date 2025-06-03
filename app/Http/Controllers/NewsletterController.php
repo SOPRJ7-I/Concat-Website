@@ -49,11 +49,19 @@ class NewsletterController extends Controller
             'publicatiedatum' => 'required|date',
             'events' => 'required|array|min:1',
             'events.*.titel' => 'required|string',
-            'events.*.datum' => 'required|date',
+            'events.*.datum' => 'nullable|date',
             'events.*.tijd' => 'nullable|string',
             'events.*.locatie' => 'nullable|string',
             'events.*.inhoud' => 'required|string',
             'event_images.*' => 'image|max:1000',
+        ], [
+            'titel.required' => 'De titel van de nieuwsbrief is verplicht.',
+            'publicatiedatum.required' => 'De publicatiedatum van de nieuwsbrief is verplicht.',
+            'events.required' => 'Er moet ten minste één evenement worden toegevoegd.',
+            'events.*.titel.required' => 'De titel van elk evenement is verplicht.',
+            'events.*.inhoud.required' => 'De inhoud van elk evenement is verplicht.',
+            'event_images.*.image' => 'Alle geüploade bestanden moeten afbeeldingen zijn.',
+            'event_images.*.max' => 'Elke afbeelding mag maximaal 1 MB zijn.',
         ]);
 
         $imagePaths = [];
@@ -105,6 +113,15 @@ class NewsletterController extends Controller
             'events.*.locatie' => 'nullable|string',
             'events.*.inhoud' => 'required|string',
             'event_images.*' => 'image|max:1000',
+        ], [
+            'titel.required' => 'De titel van de nieuwsbrief is verplicht.',
+            'publicatiedatum.required' => 'De publicatiedatum van de nieuwsbrief is verplicht.',
+            'events.required' => 'Er moet ten minste één evenement worden toegevoegd.',
+            'events.*.titel.required' => 'De titel van elk evenement is verplicht.',
+            'evenets.*.datum' => 'De datum is verplicht.',
+            'events.*.inhoud.required' => 'De inhoud van elk evenement is verplicht.',
+            'event_images.*.image' => 'Alle geüploade bestanden moeten afbeeldingen zijn.',
+            'event_images.*.max' => 'Elke afbeelding mag maximaal 1 MB zijn.',
         ]);
 
         $imagePaths = $newsletter->images ?? [];

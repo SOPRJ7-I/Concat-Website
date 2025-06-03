@@ -12,14 +12,20 @@
             <div>
                 <label for="titel" class="block font-bold">Titel*</label>
                 <input type="text" name="titel" id="titel" value="{{ old('titel', $newsletter->titel) }}"
-                    class="w-full p-2 bg-purple-100 border-purple-300 text-purple-700 rounded-lg border" required>
+                    class="w-full p-2 bg-purple-100 border-purple-300 text-purple-700 rounded-lg border">
+                @error('titel')
+                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                @enderror
             </div>
 
             <div>
                 <label for="publicatiedatum" class="block font-bold">Publicatiedatum*</label>
                 <input type="date" name="publicatiedatum" id="publicatiedatum"
                     value="{{ old('publicatiedatum', $newsletter->publicatiedatum->format('Y-m-d')) }}"
-                    class="w-full p-2 bg-purple-100 border-purple-300 text-purple-700 rounded-lg border" required>
+                    class="w-full p-2 bg-purple-100 border-purple-300 text-purple-700 rounded-lg border">
+                @error('publicatiedatum')
+                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                @enderror
             </div>
 
             <h2 class="text-xl font-semibold">Nieuwsblokjes</h2>
@@ -28,11 +34,14 @@
                     <div class="event-block border p-4 mb-4 rounded-xl bg-purple-50">
                         <label>Titel*</label>
                         <input type="text" name="events[{{ $index }}][titel]"
-                            value="{{ old("events.$index.titel", $event['titel']) }}" class="w-full mb-2" required>
+                            value="{{ old("events.$index.titel", $event['titel']) }}" class="w-full mb-2">
+                            @error("events.$index.titel")
+                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                            @enderror
 
-                        <label>Datum*</label>
+                        <label>Datum</label>
                         <input type="date" name="events[{{ $index }}][datum]"
-                            value="{{ old("events.$index.datum", $event['datum']) }}" class="w-full mb-2" required>
+                            value="{{ old("events.$index.datum", $event['datum']) }}" class="w-full mb-2">
 
                         <label>Tijd</label>
                         <input type="text" name="events[{{ $index }}][tijd]"
@@ -43,7 +52,11 @@
                             value="{{ old("events.$index.locatie", $event['locatie'] ?? '') }}" class="w-full mb-2">
 
                         <label>Inhoud*</label>
-                        <textarea name="events[{{ $index }}][inhoud]" rows="4" class="w-full mb-2" required>{{ old("events.$index.inhoud", $event['inhoud']) }}</textarea>
+                        <textarea name="events[{{ $index }}][inhoud]" rows="4"
+                            class="w-full mb-2">{{ old("events.$index.inhoud", $event['inhoud']) }}</textarea>
+                        @error("events.$index.inhoud")
+                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                        @enderror
 
                         <label>Afbeelding</label>
                         <input type="file" name="event_images[{{ $index }}]" accept="image/*" class="w-full mb-2">
@@ -73,10 +86,10 @@
             block.classList.add('event-block', 'border', 'p-4', 'mb-4', 'rounded-xl', 'bg-purple-50');
             block.innerHTML = `
                 <label>Titel*</label>
-                <input type="text" name="events[${eventCount}][titel]" class="w-full mb-2" required>
+                <input type="text" name="events[${eventCount}][titel]" class="w-full mb-2">
 
                 <label>Datum*</label>
-                <input type="date" name="events[${eventCount}][datum]" class="w-full mb-2" required>
+                <input type="date" name="events[${eventCount}][datum]" class="w-full mb-2">
 
                 <label>Tijd</label>
                 <input type="text" name="events[${eventCount}][tijd]" class="w-full mb-2">
@@ -85,7 +98,7 @@
                 <input type="text" name="events[${eventCount}][locatie]" class="w-full mb-2">
 
                 <label>Inhoud*</label>
-                <textarea name="events[${eventCount}][inhoud]" class="w-full mb-2" rows="4" required></textarea>
+                <textarea name="events[${eventCount}][inhoud]" class="w-full mb-2" rows="4"></textarea>
 
                 <label>Afbeelding</label>
                 <input type="file" name="event_images[${eventCount}]" accept="image/*" class="w-full mb-2">
