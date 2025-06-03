@@ -24,20 +24,15 @@
             {{-- Gepubliceerde nieuwsbrieven --}}
             <div class="space-y-4" aria-label="Nieuwsbrief lijst">
                 @forelse ($published as $newsletter)
-                    <div class="bg-gray-100 p-3 rounded" role="group" aria-label="Nieuwsbrief {{ $newsletter->titel }}">
+                    <div onclick="previewPDF('{{ asset('storage/' . $newsletter->pdf) }}', '{{ $newsletter->titel }}')"
+                         class="bg-gray-100 p-3 rounded cursor-pointer hover:bg-gray-200 transition"
+                         role="button" tabindex="0" aria-label="Bekijk nieuwsbrief {{ $newsletter->titel }}">
                         <div class="mb-2">
                             <strong>{{ $newsletter->titel }}</strong><br>
                             <span class="text-sm text-gray-600">{{ $newsletter->publicatiedatum }}</span>
                         </div>
 
-                        <div class="flex flex-wrap gap-2">
-                            <button
-                                onclick="previewPDF('{{ asset('storage/' . $newsletter->pdf) }}', '{{ $newsletter->titel }}')"
-                                dusk="bekijk-newsletter" class="text-blue-600 hover:underline text-sm"
-                                aria-label="Bekijk PDF van {{ $newsletter->titel }}">
-                                Bekijk
-                            </button>
-
+                        <div class="flex flex-wrap gap-2 mt-2">
                             <a href="{{ asset('storage/' . $newsletter->pdf) }}" target="_blank" rel="noopener noreferrer"
                                 class="text-green-600 hover:underline text-sm"
                                 aria-label="Open PDF van {{ $newsletter->titel }} in nieuw tabblad">
@@ -98,21 +93,15 @@
                     <h2 class="text-xl font-bold mb-4 text-gray-500">Toekomstige nieuwsbrieven</h2>
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         @foreach ($upcoming as $newsletter)
-                            <div class="bg-yellow-50 p-3 rounded" role="group"
-                                aria-label="Toekomstige nieuwsbrief {{ $newsletter->titel }}">
+                            <div onclick="previewPDF('{{ asset('storage/' . $newsletter->pdf) }}', '{{ $newsletter->titel }}')"
+                                 class="bg-yellow-50 p-3 rounded cursor-pointer hover:bg-yellow-100 transition"
+                                 role="button" tabindex="0" aria-label="Bekijk nieuwsbrief {{ $newsletter->titel }}">
                                 <div class="mb-2">
                                     <strong>{{ $newsletter->titel }}</strong><br>
                                     <span class="text-sm text-gray-600">{{ $newsletter->publicatiedatum }}</span>
                                 </div>
 
-                                <div class="flex flex-wrap gap-2">
-                                    <button
-                                        onclick="previewPDF('{{ asset('storage/' . $newsletter->pdf) }}', '{{ $newsletter->titel }}')"
-                                        class="text-blue-600 hover:underline text-sm"
-                                        aria-label="Bekijk PDF van {{ $newsletter->titel }}">
-                                        Bekijk
-                                    </button>
-
+                                <div class="flex flex-wrap gap-2 mt-2">
                                     <a href="{{ asset('storage/' . $newsletter->pdf) }}" target="_blank" rel="noopener noreferrer"
                                         class="text-green-600 hover:underline text-sm"
                                         aria-label="Open PDF van {{ $newsletter->titel }} in nieuw tabblad">

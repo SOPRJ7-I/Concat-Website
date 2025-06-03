@@ -63,7 +63,7 @@
         <div class="event">
             <h2>{{ $event['titel'] }}</h2>
             @if (!empty($event['datum']))
-            <div class="info"><strong>Datum:</strong> {{ $event['datum'] }}</div>
+                <div class="info"><strong>Datum:</strong> {{ $event['datum'] }}</div>
             @endif
             @if (!empty($event['tijd']))
                 <div class="info"><strong>Tijd:</strong> {{ $event['tijd'] }}</div>
