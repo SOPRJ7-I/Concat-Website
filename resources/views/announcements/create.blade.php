@@ -27,19 +27,15 @@
                 @enderror
             </div>
 
-            <div class="mb-4">
-                <label class="flex items-center">
-                    <input type="hidden" name="isVisible" value="0">
-                    <input type="checkbox" name="isVisible" value="1"
-                           class="form-checkbox h-5 w-5 text-purple-600" {{ old('isVisible', false) ? 'checked' : '' }}>
-                    <span class="ml-2 text-gray-700">Maak direct zichtbaar</span>
-                </label>
-            </div>
-
-
-            <div>
-                <input type="submit" value="Toevoegen"
-                       class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer">
+            <div class="flex justify-end space-x-4">
+                <button type="submit" name="action" value="publish"
+                        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold transition">
+                    Publiceren
+                </button>
+                <button type="submit" name="action" value="draft"
+                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition">
+                    Opslaan als concept
+                </button>
             </div>
         </form>
     </div>
