@@ -165,7 +165,7 @@ class EventController extends Controller
             'availableSpots' => $availableSpots
         ];
     }
-   public function downloadIcs(Evenementen $event)
+   public function downloadIcs(Events $event)
 {
 
     $startDateTime = Carbon::parse($event->datum . ' ' . $event->starttijd);
