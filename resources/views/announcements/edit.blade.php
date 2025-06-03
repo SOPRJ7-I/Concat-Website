@@ -4,8 +4,6 @@
             Announcement bewerken
         </h1>
 
-
-
         <form method="POST" action="{{ route('announcements.update', $announcement->id) }}" class="mt-4 space-y-4">
             @csrf
             @method('PUT')
@@ -28,29 +26,23 @@
                 @enderror
             </div>
 
+            <div class="flex justify-end space-x-4">
+                @if ($announcement->isVisible)
+                    {{-- Show "Bijwerken" button if the announcement is already published --}}
+                    <x-form-button type="submit" name="action" value="update">
+                        Bijwerken
+                    </x-form-button>
+                @else
 
-            <div class="mb-4">
-                <label class="flex items-center">
-                    <input type="hidden" name="isVisible" value="0">
-                    <input type="checkbox" name="isVisible" value="1"
-                           {{ old('isVisible', $announcement->isVisible) ? 'checked' : '' }}
-                           class="form-checkbox h-5 w-5 text-yellow-600">
-                    <span class="ml-2 text-gray-700">Zichtbaar maken</span>
-                </label>
-            </div>
+                <x-form-button type="submit" name="action" value="save">
+                    Opslaan
+                </x-form-button>
+                    <button type="submit" name="action" value="publish"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition">
+                        Publiceer
+                    </button>
+                @endif
 
-            <div class="flex justify-between">
-                <div>
-                    <a href="#"
-                       class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer">
-                        Annuleren
-                    </a>
-                </div>
-
-                <div>
-                    <input type="submit" value="Opslaan"
-                           class="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition font-semibold cursor-pointer">
-                </div>
             </div>
         </form>
     </div>
