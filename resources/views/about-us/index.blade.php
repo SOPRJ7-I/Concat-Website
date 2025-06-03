@@ -59,7 +59,7 @@
                 @if(auth()->user()->role === 'admin')
                     <a href="{{ route('board-members.edit', $member->id) }}" 
                     class="bg-[#3129FF] rounded-lg text-white py-1 px-2 hover:bg-[#E39FF6] transition text-sm inline-flex items-center max-w-[90px] truncate" 
-                    aria-label="Bewerk {{ $member->name }}">
+                    aria-label="Bewerk Knop">
                     <i class="fa-solid fa-pencil mr-1"></i>Bewerken
                     </a>
                 @endif
