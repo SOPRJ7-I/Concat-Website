@@ -59,9 +59,10 @@
             </div>
 
             {{-- Kalender selecties --}}
-            <div class="p-4 border rounded shadow-sm" role="region" aria-label="Kalenders selecteren">
-                <h2 class="text-xl font-semibold mb-3">Kalenders selecteren</h2>
-                @if($roosters->count() > 0)
+           <div class="p-4 border rounded shadow-sm" role="region" aria-label="Kalenders selecteren">
+            <h2 class="text-xl font-semibold mb-3">Kalenders selecteren</h2>
+            @if($roosters->count() > 0)
+                <div class="max-h-48 overflow-y-auto">
                     @foreach($roosters as $rooster)
                         @php
                             $shortName = substr($rooster->ical_url, -10);
@@ -90,10 +91,12 @@
                             </form>
                         </div>
                     @endforeach
-                @else
-                    <p data-dusk="no-calendars" aria-label="Geen kalenders toegevoegd">Geen kalenders toegevoegd.</p>
-                @endif
-            </div>
+                </div>
+            @else
+                <p data-dusk="no-calendars" aria-label="Geen kalenders toegevoegd">Geen kalenders toegevoegd.</p>
+            @endif
+        </div>
+
         </div>
 
         {{-- Rechterkolom: Grafiek --}}
@@ -171,32 +174,32 @@
                 labels: hourLabels,
                 datasets: []
             },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function (value) {
-                                if (Number.isInteger(value)) return value;
-                            },
-                            stepSize: 1,
-                            min: 0
+           options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    stacked: true, // toevoegen
+                    ticks: {
+                        callback: function (value) {
+                            if (Number.isInteger(value)) return value;
                         },
-                        title: { display: true, text: 'Aantal lessen' }
+                        stepSize: 1,
+                        min: 0
                     },
-                    x: {
-                        stacked: true,
-                        title: { display: true, text: 'Uur van de dag' }
-                    }
+                    title: { display: true, text: 'Aantal lessen' }
                 },
-                plugins: {
-                    tooltip: { mode: 'index', intersect: false },
-                    legend: {
-                        display: false // We maken eigen legenda, dus Chart.js legende uitzetten
-                    }
+                x: {
+                    stacked: true,
+                    title: { display: true, text: 'Uur van de dag' }
                 }
+            },
+            plugins: {
+                tooltip: { mode: 'index', intersect: false },
+                legend: { display: false }
             }
+        }
+ 
         });
     }
 

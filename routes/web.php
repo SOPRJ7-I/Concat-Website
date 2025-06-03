@@ -33,6 +33,7 @@ Route::get('/events/create', [EventController::class, 'create'])->name('events.c
 Route::post('/events/create', [EventController::class, 'store'])->name('events.store');
 // routes/web.php
 Route::get('/events/{event}/download-ics', [EventController::class, 'downloadIcs'])->name('events.ics');
+Route::get('/events/download-ics', [EventController::class, 'DownloadAllICS'])->name('events.download-ics');
 
 
 Route::get('/events/index', [EventController::class, 'index'])->name('events.index');

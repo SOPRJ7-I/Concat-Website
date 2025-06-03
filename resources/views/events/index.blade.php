@@ -1,8 +1,17 @@
 <x-layout>
     <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl mt-5 mb-5">
         <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1 text-center w-full mb-5">
-            Events
+            Evenementen
         </h1>
+<!-- Link 'Download als ICS' -->
+<div class="text-center -mt-5  mb-1">
+    <a href="{{ route('events.download-ics') }}"
+        class="text-sm text-purple-600 hover:underline font-medium transition duration-200"
+        aria-label="Download alle evenementen als ICS bestand en voeg toe aan je agenda">
+        Download als ICS <i class="fa-solid fa-calendar-arrow-down" aria-hidden="true"></i>
+    </a>
+</div>
+
 
         @auth
             @if(auth()->user()->role === 'admin')
