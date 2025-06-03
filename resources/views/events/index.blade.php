@@ -20,7 +20,7 @@
                     <a href="{{ url('/events/create') }}"
                        class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
                        aria-label="Nieuw event toevoegen">
-                        <i class="fa-solid fa-plus mr-2" aria-hidden="true"></i> Event toevoegen
+                        <i class="fa-solid fa-plus mr-2" aria-hidden="true"></i> Evenement toevoegen
                     </a>
                 </div>
             @endif
@@ -58,7 +58,7 @@
                 <a href="{{ url('/events/index') . '?afgelopen=true&categorie=' . $categorieFilter }}"
                    class="inline-flex items-center bg-purple-100 text-gray-800 font-semibold py-2 px-4 rounded border-pink-300 hover:bg-[#E39FF6] transition"
                    aria-label="Bekijk afgelopen events">
-                    <i class="fa-solid fa-clock-rotate-left mr-2" aria-hidden="true"></i> Afgelopen events
+                    <i class="fa-solid fa-clock-rotate-left mr-2" aria-hidden="true"></i> Afgelopen evenementen
                 </a>
             </div>
         </form>
