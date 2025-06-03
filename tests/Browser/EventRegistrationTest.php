@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use Database\Factories\EventsFactory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -16,7 +17,7 @@ class EventRegistrationTest extends DuskTestCase
     public function link_zet_in_agenda_is_aanwezig_en_werkt()
     {
         // Maak eerst een test-evenement aan in de database
-        $evenement = Evenementen::factory()->create([
+        $evenement = EventsFactory::factory()->create([
             'titel' => 'Test Evenement Dusk',
             'datum' => '2025-03-07',
             'starttijd' => '18:00',
@@ -30,7 +31,7 @@ class EventRegistrationTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($evenement) {
             $href = route('events.ics', $evenement->id);
 
-            $browser->visit("/evenementen/{$evenement->id}") // Pas URL aan naar je route voor event details
+            $browser->visit("/events/{$evenement->id}") // Pas URL aan naar je route voor event details
                 ->assertSeeLink('Zet in agenda') // Check dat linktekst zichtbaar is
                 ->assertAttribute('a[href="'.$href.'"]', 'href', $href) // Controleer of de link met href aanwezig is
                 ->clickLink('Zet in agenda'); // Klik op de link
