@@ -6,10 +6,11 @@ use App\Http\Controllers\CommunityNightController;
 use App\Http\Controllers\SponsorController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EvenementenController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegistrationsController;
+use App\Http\Controllers\RoostersController;
 
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\AboutUsController;
@@ -28,10 +29,14 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::post('/registration', [RegistrationsController::class, 'store'])->name('registration');
 
-Route::get('/events/create', [EvenementenController::class, 'create'])->name('events.create');
-Route::post('/events/create', [EvenementenController::class, 'store'])->name('events.store');
+Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
+Route::post('/events/create', [EventController::class, 'store'])->name('events.store');
+// routes/web.php
+Route::get('/events/{event}/download-ics', [EventController::class, 'downloadIcs'])->name('events.ics');
+Route::get('/events/download-ics', [EventController::class, 'DownloadAllICS'])->name('events.download-ics');
 
-Route::get('/events/index', [EvenementenController::class, 'index'])->name('events.index');
+
+Route::get('/events/index', [EventController::class, 'index'])->name('events.index');
 Route::get('/community-nights/create', [CommunityNightController::class, 'create']);
 
 Route::get('/community-nights/{id}/edit', [CommunityNightController::class, 'edit'])->name('community-nights.edit');
@@ -39,7 +44,7 @@ Route::get('/community-nights/{id}/edit', [CommunityNightController::class, 'edi
 Route::put('/community-nights/{communityNight}/update', [CommunityNightController::class, 'update'])->name('community-nights.update');
 
 
-Route::get('/evenementen/{event}', [EvenementenController::class, 'show'])->name('evenementen.show');
+Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
 //galerij
 Route::get('/gallery/gallery', [GalleryController::class, 'index']);
@@ -64,6 +69,8 @@ Route::get('/announcements/load-older', [AnnouncementController::class, 'loadOld
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/admin/announcements', [AnnouncementController::class, 'adminIndex'])->name('announcements.admin');
+
+
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -76,3 +83,27 @@ Route::get('/news/create', [NewsletterController::class, 'create'])->name('news.
 
 //about us
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about-us.index');
+
+// Board Members
+Route::get('/board-members/{id}/edit', [AboutUsController::class, 'edit_board_member'])->name('board-members.edit');
+Route::put('/board-members/{id}', [AboutUsController::class, 'update_board_member'])->name('board-members.update');
+
+// PreviousBoard
+
+Route::get('/previous-boards/{id}/edit', [AboutUsController::class, 'edit_previous_board'])->name('previous-boards.edit');
+Route::put('/previous-boards/{id}', [AboutUsController::class, 'update_previous_board'])->name('previous-boards.update');
+
+//PROBLEMEN MET AUTHENTICATIE KIJK ERNAAR!!!
+Route::middleware('auth')->group(function () {
+    Route::group(['middleware' => function ($request, $next) {
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Access denied');
+        }
+        return $next($request);
+    }], function () {
+        Route::get('/admin/announcements', [AnnouncementController::class, 'adminIndex'])->name('announcements.admin');
+        Route::get('/roosters', [RoostersController::class, 'index']);
+        Route::post('/roosters', [RoostersController::class, 'store']);
+        Route::delete('/roosters/{rooster}', [RoostersController::class, 'destroy'])->name('roosters.destroy');
+    });
+});

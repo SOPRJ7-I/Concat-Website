@@ -2,18 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Evenement;
-use App\Models\Evenementen;
+use App\Models\Event;
+use App\Models\Events;
 use Illuminate\Database\Seeder;
 
-class EvenementenSeeder extends Seeder
+class EventsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run()
     {
-        Evenementen::create([
+        Events::create([
             'titel' => 'Tech Conferentie 2025',
             'categorie' => 'education',
             'beschrijving' => 'Een wereldwijde technologieconferentie met de nieuwste ontwikkelingen op het gebied van technologie, AI en innovatie.',
@@ -27,7 +27,7 @@ class EvenementenSeeder extends Seeder
             'afbeelding' => 'tech_conferentie.jpg',
         ]);
 
-        Evenementen::create([
+        Events::create([
             'titel' => 'Food Festival Amsterdam',
             'categorie' => 'blokborrel',
             'beschrijving' => 'Een viering van eten van over de hele wereld, met livemuziek en kookdemonstraties.',
@@ -41,7 +41,7 @@ class EvenementenSeeder extends Seeder
             'afbeelding' => 'food_festival.jpg',
         ]);
 
-        Evenementen::create([
+        Events::create([
             'titel' => 'Kunst Expo 2025',
             'categorie' => 'education',
             'beschrijving' => 'Een tentoonstelling met hedendaagse kunst, met werken van zowel bekende als opkomende kunstenaars.',
@@ -55,7 +55,7 @@ class EvenementenSeeder extends Seeder
             'afbeelding' => 'kunst_expo.jpg',
         ]);
 
-        Evenementen::create([
+        Events::create([
             'titel' => 'Filmfestival Leiden',
             'categorie' => 'blokborrel',
             'beschrijving' => 'Een internationaal filmfestival met vertoningen van onafhankelijke en buitenlandse films.',
@@ -69,7 +69,7 @@ class EvenementenSeeder extends Seeder
             'afbeelding' => 'film_festival.jpg',
         ]);
 
-        Evenementen::create([
+        Events::create([
             'titel' => 'Muziekfestival Den Haag',
             'categorie' => 'blokborrel',
             'beschrijving' => 'Een bruisend muziekfestival met optredens van zowel lokale als internationale artiesten.',
@@ -83,7 +83,7 @@ class EvenementenSeeder extends Seeder
             'afbeelding' => 'muziek_festival.jpg',
         ]);
 
-        Evenementen::create([
+        Events::create([
             'titel' => 'Kerstmarkt Maastricht',
             'categorie' => 'blokborrel',
             'beschrijving' => 'Een magische kerstmarkt met feestelijke verlichting, eetkraampjes en kerstliederen.',
@@ -97,7 +97,7 @@ class EvenementenSeeder extends Seeder
             'afbeelding' => 'kerstmarkt.jpg',
         ]);
 
-        Evenementen::create([
+        Events::create([
             'titel' => 'Zomerstrandfeest',
             'categorie' => 'blokborrel',
             'beschrijving' => 'Doe mee voor een dag vol plezier in de zon met strandspellen, muziek en heerlijk eten.',
@@ -111,7 +111,7 @@ class EvenementenSeeder extends Seeder
             'afbeelding' => 'strandfeest.jpg',
         ]);
 
-        Evenementen::create([
+        Events::create([
             'titel' => 'Internationaal Dansfestival',
             'categorie' => 'education',
             'beschrijving' => 'Een festival voor dansliefhebbers, met workshops, optredens en wedstrijden.',
@@ -125,7 +125,7 @@ class EvenementenSeeder extends Seeder
             'afbeelding' => 'dansfestival.jpg',
         ]);
 
-        Evenementen::create([
+        Events::create([
             'titel' => 'Filmfestival Tilburg',
             'categorie' => 'blokborrel',
             'beschrijving' => 'Een internationaal filmfestival met vertoningen van onafhankelijke en buitenlandse films.',

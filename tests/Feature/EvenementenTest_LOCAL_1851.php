@@ -4,18 +4,18 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Evenementen;
+use App\Models\Events;
 
-class EvenementenTest extends TestCase
+class EventsTest extends TestCase
 {
     use RefreshDatabase; // Zorgt ervoor dat de database wordt geleegd na elke test
 
     /** @test */
-    public function een_evenement_kan_worden_aangemaakt()
+    public function een_event_kan_worden_aangemaakt()
     {
         // Simuleer een POST request met testdata
         $response = $this->post('/events/create', [
-            'titel' => 'Test Evenement',
+            'titel' => 'Test Event',
             'datum' => '2025-03-07',
             'starttijd' => '18:00',
             'eindtijd' => '22:00',
@@ -23,12 +23,12 @@ class EvenementenTest extends TestCase
             'locatie' => 'Test Locatie',
             'aantal_beschikbare_plekken' => 50,
             'betaal_link' => 'https://test-betaal-link.com',
-            'categorie' => 'Evenement'
+            'categorie' => 'Event'
         ]);
 
-        // Controleer of het evenement in de database staat
-        $this->assertDatabaseHas('evenementen_toevoegen', [
-            'titel' => 'Test Evenement'
+        // Controleer of het event in de database staat
+        $this->assertDatabaseHas('events_toevoegen', [
+            'titel' => 'Test Event'
         ]);
 
         // Controleer of de gebruiker wordt doorgestuurd naar de juiste pagina

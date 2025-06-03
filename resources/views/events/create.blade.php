@@ -1,6 +1,6 @@
 <x-layout>
     <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl mt-5 mb-5">
-        <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1" alt="Formulier voor het toevoegen van een evenement">
+        <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1" alt="Formulier voor het toevoegen van een event">
             Evenement toevoegen
         </h1>
 
@@ -9,7 +9,7 @@
 
             <div>
                 <label for="titel" class="block text-l font-bold">Titel*</label>
-                <input type="text" name="titel" id="titel" placeholder="Titel van het evenement"
+                <input type="text" name="titel" id="titel" placeholder="Titel van het event"
                        value="{{ old('titel') }}"
                        class="w-full p-2 {{ $errors->has('titel') ? 'bg-red-100 border-red-300 text-red-700' : 'bg-purple-100 border-purple-300 text-purple-700' }} rounded-lg outline-none border focus:ring-2 focus:ring-purple-500">
                 @error('titel')
@@ -75,7 +75,7 @@
 
             <div>
                 <label for="beschrijving" class="block text-l font-bold">Beschrijving*</label>
-                <textarea name="beschrijving" id="beschrijving" placeholder="Beschrijving van het evenement"
+                <textarea name="beschrijving" id="beschrijving" placeholder="Beschrijving van het event"
                           class="w-full p-2 {{ $errors->has('beschrijving') ? 'bg-red-100 border-red-300 text-red-700' : 'bg-purple-100 border-purple-300 text-purple-700' }} rounded-lg outline-none border focus:ring-2 focus:ring-purple-500">{{ old('beschrijving') }}</textarea>
                 @error('beschrijving')
                 <div class="text-red-500 text-l mt-1 font-bold">{{ $message }}</div>
@@ -84,7 +84,7 @@
 
             <div>
                 <label for="locatie" class="block text-l font-bold">Locatie*</label>
-                <input type="text" name="locatie" id="locatie" placeholder="Locatie van het evenement"
+                <input type="text" name="locatie" id="locatie" placeholder="Locatie van het event"
                        value="{{ old('locatie') }}"
                        class="w-full p-2 {{ $errors->has('locatie') ? 'bg-red-100 border-red-300 text-red-700' : 'bg-purple-100 border-purple-300 text-purple-700' }} rounded-lg outline-none border focus:ring-2 focus:ring-purple-500">
                 @error('locatie')
@@ -113,7 +113,7 @@
 
             <div>
                 <label for="betaal_link" class="block text-l font-bold">Betaal link</label>
-                <input type="text" name="betaal_link" id="betaal_link" placeholder="Betaal link van het evenement"
+                <input type="text" name="betaal_link" id="betaal_link" placeholder="Betaal link van het event"
                        value="{{ old('betaal_link') }}"
                        class="w-full p-2 {{ $errors->has('betaal_link') ? 'bg-red-100 border-red-300 text-red-700' : 'bg-purple-100 border-purple-300 text-purple-700' }} rounded-lg outline-none border focus:ring-2 focus:ring-purple-500">
                 @error('betaal_link')
@@ -122,8 +122,10 @@
             </div>
 
             <input type="submit" value="Toevoegen"
-                   class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer" alt="Klik om het evenement toe te voegen">
+                   class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer" alt="Klik om het event toe te voegen">
         </form>
+
+
     </div>
 
     <script>
