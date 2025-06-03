@@ -124,6 +124,8 @@
             <input type="submit" value="Toevoegen"
                    class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer" alt="Klik om het event toe te voegen">
         </form>
+
+
     </div>
 
     <script>
