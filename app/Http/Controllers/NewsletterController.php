@@ -11,7 +11,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class NewsletterController extends Controller
 {
-    // Overzichtspagina
     public function index()
     {
         $today = Carbon::today();
@@ -31,68 +30,57 @@ class NewsletterController extends Controller
         return view('newsletters.index', compact('published', 'upcoming'));
     }
 
-    // Detailpagina van 1 newsletter (optioneel)
     public function show(Newsletter $newsletter)
     {
-        return view('newsletters.show', compact('newsletter'));
+        $events = $newsletter->inhoud;
+        $images = $newsletter->images ?? [];
+        return view('newsletters.show', compact('newsletter', 'events', 'images'));
     }
 
-    // Pagina voor het aanmaken van een nieuwe newsletter
     public function create()
     {
         return view('newsletters.create');
     }
 
-    // Uploaden van een nieuwe newsletter
     public function store(Request $request)
     {
-        $validated = $request->validate(
-            [
-                'titel' => 'required|string|max:255|unique:newsletters,titel',
-                'publicatiedatum' => 'required|date',
-                'inhoud' => 'required|string',
-                'images.*' => 'image|max:1000',
-            ],
-            [
-                'titel.required' => 'De titel is verplicht.',
-                'publicatiedatum.required' => 'De publicatiedatum is verplicht.',
-                'inhoud.required' => 'De inhoud is verplicht.',
-                'images.*.image' => 'Alleen afbeeldingen zijn toegestaan.',
-                'images.*.max' => 'Elke afbeelding mag maximaal 1MB zijn.',
-            ]
-        );
+        $validated = $request->validate([
+            'titel' => 'required|string|max:255|unique:newsletters,titel',
+            'publicatiedatum' => 'required|date',
+            'events' => 'required|array|min:1',
+            'events.*.titel' => 'required|string',
+            'events.*.datum' => 'required|date',
+            'events.*.tijd' => 'nullable|string',
+            'events.*.locatie' => 'nullable|string',
+            'events.*.inhoud' => 'required|string',
+            'event_images.*' => 'image|max:1000',
+        ]);
 
-        // Afbeeldingen uploaden en paden verzamelen
         $imagePaths = [];
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
+        if ($request->hasFile('event_images')) {
+            foreach ($request->file('event_images') as $image) {
                 $path = $image->store('newsletters/images', 'public');
-                // Absoluut pad voor DomPDF
-                $imagePaths[] = public_path('storage/' . $path);
+                $imagePaths[] = 'storage/' . $path;
             }
         }
 
-        // PDF genereren vanuit Blade view
         $pdf = Pdf::loadView('newsletters.pdf', [
             'title' => $validated['titel'],
-            'content' => Str::markdown($validated['inhoud']),
+            'publicatiedatum' => $validated['publicatiedatum'],
+            'events' => $validated['events'],
             'images' => $imagePaths,
         ]);
 
-        // Unieke bestandsnaam PDF
         $filename = Str::slug($validated['titel']) . '-' . time() . '.pdf';
         $pdfPath = 'newsletters/' . $filename;
-
-        // PDF opslaan
         Storage::disk('public')->put($pdfPath, $pdf->output());
 
-        // Nieuwsbrief aanmaken in database, images als JSON opslaan
         Newsletter::create([
             'titel' => $validated['titel'],
             'publicatiedatum' => $validated['publicatiedatum'],
-            'inhoud' => $validated['inhoud'],
+            'inhoud' => $validated['events'],
             'pdf' => $pdfPath,
-            'images' => json_encode($imagePaths),
+            'images' => $imagePaths,
         ]);
 
         return redirect()->route('newsletters.index')
@@ -101,7 +89,8 @@ class NewsletterController extends Controller
 
     public function edit(Newsletter $newsletter)
     {
-        return view('newsletters.edit', compact('newsletter'));
+        $events = $newsletter->inhoud;
+        return view('newsletters.edit', compact('newsletter', 'events'));
     }
 
     public function update(Request $request, Newsletter $newsletter)
@@ -109,24 +98,28 @@ class NewsletterController extends Controller
         $validated = $request->validate([
             'titel' => 'required|string|max:255|unique:newsletters,titel,' . $newsletter->id,
             'publicatiedatum' => 'required|date',
-            'inhoud' => 'required|string',
-            'images.*' => 'image|max:1000',
+            'events' => 'required|array|min:1',
+            'events.*.titel' => 'required|string',
+            'events.*.datum' => 'required|date',
+            'events.*.tijd' => 'nullable|string',
+            'events.*.locatie' => 'nullable|string',
+            'events.*.inhoud' => 'required|string',
+            'event_images.*' => 'image|max:1000',
         ]);
 
-        // Eventueel nieuwe afbeeldingen toevoegen
-        $imagePaths = json_decode($newsletter->images ?? '[]', true);
+        $imagePaths = $newsletter->images ?? [];
 
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
+        if ($request->hasFile('event_images')) {
+            foreach ($request->file('event_images') as $image) {
                 $path = $image->store('newsletters/images', 'public');
-                $imagePaths[] = public_path('storage/' . $path);
+                $imagePaths[] = 'storage/' . $path;
             }
         }
 
-        // PDF opnieuw genereren
         $pdf = Pdf::loadView('newsletters.pdf', [
             'title' => $validated['titel'],
-            'content' => Str::markdown($validated['inhoud']),
+            'publicatiedatum' => $validated['publicatiedatum'],
+            'events' => $validated['events'],
             'images' => $imagePaths,
         ]);
 
@@ -134,13 +127,12 @@ class NewsletterController extends Controller
         $pdfPath = 'newsletters/' . $filename;
         Storage::disk('public')->put($pdfPath, $pdf->output());
 
-        // Update DB
         $newsletter->update([
             'titel' => $validated['titel'],
             'publicatiedatum' => $validated['publicatiedatum'],
-            'inhoud' => $validated['inhoud'],
+            'inhoud' => $validated['events'],
             'pdf' => $pdfPath,
-            'images' => json_encode($imagePaths),
+            'images' => $imagePaths,
         ]);
 
         return redirect()->route('newsletters.index')
