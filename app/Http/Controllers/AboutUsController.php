@@ -35,7 +35,7 @@ class AboutUsController extends Controller
     public function edit_board_member($id)
     {
         $boardMember = BoardMember::findOrFail($id);
-        //$this->authorize('editBoardMember', $boardMember);
+        $this->authorize('editBoardMember', $boardMember);
         return view('about-us.board_member_edit', compact('boardMember'));
     }
 
@@ -44,7 +44,7 @@ class AboutUsController extends Controller
     public function update_board_member(Request $request,  $id)
     {
         $boardMember = BoardMember::findOrFail($id);
-        //$this->authorize('updateBoardMember', $boardMember);
+        $this->authorize('updateBoardMember', $boardMember);
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'role' => 'required|string|max:255',
@@ -81,7 +81,7 @@ class AboutUsController extends Controller
     public function edit_previous_board($id)
     {
         $previousBoard = PreviousBoard::findOrFail($id);
-        //$this->authorize('editPreviousBoard', $previousBoard);
+        $this->authorize('editPreviousBoard', $previousBoard);
         return view('about-us.previous_board_edit', compact('previousBoard'));
     }
 
@@ -89,7 +89,7 @@ class AboutUsController extends Controller
     public function update_previous_board(Request $request, $id)
     {
         $previousBoard = PreviousBoard::findOrFail($id);
-        //$this->authorize('updatePreviousBoard', $previousBoard);
+        $this->authorize('updatePreviousBoard', $previousBoard);
         $validated = $request->validate([
             'FromYear' => 'required|date',
             'ToYear' => 'required|date|after_or_equal:FromYear',

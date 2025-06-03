@@ -11,7 +11,7 @@ class AboutUsPolicy
     /**
      * Determine whether the user can edit board members.
      */
-    public function editBoardMember(User $user): bool
+    public function editBoardMember(User $user, BoardMember $boardMember): bool
     {
         return $user->role === 'admin';
     }
@@ -27,7 +27,7 @@ class AboutUsPolicy
     /**
      * Determine whether the user can edit previous boards.
      */
-    public function editPreviousBoard(User $user): bool
+    public function editPreviousBoard(User $user, PreviousBoard $previousBoard): bool
     {
         return $user->role === 'admin';
     }
