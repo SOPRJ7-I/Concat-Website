@@ -1,8 +1,18 @@
 <x-layout>
     <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-5xl mt-5 mb-5">
         <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1 text-center w-full mb-5">
-            Events
+            Evenementen
         </h1>
+        <!-- Link 'Download als ICS' -->
+        <div class="text-center -mt-5 mb-2">
+            <a href="{{ route('events.download-ics') }}"
+            class="text-base text-purple-600 hover:underline font-semibold transition duration-200"
+            aria-label="Download alle evenementen als ICS bestand en voeg toe aan je agenda">
+            Download als ICS <i class="fa-solid fa-calendar-arrow-down" aria-hidden="true"></i>
+            </a>
+        </div>
+
+
 
         @auth
             @if(auth()->user()->role === 'admin')
@@ -10,7 +20,7 @@
                     <a href="{{ url('/events/create') }}"
                        class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
                        aria-label="Nieuw event toevoegen">
-                        <i class="fa-solid fa-plus mr-2" aria-hidden="true"></i> Event toevoegen
+                        <i class="fa-solid fa-plus mr-2" aria-hidden="true"></i> Evenement toevoegen
                     </a>
                 </div>
             @endif
@@ -48,7 +58,7 @@
                 <a href="{{ url('/events/index') . '?afgelopen=true&categorie=' . $categorieFilter }}"
                    class="inline-flex items-center bg-purple-100 text-gray-800 font-semibold py-2 px-4 rounded border-pink-300 hover:bg-[#E39FF6] transition"
                    aria-label="Bekijk afgelopen events">
-                    <i class="fa-solid fa-clock-rotate-left mr-2" aria-hidden="true"></i> Afgelopen events
+                    <i class="fa-solid fa-clock-rotate-left mr-2" aria-hidden="true"></i> Afgelopen evenementen
                 </a>
             </div>
         </form>

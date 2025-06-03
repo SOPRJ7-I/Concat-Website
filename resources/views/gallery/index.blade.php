@@ -7,6 +7,18 @@
                 Galerij
             </h1>
 
+            @auth
+                @if(auth()->user()->isAdmin())
+                    <div class="flex justify-end mb-4">
+                        <a href="{{ route('gallery.create') }}"
+                            class="inline-flex items-center bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
+                            aria-label="Nieuwe foto toevoegen">
+                            <i class="fa-solid fa-plus mr-2" aria-hidden="true"></i>Foto toevoegen
+                        </a>
+                    </div>
+                @endif
+            @endauth
+
             <!-- Sorteerknop links / Filter -->
             <form method="GET" id="filterForm" class="mb-6">
                 <label for="type" class="block text-sm font-medium text-gray-700 mb-1">Filter op:</label>
@@ -22,12 +34,37 @@
             <!-- De foto-grid -->
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6" role="list">
                 @foreach($photos as $photo)
-                    <div role="listitem" class="bg-white rounded-xl shadow-md p-4 cursor-pointer" tabindex="0" role="button"
+                    <div role="listitem" class="bg-white rounded-xl shadow-md p-4 cursor-pointer flex flex-col" tabindex="0"
                         aria-label="Bekijk foto {{ $photo['title'] }} van {{ $photo['date'] }}"
                         onclick="openModal('{{ e($photo['title']) }}', '{{ e($photo['date']) }}', '{{ e($photo['src']) }}')"
                         onkeypress="if(event.key === 'Enter' || event.key === ' ') openModal('{{ e($photo['title']) }}', '{{ e($photo['date']) }}', '{{ e($photo['src']) }}')">
-                        <img src="{{ $photo['src'] }}" alt="{{ $photo['title'] }}"
+
+                        <img src="{{ $photo['src'] }}" alt="Foto"
                             class="h-40 w-full object-contain bg-gray-100 rounded-lg mb-2" />
+
+                        @auth
+                            @if(auth()->user()->isAdmin())
+                                <div class="flex flex-col items-end mt-auto space-y-2">
+                                    <a href="{{ route('gallery.edit', $photo['id']) }}"
+                                        class="bg-blue-500 text-white py-1 px-3 rounded-md text-sm hover:bg-blue-600 transition"
+                                        onclick="event.stopPropagation();" aria-label="Bewerk foto {{ $photo['title'] }}">
+                                        <i class="fa-solid fa-pencil mr-1"></i> Bewerken
+                                    </a>
+
+                                    <form action="{{ route('gallery.destroy', $photo['id']) }}" method="POST"
+                                        onsubmit="return confirm('Weet je zeker dat je deze foto wilt verwijderen?')"
+                                        class="inline-block" onkeydown="event.stopPropagation();">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="bg-red-500 text-white py-1 px-3 rounded-md text-sm hover:bg-red-600 transition"
+                                            aria-label="Verwijder foto {{ $photo['title'] }}">
+                                            <i class="fa-solid fa-trash mr-1"></i> Verwijderen
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        @endauth
                     </div>
                 @endforeach
             </div>
@@ -36,20 +73,20 @@
 
     <!-- Modal -->
     <div id="photoModal" role="dialog" aria-modal="true" aria-labelledby="eventName" aria-describedby="eventDate"
-    onclick="handleBackdropClick(event)"
-    class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-80"
-    aria-hidden="true">
+        onclick="handleBackdropClick(event)"
+        class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-80" aria-hidden="true">
 
-    <div class="relative max-w-full max-h-full overflow-hidden">
-        <button class="absolute top-4 right-4 text-white text-3xl font-bold z-10" onclick="closeModal()" aria-label="Sluit modal">×</button>
-        <img src="" id="modalPhoto" alt=""
-            class="max-h-screen max-w-screen object-contain block m-auto rounded" />
-        <div class="flex justify-between mt-4 text-sm text-white px-4">
-            <span id="eventName">Evenement naam</span>
-            <span id="eventDate">Datum</span>
+        <div class="relative max-w-full max-h-full overflow-hidden">
+            <button class="absolute top-4 right-4 text-white text-3xl font-bold z-10" onclick="closeModal()"
+                aria-label="Sluit modal">×</button>
+            <img src="" id="modalPhoto" alt=""
+                class="max-h-[80vh] max-w-[90vw] object-contain block m-auto rounded-lg shadow-lg" />
+            <div class="flex justify-between mt-4 text-sm text-white px-4">
+                <span id="eventName">Evenement naam</span>
+                <span id="eventDate">Datum</span>
+            </div>
         </div>
     </div>
-</div>
 
     <script>
         const modal = document.getElementById('photoModal');

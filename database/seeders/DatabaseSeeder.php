@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
             SponsorSeeder::class,
             CommunityNightsSeeder::class,
             AssignmentsSeeder::class,
+            GallerySeeder::class,
+            BoardMemberSeeder::class,
+            PreviousBoardSeeder::class,
         ]);
     }
 }
