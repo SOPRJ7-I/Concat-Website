@@ -44,9 +44,9 @@
                     <h3 class="text-xl font-bold text-gray-800">{{ $member['name'] }}</h3>
                     <p class="text-purple-700 font-semibold">{{ $member['role'] }}</p>
                 </div>
-                <img 
-                    src="{{ $member['photo'] }}" 
-                    alt="Foto van {{ $member['name'] }}" 
+                <img
+                    src="{{ Storage::url($member['photo']) }}"
+                    alt="Foto van {{ $member['name'] }}"
                     class="w-32 h-32 object-cover rounded-lg shadow"
                 >
             </div>
@@ -57,14 +57,14 @@
 
            @auth
                 @if(auth()->user()->role === 'admin')
-                    <a href="{{ route('board-members.edit', $member->id) }}" 
-                    class="bg-[#3129FF] rounded-lg text-white py-1 px-2 hover:bg-[#E39FF6] transition text-sm inline-flex items-center max-w-[90px] truncate" 
+                    <a href="{{ route('board-members.edit', $member->id) }}"
+                    class="bg-[#3129FF] rounded-lg text-white py-1 px-2 hover:bg-[#E39FF6] transition text-sm inline-flex items-center max-w-[90px] truncate"
                     aria-label="Bewerk Knop">
                     <i class="fa-solid fa-pencil mr-1"></i>Bewerken
                     </a>
                 @endif
             @endauth
-            
+
         </div>
     @endforeach
 </div>
@@ -78,14 +78,14 @@
         <div class="relative" role="region" aria-labelledby="tijdlijn-title">
             <h3 id="tijdlijn-title" class="sr-only">Vorige besturen tijdlijn</h3>
             <div class="flex items-center justify-between mb-4">
-                <button 
-                    onclick="scrollTimeline(-300)" 
-                    class="px-3 py-1 bg-purple-500 text-white rounded hover:bg-purple-600" 
+                <button
+                    onclick="scrollTimeline(-300)"
+                    class="px-3 py-1 bg-purple-500 text-white rounded hover:bg-purple-600"
                     aria-label="Scroll naar links op de tijdlijn"
                 >&larr;</button>
-                <button 
-                    onclick="scrollTimeline(300)" 
-                    class="px-3 py-1 bg-purple-500 text-white rounded hover:bg-purple-600" 
+                <button
+                    onclick="scrollTimeline(300)"
+                    class="px-3 py-1 bg-purple-500 text-white rounded hover:bg-purple-600"
                     aria-label="Scroll naar rechts op de tijdlijn"
                 >&rarr;</button>
             </div>
@@ -94,7 +94,7 @@
                 @foreach ($previousBoards as $board)
                     <div role="listitem" class="min-w-[400px] min-h-[300px] bg-white border border-purple-200 p-4 rounded-lg shadow-sm" tabindex="0">
 
-                    
+
                         <div class="flex items-center justify-between mb-3">
                             <h4 class="text-lg font-bold text-purple-700 m-0">
                                 {{ $board['from'] }} - {{ $board['to'] }}
@@ -102,7 +102,7 @@
 
                             @auth
                                 @if(auth()->user()->role === 'admin')
-                                <a href="{{ route('previous-boards.edit', $board['id']) }}" 
+                                <a href="{{ route('previous-boards.edit', $board['id']) }}"
                                 class="bg-[#3129FF] rounded-lg text-white py-1 px-2 hover:bg-[#E39FF6] transition text-sm inline-flex items-center max-w-[90px] truncate"
                                 aria-label="Bewerk bestuur {{ $board['from'] }} - {{ $board['to'] }}">
                                     <i class="fa-solid fa-pencil mr-1"></i>Bewerken
@@ -114,13 +114,13 @@
 
 
                         @if (!empty($board['photo']))
-                            <img src="{{ $board['photo'] }}" alt="Groepsfoto van bestuur uit {{ $board['from'] }} - {{ $board['to'] }}" class="w-full h-46 object-cover rounded mt-2 mb-3">
+                            <img src="{{ Storage::url($board['photo']) }}" alt="Groepsfoto van bestuur uit {{ $board['from'] }} - {{ $board['to'] }}" class="w-full h-46 object-cover rounded mt-2 mb-3">
                         @endif
 
                         <p class="text-gray-700 text-sm whitespace-pre-line">
                             <br>{{ $board['members'] }}
                         </p>
-                        
+
                     </div>
                 @endforeach
             </div>
@@ -130,9 +130,9 @@
         <div class="mt-10 bg-purple-50 p-6 rounded-lg shadow-inner" role="region" aria-labelledby="bestuur-worden-title">
             <h3 id="bestuur-worden-title" class="text-xl font-bold text-purple-700 mb-2">Bestuurslid worden?</h3>
             <p class="text-gray-700 mb-4">
-                Lijkt het jou leuk om deel uit te maken van het bestuur van SV Concat? 
-                <a href="mailto:info@svconcat.nl" class="text-purple-600 hover:underline" aria-label="Stuur een e-mail naar SV Concat">Stuur ons een mail</a> of 
-                <a href="https://discord.com/invite/AMYt823VPJ" target="_blank" class="text-blue-600 hover:underline" aria-label="Open Discord link naar SV Concat">stuur een bericht via Discord</a>, 
+                Lijkt het jou leuk om deel uit te maken van het bestuur van SV Concat?
+                <a href="mailto:info@svconcat.nl" class="text-purple-600 hover:underline" aria-label="Stuur een e-mail naar SV Concat">Stuur ons een mail</a> of
+                <a href="https://discord.com/invite/AMYt823VPJ" target="_blank" class="text-blue-600 hover:underline" aria-label="Open Discord link naar SV Concat">stuur een bericht via Discord</a>,
                 of spreek iemand van het bestuur aan. Nieuwe ideeën en energie zijn altijd welkom!
             </p>
         </div>
