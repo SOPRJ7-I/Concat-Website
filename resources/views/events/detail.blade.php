@@ -127,7 +127,7 @@
                     <div class="text-center -mt-5 -mb-7">
                         <a href="{{ route('events.ics', $event->id) }}"
                             class="text-sm text-purple-600 hover:underline font-medium transition duration-200"
-                            aria-label="Zet evenement {{ $event->titel }} in je agenda">
+                            aria-label="Download evenement {{ $event->titel }} en voeg het toe aan je agenda">
                             Zet in agenda <i class="fa-solid fa-calendar" aria-hidden="true"></i>
                         </a>
                     </div>
