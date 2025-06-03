@@ -44,13 +44,14 @@
                     <x-nav-link href="/gallery">Galerij</x-nav-link>
                     <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
                     <x-nav-link href="/newsletters">Nieuwsbrief</x-nav-link>
+                    <x-nav-link href="{{ route('assignments.index') }}">Opdrachten</x-nav-link>
                     <x-nav-link href="/about-us">Over ons</x-nav-link>
 
                     <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
 
                     @guest
                         <!-- <x-nav-link href="/register">Registreren</x-nav-link> -->
-                        <x-nav-link href="/login">Inloggen</x-nav-link>
+                        <x-nav-link href="/login"><i class="text-2xl fa-solid fa-right-to-bracket"></i></x-nav-link>
                     @endguest
                     @auth
                         <x-nav-link href="/roosters">Rooster</x-nav-link>
@@ -62,7 +63,7 @@
                             @csrf
                             <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
                                 class="x-nav-link">
-                                Uitloggen
+                                <i class="text-2xl fa-solid fa-right-from-bracket"></i>
                             </a>
                         </form>
                     @endauth
@@ -83,6 +84,7 @@
                 <x-nav-link href="/gallery">Galerij</x-nav-link>
                 <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
                 <x-nav-link href="/newsletters">Nieuwsbrief</x-nav-link>
+                <x-nav-link href="{{ route('assignments.index') }}">Opdrachten</x-nav-link>
                 <x-nav-link href="/about-us">Over ons</x-nav-link>
                 <a href="https://sv-concat.myspreadshop.nl/">Webshop</a>
 
