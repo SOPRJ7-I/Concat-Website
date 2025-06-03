@@ -4,26 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateNewslettersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('newsletters', function (Blueprint $table) {
-            $table->string('titel')->primary(); ;
+            $table->id();
+            $table->string('titel')->unique();
             $table->date('publicatiedatum');
-            $table->string('pdf'); // Pad naar het PDF-bestand
+            $table->longText('inhoud'); // JSON van events
+            $table->string('pdf')->nullable(); // pad naar PDF bestand
+            $table->longText('images')->nullable(); // JSON met paths van afbeeldingen
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('newsletters');
     }
-};
+}
