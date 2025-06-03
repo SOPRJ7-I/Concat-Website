@@ -82,12 +82,12 @@
                     onclick="scrollTimeline(-300)"
                     class="px-3 py-1 bg-purple-500 text-white rounded hover:bg-purple-600"
                     aria-label="Scroll naar links op de tijdlijn"
-                >&larr;</button>
+                ><i class="fa-solid fa-arrow-left"></i></button>
                 <button
                     onclick="scrollTimeline(300)"
                     class="px-3 py-1 bg-purple-500 text-white rounded hover:bg-purple-600"
                     aria-label="Scroll naar rechts op de tijdlijn"
-                >&rarr;</button>
+                ><i class="fa-solid fa-arrow-right"></i></button>
             </div>
 
             <div id="timeline" class="flex space-x-6 overflow-x-auto pb-4 scroll-smooth" role="list">
