@@ -101,7 +101,7 @@
                 @endauth
             </div>
         </div>
-
+        <div class="overlay"></div>
         <a href="{{ route('announcements.index') }}" id="bell-icon"
         class="absolute right-[2%] z-50 flex items-center justify-center h-16 w-16 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-105"
         title="Bekijk aankondigingen" aria-label="Aankondigingen">
@@ -116,7 +116,7 @@
     <!-- Nieuwe bel-icoon knop -->
 
 
-    <div class="overlay"></div>
+
     <div id="page-content" class="flex justify-center items-center p-6 lg:mt-200 opacity-0 translate-y-4 transition-all duration-700 ease-out">
         {{ $slot }}
     </div>
