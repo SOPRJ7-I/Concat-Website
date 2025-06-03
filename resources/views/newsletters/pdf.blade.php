@@ -56,13 +56,15 @@
 <body>
     <h1>{{ $title }}</h1>
     <p style="text-align: center; font-size: 14px;">
-        <strong>Publicatiedatum:</strong> {{ \Carbon\Carbon::parse($publicatiedatum)->format('d-m-Y') }}
+        <strong>Publicatiedatum:</strong> {{ $publicatiedatum }}
     </p>
 
     @foreach ($events as $index => $event)
         <div class="event">
             <h2>{{ $event['titel'] }}</h2>
-            <div class="info"><strong>Datum:</strong> {{ \Carbon\Carbon::parse($event['datum'])->format('d-m-Y') }}</div>
+            @if (!empty($event['datum']))
+            <div class="info"><strong>Datum:</strong> {{ $event['datum'] }}</div>
+            @endif
             @if (!empty($event['tijd']))
                 <div class="info"><strong>Tijd:</strong> {{ $event['tijd'] }}</div>
             @endif

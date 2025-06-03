@@ -72,10 +72,22 @@ class NewsletterController extends Controller
             }
         }
 
+        $formattedDate = Carbon::parse($validated['publicatiedatum'])->format('d-m-Y');
+
+        $formattedEvents = collect($validated['events'])->map(function ($event) {
+            return [
+                'titel' => $event['titel'],
+                'datum' => $event['datum'] ? Carbon::parse($event['datum'])->format('d-m-Y') : null,
+                'tijd' => $event['tijd'] ?? '',
+                'locatie' => $event['locatie'] ?? '',
+                'inhoud' => $event['inhoud'],
+            ];
+        })->toArray();
+
         $pdf = Pdf::loadView('newsletters.pdf', [
             'title' => $validated['titel'],
-            'publicatiedatum' => $validated['publicatiedatum'],
-            'events' => $validated['events'],
+            'publicatiedatum' => $formattedDate,
+            'events' => $formattedEvents,
             'images' => $imagePaths,
         ]);
 
@@ -85,7 +97,7 @@ class NewsletterController extends Controller
 
         Newsletter::create([
             'titel' => $validated['titel'],
-            'publicatiedatum' => $validated['publicatiedatum'],
+            'publicatiedatum' => Carbon::parse($validated['publicatiedatum']),
             'inhoud' => $validated['events'],
             'pdf' => $pdfPath,
             'images' => $imagePaths,
@@ -108,7 +120,7 @@ class NewsletterController extends Controller
             'publicatiedatum' => 'required|date',
             'events' => 'required|array|min:1',
             'events.*.titel' => 'required|string',
-            'events.*.datum' => 'required|date',
+            'events.*.datum' => 'nullable|date',
             'events.*.tijd' => 'nullable|string',
             'events.*.locatie' => 'nullable|string',
             'events.*.inhoud' => 'required|string',
@@ -118,7 +130,6 @@ class NewsletterController extends Controller
             'publicatiedatum.required' => 'De publicatiedatum van de nieuwsbrief is verplicht.',
             'events.required' => 'Er moet ten minste één evenement worden toegevoegd.',
             'events.*.titel.required' => 'De titel van elk evenement is verplicht.',
-            'evenets.*.datum' => 'De datum is verplicht.',
             'events.*.inhoud.required' => 'De inhoud van elk evenement is verplicht.',
             'event_images.*.image' => 'Alle geüploade bestanden moeten afbeeldingen zijn.',
             'event_images.*.max' => 'Elke afbeelding mag maximaal 1 MB zijn.',
@@ -133,10 +144,22 @@ class NewsletterController extends Controller
             }
         }
 
+        $formattedDate = Carbon::parse($validated['publicatiedatum'])->format('d-m-Y');
+
+        $formattedEvents = collect($validated['events'])->map(function ($event) {
+            return [
+                'titel' => $event['titel'],
+                'datum' => $event['datum'] ? Carbon::parse($event['datum'])->format('d-m-Y') : null,
+                'tijd' => $event['tijd'] ?? '',
+                'locatie' => $event['locatie'] ?? '',
+                'inhoud' => $event['inhoud'],
+            ];
+        })->toArray();
+
         $pdf = Pdf::loadView('newsletters.pdf', [
             'title' => $validated['titel'],
-            'publicatiedatum' => $validated['publicatiedatum'],
-            'events' => $validated['events'],
+            'publicatiedatum' => $formattedDate,
+            'events' => $formattedEvents,
             'images' => $imagePaths,
         ]);
 
@@ -146,7 +169,7 @@ class NewsletterController extends Controller
 
         $newsletter->update([
             'titel' => $validated['titel'],
-            'publicatiedatum' => $validated['publicatiedatum'],
+            'publicatiedatum' => Carbon::parse($validated['publicatiedatum']),
             'inhoud' => $validated['events'],
             'pdf' => $pdfPath,
             'images' => $imagePaths,
