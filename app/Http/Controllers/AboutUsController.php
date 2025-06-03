@@ -2,83 +2,130 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BoardMember;
+use App\Models\PreviousBoard;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+
 class AboutUsController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index()
     {
-        $currentBoard = [
-            [
-                'name' => 'Jules Verbruggen',
-                'role' => 'Voorzitter',
-                'bio' => 'Mijn naam is Jules Verbruggen, ik volg de richting software ontwikkeling en ik zit momenteel in mijn tweede leerjaar. In mijn eerste leerjaar ben ik erg actief geweest binnen concat. Ik ben bij veel van de activiteiten aanwezig geweest waaronder de community avonden waarop wij een huiswerk/chill avond hebben na school. Hier heb ik erg veel kunnen leren door informatie uit te wisselen met mijn medestudenten. Dit soort activiteiten hebben mij erg geholpen. Ik ben daarom ook mee dit bestuursjaar gaan doen, omdat ik het belangrijk vind deze community te behouden zodat wij elkaar kunnen helpen maar ook gezellige herinneringen kunnen maken. In dit bestuursjaar neem ik de rol van voorzitter aan en zal ik ook verantwoordelijk zijn voor de events, recreatie, blokborrels, continuïteit, recruitment, website en introcommissie.
-Liefs,
-Jules',
-                'photo' => asset('storage/about-us/personal/jules_concat.png'),
-            ],
-            [
-                'name' => 'Sven Lempers',
-                'role' => 'Secretaris',
-                'bio' => 'Ik ben Sven, ik ben 20 jaar jaar en ik zit momenteel in het tweede jaar van de opleiding informatica. Ik ben bij het bestuur van concat gegaan om een gezellige sfeer te creeëren voor al onze leden, en om een positieve bijdrage te leveren aan onze studententijd. In mijn vrije tijd ben ik vrijwilliger bij scouting en vind ik het leuk om met technologie te knutselen
-Liefs,
-Sven',
-                'photo' => asset('storage/about-us/personal/sven_concat.png'),
-            ],
-            [
-                'name' => 'Kim Nijsten',
-                'role' => 'Penningmeester',
-                'bio' => 'Mijn naam is Kim Nijsten en ik ben dit jaar de penningmeester van SV Concat. Ik ben 18 jaar oud en zit in het tweede jaar Software Ontwikkeling. In mijn vrije tijd ben ik vaak op het voetbalveld te vinden, waar ik minimaal drie keer per week ben. Ik heb ervoor gekozen om penningmeester te worden, omdat ik afgelopen schooljaar al heel erg betrokken was bij de studievereniging en toen ook bij de kascommissie zat. Ik heb heel veel zin in dit schooljaar en kijk ernaar uit om samen met de rest van het bestuur een mooi jaar neer te gaan zetten.
-Liefs,
-Kim',
-                'photo' => asset('storage/about-us/personal/kim_concat.png'),
-            ],
-            [
-                'name' => 'Bas Brekelmans',
-                'role' => 'Commissaris Educatie',
-                'bio' => 'Hallo, ik ben Bas Brekelmans.
-Ik ben 26 (bijna 27) jaar en woon in Tilburg. Ik ben een tweedejaars student in de richting softwareontwikkeling en de nieuwe commissaris educatie van het vierde bestuur van SV Concat! Concat heeft altijd leuke activiteiten georganiseerd voor studenten tijdens de communityavonden, en dit zal ik dit schooljaar voortzetten. Mijn doel bij Concat is om de groei van studenten te bevorderen. Buiten school ben ik graag actief bezig met boulderen, fitness en ga ik ook graag naar concerten. Als je vragen of suggesties hebt, kun je altijd bij me terecht op school.
-Liefs,
-Bas',
-                'photo' => asset('storage/about-us/personal/bas_concat.png'),
-            ],
-            [
-                'name' => 'Josha van Engelen',
-                'role' => 'Commissaris Extern',
-                'bio' => 'Ik ben Josha van Engelen, 21 jaar en woon in Eindhoven. Ik volg de SO major en begin dit jaar aan mijn stage. Hiernaast vind ik het leuk om te boulderen, bezig te zijn met muziek (vooral luisteren en een beetje maken), poolen, schrijven of gezellig een drankje te drinken natuurlijk.
-Ik heb 2 jaar terug meegeholpen met het organiseren van de 1e studiereis van Concat en vorig jaar heb ik meegedraaid als voorzitter van het bestuur. Dit jaar zal ik nog een keertje deel uitmaken van het bestuur, ditmaal als commissaris extern, omdat ik het leuk vind om betrokken te blijven bij de vereniging. Heb je vragen? Dan mag je altijd bij mij of natuurlijk de rest van het bestuur benaderen via de mail of via discord!
-Liefs,
-Josha',
-                'photo' => asset('storage/about-us/personal/josha_concat.png'),
-            ],
-        ];
 
-        $previousBoards = [
-            [
-                'year' => '2024-2025',
-                'members' => 'Jules Verbruggen, Sven Lempers, Kim Nijsten, Bas Brekelmans, Josha van Engelen',
-                'photo' => asset('storage/about-us/personal/board/bestuur_2024_2025_concat.png'),
-            ],
-            [
-                'year' => '2023-2024',
-                'members' => 'Josha van Engelen, Kevin Bouwmeester, Emily Braun',
-                'photo' => asset('storage/about-us/personal/board/bestuur_2023_2024_concat.png'),
-            ],
-            [
-                'year' => '2022-2023',
-                'members' => 'Jesse van den Ende, Carli van Zandvoort, Noor Houben, Stijn Lingmont',
-                'photo' => asset('storage/about-us/personal/board/bestuur_2022_2023_concat.png'),
-            ],
-            [
-                'year' => '2021-2022',
-                'members' => 'Tessa Hoeben, Linn Smetsers, Niels Verheggen, Ruben Dommerholt',
-                'photo' => asset('storage/about-us/personal/board/bestuur_2021_2022_concat.png'),
-            ],
-            [
-                'year' => '2020-2021',
-                'members' => 'Emma, Lars, Sophie, Noah',
-                'photo' => asset('storage/about-us/personal/board/testfoto.png'),
-            ],
-        ];
+        $currentBoard = BoardMember::all();
+
+        $previousBoards = PreviousBoard::all()->map(function ($board) {
+             return [
+            'id' => $board->id,
+            'from' => \Carbon\Carbon::parse($board->FromYear)->format('Y'),
+            'to' => \Carbon\Carbon::parse($board->ToYear)->format('Y'),
+            'members' => $board->members,
+            'photo' => $board->photo,
+            ];
+            });
+
 
         return view('about-us.index', compact('currentBoard', 'previousBoards'));
     }
+
+
+
+    public function edit_board_member($id)
+    {
+        $boardMember = BoardMember::findOrFail($id);
+        $this->authorize('editBoardMember', $boardMember);
+        return view('about-us.board_member_edit', compact('boardMember'));
+    }
+
+
+
+    public function update_board_member(Request $request,  $id)
+    {
+        $boardMember = BoardMember::findOrFail($id);
+        $this->authorize('updateBoardMember', $boardMember);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'role' => 'required|string|max:255',
+            'bio' => 'required|string|min:10',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
+        ],
+        [
+        'name.required' => 'Naam is verplicht.',
+        'role.required' => 'Rol is verplicht.',
+        'bio.required' => 'Bio is verplicht en moet minimaal 10 tekens bevatten.',
+        'photo.image' => 'De afbeelding moet een geldig afbeeldingsbestand zijn.',
+        ]);
+
+        $boardMember->name = $validated['name'];
+        $boardMember->role = $validated['role'];
+        $boardMember->bio = $validated['bio'];
+
+    if ($request->hasFile('photo')) {
+        if ($boardMember->photo) {
+            Storage::disk('public')->delete($boardMember->photo);
+        }
+
+        $photoPath = $request->file('photo')->store('board-members', 'public');
+        $boardMember->photo = $photoPath;
+        }
+        $boardMember->save();
+
+         return redirect()
+            ->route('board-members.edit', $boardMember->id)
+            ->with('success', 'Bestuurslid succesvol bijgewerkt!');
+    }
+
+
+    public function edit_previous_board($id)
+    {
+        $previousBoard = PreviousBoard::findOrFail($id);
+        $this->authorize('editPreviousBoard', $previousBoard);
+        return view('about-us.previous_board_edit', compact('previousBoard'));
+    }
+
+
+    public function update_previous_board(Request $request, $id)
+    {
+        $previousBoard = PreviousBoard::findOrFail($id);
+        $this->authorize('updatePreviousBoard', $previousBoard);
+        $validated = $request->validate([
+            'FromYear' => 'required|date',
+            'ToYear' => 'required|date|after_or_equal:FromYear',
+            'members' => 'required|string|min:5',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
+        ], [
+            'FromYear.required' => 'Begin datum is verplicht.',
+            'FromYear.date' => 'Begin datum moet een geldige datum zijn.',
+            'ToYear.required' => 'Eind datum is verplicht.',
+            'ToYear.date' => 'Eind datum moet een geldige datum zijn.',
+            'ToYear.after_or_equal' => 'Einddatum moet op of na de begindatum zijn.',
+            'members.required' => 'Ledenbeschrijving is verplicht.',
+            'photo.image' => 'De afbeelding moet een geldig afbeeldingsbestand zijn.',
+        ]);
+
+        $previousBoard->FromYear = $validated['FromYear'];
+        $previousBoard->ToYear = $validated['ToYear'];
+        $previousBoard->members = $validated['members'];
+
+        if ($request->hasFile('photo')) {
+            if ($previousBoard->photo) {
+                Storage::disk('public')->delete($previousBoard->photo);
+            }
+
+            $photoPath = $request->file('photo')->store('previous-boards', 'public');
+            $previousBoard->photo = $photoPath;
+        }
+
+        $previousBoard->save();
+
+        return redirect()
+        ->route('previous-boards.edit', $previousBoard->id)
+        ->with('success', 'Vorig bestuur succesvol bijgewerkt!');
+    }
+
+    
+
 }
