@@ -45,12 +45,17 @@
                     <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
                     <x-nav-link href="/newsletters">Nieuwsbrief</x-nav-link>
                     <x-nav-link href="/about-us">Over ons</x-nav-link>
+
                     <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
 
                     @guest
                         <!-- <x-nav-link href="/register">Registreren</x-nav-link> -->
                         <x-nav-link href="/login">Inloggen</x-nav-link>
                     @endguest
+                    @auth
+                        <x-nav-link href="/roosters">Rooster</x-nav-link>
+
+                    @endauth
 
                     @auth
                         <form action="{{ route('logout') }}" method="POST" style="display:flex;">
