@@ -16,54 +16,71 @@
             @csrf
             @method('PUT')
 
+            {{-- From Year --}}
             <div>
-                <label for="FromYear" class="block text-l font-bold">Van Jaar*</label>
-                <input type="date" name="FromYear" id="FromYear" 
-                       value="{{ old('FromYear', \Carbon\Carbon::parse($previousBoard->FromYear)->format('Y-m-d')) }}"
-                       class="w-full p-2 {{ $errors->has('FromYear') ? 'bg-red-100 text-red-700 border-red-300' : 'bg-purple-100 text-purple-700 border-purple-300' }} rounded-lg border outline-none focus:ring-2 focus:ring-purple-500"
-                       aria-label="Selecteer het beginjaar van deze bestuursperiode">
-                @error('FromYear')
-                    <div class="text-red-500 text-l mt-1 font-bold">{{ $message }}</div>
-                @enderror
+                <x-form-label for="FromYear">Van Jaar*:</x-form-label>
+                <x-form-input
+                    type="date"
+                    name="FromYear"
+                    id="FromYear"
+                    value="{{ old('FromYear', \Carbon\Carbon::parse($previousBoard->FromYear)->format('Y-m-d')) }}"
+                    required
+                    aria-required="true"
+                    aria-label="Selecteer het beginjaar van deze bestuursperiode"
+                />
+                <x-form-error name="FromYear"/>
             </div>
 
+            {{-- To Year --}}
             <div>
-                <label for="ToYear" class="block text-l font-bold">Tot Jaar*</label>
-                <input type="date" name="ToYear" id="ToYear" 
-                       value="{{ old('ToYear', \Carbon\Carbon::parse($previousBoard->ToYear)->format('Y-m-d')) }}"
-                       class="w-full p-2 {{ $errors->has('ToYear') ? 'bg-red-100 text-red-700 border-red-300' : 'bg-purple-100 text-purple-700 border-purple-300' }} rounded-lg border outline-none focus:ring-2 focus:ring-purple-500"
-                       aria-label="Selecteer het eindjaar van deze bestuursperiode">
-                @error('ToYear')
-                    <div class="text-red-500 text-l mt-1 font-bold">{{ $message }}</div>
-                @enderror
+                <x-form-label for="ToYear">Tot Jaar*:</x-form-label>
+                <x-form-input
+                    type="date"
+                    name="ToYear"
+                    id="ToYear"
+                    value="{{ old('ToYear', \Carbon\Carbon::parse($previousBoard->ToYear)->format('Y-m-d')) }}"
+                    required
+                    aria-required="true"
+                    aria-label="Selecteer het eindjaar van deze bestuursperiode"
+                />
+                <x-form-error name="ToYear"/>
             </div>
 
+            {{-- Members --}}
             <div>
-                <label for="members" class="block text-l font-bold">Bestuurders*</label>
-                <textarea name="members" id="members" rows="5"
-                          class="w-full p-2 {{ $errors->has('members') ? 'bg-red-100 text-red-700 border-red-300' : 'bg-purple-100 text-purple-700 border-purple-300' }} rounded-lg border outline-none focus:ring-2 focus:ring-purple-500"
-                          aria-label="Voer de namen in van alle bestuurders, gescheiden door komma's">{{ old('members', $previousBoard->members) }}</textarea>
-                @error('members')
-                    <div class="text-red-500 text-l mt-1 font-bold">{{ $message }}</div>
-                @enderror
+                <x-form-label for="members">Bestuurders*:</x-form-label>
+                <x-form-textarea
+                    name="members"
+                    id="members"
+                    rows="5"
+                    required
+                    aria-required="true"
+                    placeholder="Voer de namen in van alle bestuurders, gescheiden door komma's"
+                >{{ old('members', $previousBoard->members) }}</x-form-textarea>
+                <x-form-error name="members"/>
             </div>
 
+            {{-- Photo --}}
             <div>
-                <label for="photo" class="block text-l font-bold">Foto</label>
-                <input type="file" name="photo" id="photo" accept="image/*"
-                       class="w-full p-2 {{ $errors->has('photo') ? 'bg-red-100 text-red-700 border-red-300' : 'bg-purple-100 text-purple-700 border-purple-300' }} rounded-lg border outline-none focus:ring-2 focus:ring-purple-500"
-                       aria-label="Upload een groepsfoto van deze bestuurders">
+                <x-form-label for="photo">Foto:</x-form-label>
                 @if ($previousBoard->photo)
-                    <img src="{{ asset('storage/' . $previousBoard->photo) }}" alt="Groepsfoto van de bestuurders uit periode {{ \Carbon\Carbon::parse($previousBoard->FromYear)->format('Y') }} - {{ \Carbon\Carbon::parse($previousBoard->ToYear)->format('Y') }}" class="mt-2 w-32 h-32 object-cover rounded">
+                    <div class="mb-2">
+                        <img src="{{ asset('storage/' . $previousBoard->photo) }}" alt="Groepsfoto van de bestuurders uit periode {{ \Carbon\Carbon::parse($previousBoard->FromYear)->format('Y') }} - {{ \Carbon\Carbon::parse($previousBoard->ToYear)->format('Y') }}" class="mt-2 w-32 h-32 object-cover rounded">
+                        <p class="text-sm text-gray-500">Huidige groepsfoto</p>
+                    </div>
                 @endif
-                @error('photo')
-                    <div class="text-red-500 text-l mt-1 font-bold">{{ $message }}</div>
-                @enderror
+                <x-form-input
+                    type="file"
+                    name="photo"
+                    id="photo"
+                    accept="image/*"
+                    aria-label="Upload een groepsfoto van deze bestuurders"
+                />
+                <x-form-error name="photo"/>
             </div>
 
-            <input type="submit" value="Opslaan"
-                   class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer mt-4"
-                   aria-label="Klik om de wijzigingen aan deze bestuurders op te slaan">
+            {{-- Submit button --}}
+            <x-form-button type="submit" class="w-full">Opslaan</x-form-button>
         </form>
     </div>
 </x-layout>

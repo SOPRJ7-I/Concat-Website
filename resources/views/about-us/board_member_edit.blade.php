@@ -5,64 +5,53 @@
         </h1>
 
         @if(session('success'))
-        <div aria-label="Succesmelding" aria-live="polite" class="w-full flex justify-center">
-            <div class="max-w-md p-4 mb-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded-lg">
-                <p class="font-medium">{{ session('success') }}</p>
+            <div aria-label="Succesmelding" aria-live="polite" class="w-full flex justify-center">
+                <div class="max-w-md p-4 mb-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded-lg">
+                    <p class="font-medium">{{ session('success') }}</p>
+                </div>
             </div>
-        </div>
         @endif
 
         <form method="POST" action="{{ route('board-members.update', $boardMember->id) }}" enctype="multipart/form-data" class="mt-4 space-y-4">
             @csrf
             @method('PUT')
 
+            {{-- Name --}}
             <div>
-                <label for="name" class="block text-l font-bold">Naam*</label>
-                <input type="text" name="name" id="name" value="{{ old('name', $boardMember->name) }}"
-                       class="w-full p-2 {{ $errors->has('name') ? 'bg-red-100 text-red-700 border-red-300' : 'bg-purple-100 text-purple-700 border-purple-300' }} rounded-lg border outline-none focus:ring-2 focus:ring-purple-500"
-                       aria-label="Voer de volledige naam in van het bestuurslid">
-                       
-                @error('name')
-                <div class="text-red-500 text-l mt-1 font-bold">{{ $message }}</div>
-                @enderror
+                <x-form-label for="name">Naam*:</x-form-label>
+                <x-form-input type="text" name="name" id="name" value="{{ old('name', $boardMember->name) }}" required aria-required="true" placeholder="Naam van het bestuurslid"/>
+                <x-form-error name="name"/>
             </div>
 
+            {{-- Role --}}
             <div>
-                <label for="role" class="block text-l font-bold">Rol*</label>
-                <input type="text" name="role" id="role" value="{{ old('role', $boardMember->role) }}"
-                       class="w-full p-2 {{ $errors->has('role') ? 'bg-red-100 text-red-700 border-red-300' : 'bg-purple-100 text-purple-700 border-purple-300' }} rounded-lg border outline-none focus:ring-2 focus:ring-purple-500"
-                       aria-label="Voer de functie in van het bestuurslid">
-                @error('role')
-                <div class="text-red-500 text-l mt-1 font-bold">{{ $message }}</div>
-                @enderror
+                <x-form-label for="role">Rol*:</x-form-label>
+                <x-form-input type="text" name="role" id="role" value="{{ old('role', $boardMember->role) }}" required aria-required="true" placeholder="Functie van het bestuurslid"/>
+                <x-form-error name="role"/>
             </div>
 
+            {{-- Photo --}}
             <div>
-                <label for="photo" class="block text-l font-bold">Foto</label>
-                <input type="file" name="photo" id="photo" accept="image/*"
-                       class="w-full p-2 {{ $errors->has('photo') ? 'bg-red-100 text-red-700 border-red-300' : 'bg-purple-100 text-purple-700 border-purple-300' }} rounded-lg border outline-none focus:ring-2 focus:ring-purple-500"
-                       aria-label="Upload een profielfoto voor dit bestuurslid">
+                <x-form-label for="photo">Foto:</x-form-label>
                 @if ($boardMember->photo)
-                    <img src="{{ asset($boardMember->photo) }}" alt="Huidige profielfoto van {{ $boardMember->name }}" class="mt-2 w-32 h-32 object-cover rounded">
+                    <div class="mb-2">
+                        <img src="{{ asset($boardMember->photo) }}" alt="Huidige profielfoto van {{ $boardMember->name }}" class="w-32 h-32 object-cover rounded">
+                        <p class="text-sm text-gray-500">Huidige foto</p>
+                    </div>
                 @endif
-                @error('photo')
-                <div class="text-red-500 text-l mt-1 font-bold">{{ $message }}</div>
-                @enderror
+                <x-form-input type="file" name="photo" id="photo" accept="image/*" aria-label="Upload een profielfoto voor dit bestuurslid"/>
+                <x-form-error name="photo"/>
             </div>
 
+            {{-- Bio --}}
             <div>
-                <label for="bio" class="block text-l font-bold">Bio*</label>
-                <textarea name="bio" id="bio" rows="6"
-                          class="w-full p-2 {{ $errors->has('bio') ? 'bg-red-100 text-red-700 border-red-300' : 'bg-purple-100 text-purple-700 border-purple-300' }} rounded-lg border outline-none focus:ring-2 focus:ring-purple-500"
-                          aria-label="Voer een biografie in voor dit bestuurslid">{{ old('bio', $boardMember->bio) }}</textarea>
-                @error('bio')
-                <div class="text-red-500 text-l mt-1 font-bold">{{ $message }}</div>
-                @enderror
+                <x-form-label for="bio">Bio*:</x-form-label>
+                <x-form-textarea name="bio" id="bio" rows="6" required aria-required="true" placeholder="Biografie van het bestuurslid">{{ old('bio', $boardMember->bio) }}</x-form-textarea>
+                <x-form-error name="bio"/>
             </div>
 
-           <input type="submit" value="Opslaan"
-                   class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer mt-4"
-                   aria-label="Klik om de wijzigingen op te slaan">
+            {{-- Submit --}}
+            <x-form-button type="submit" class="w-full">Opslaan</x-form-button>
         </form>
     </div>
 </x-layout>
