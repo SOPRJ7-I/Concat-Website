@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Events;
 use Illuminate\Http\Request;
 use App\Models\Gallery;
-use App\Models\Evenementen;
 
 class GalleryController extends Controller
 {
@@ -23,7 +23,7 @@ class GalleryController extends Controller
 
     public function create()
     {
-        $evenementen = Evenementen::orderBy('datum', 'desc')->get();
+        $evenementen = Events::orderBy('datum', 'desc')->get();
         return view('gallery.create', compact('evenementen'));
     }
 
@@ -36,7 +36,7 @@ class GalleryController extends Controller
             'images' => 'required|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:1000',
             'evenementen' => 'nullable|array',
-            'evenementen.*' => 'exists:evenementen,id',
+            'evenementen.*' => 'exists:events,id',
         ], [
             'title.required' => 'De titel is verplicht.',
             'date.required' => 'De datum is verplicht.',
@@ -67,7 +67,7 @@ class GalleryController extends Controller
 
     public function edit(Gallery $gallery)
     {
-        $evenementen = Evenementen::orderBy('datum', 'desc')->get();
+        $evenementen = Events::orderBy('datum', 'desc')->get();
         return view('gallery.edit', compact('gallery', 'evenementen'));
     }
 
@@ -79,7 +79,7 @@ class GalleryController extends Controller
             'type' => 'required|in:blokborrel,education',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1000',
             'evenementen' => 'nullable|array',
-            'evenementen.*' => 'exists:evenementen,id',
+            'evenementen.*' => 'exists:events,id',
         ], [
             'title.required' => 'De titel is verplicht.',
             'date.required' => 'De datum is verplicht.',
