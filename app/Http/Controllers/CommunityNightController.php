@@ -13,7 +13,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class CommunityNightController extends Controller
 {
     use AuthorizesRequests;
-    
+
     public function index()
     {
         return view('community-nights.index', [
@@ -38,24 +38,23 @@ class CommunityNightController extends Controller
             'end_time' => 'required',
             'location' => 'required'
         ],
-        [
-            'title.required' => 'Titel is verplicht.',
-            'description.required' => 'Beschrijving is verplicht.',
-            'description.min' => 'Beschrijving moet minimaal 10 tekens bevatten.',
-            'start_time.required' => 'Starttijd is verplicht.',
-            'end_time.required' => 'Eindtijd is verplicht.',
-            'location.required' => 'Locatie is verplicht.',
-        ]
-
-        );
+            [
+                'title.required' => 'Titel is verplicht.',
+                'description.required' => 'Beschrijving is verplicht.',
+                'description.min' => 'Beschrijving moet minimaal 10 tekens bevatten.',
+                'start_time.required' => 'Starttijd is verplicht.',
+                'end_time.required' => 'Eindtijd is verplicht.',
+                'location.required' => 'Locatie is verplicht.',
+            ]);
 
         $imagePath = null;
 
-        if($communityNight->hasFile('image')){
+        if ($communityNight->hasFile('image')) {
             $imagePath = $communityNight->file('image')->store('community-nights', 'public');
         }
 
-        CommunityNight::create([
+        // Sla de CommunityNight op in een variabele
+        $newCommunityNight = CommunityNight::create([
             'title' => $communityNight->input('title'),
             'image' => $imagePath,
             'description' => $communityNight->input('description'),
@@ -68,14 +67,15 @@ class CommunityNightController extends Controller
 
         // Gebruik de juiste velden van het model
         event(new NewCommunityNightAdded(
-            $communityNight->title,
-            $communityNight->description,
-            $communityNight->start_time ? date('d-m-Y', strtotime($communityNight->start_time)) : null, // Alleen datum
-            $communityNight->start_time ? date('H:i', strtotime($communityNight->start_time)) : null, // Alleen tijd
-            $communityNight->location ?? null, // Locatie
-            $communityNight->capacity ?? null, // Beschikbare plekken
-            route('community-nights.show', $communityNight->id)
+            $newCommunityNight->title,
+            $newCommunityNight->description,
+            $newCommunityNight->start_time ? date('d-m-Y', strtotime($newCommunityNight->start_time)) : null, // Alleen datum
+            $newCommunityNight->start_time ? date('H:i', strtotime($newCommunityNight->start_time)) : null, // Alleen tijd
+            $newCommunityNight->location ?? null, // Locatie
+            $newCommunityNight->capacity ?? null, // Beschikbare plekken
+            route('community-nights.show', $newCommunityNight->id) // Gebruik het ID van het nieuwe model
         ));
+
         return redirect()->route('community-nights.index');
     }
 
