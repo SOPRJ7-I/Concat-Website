@@ -12,6 +12,8 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CommunityNightController extends Controller
 {
+    use AuthorizesRequests;
+    
     public function index()
     {
         return view('community-nights.index', [
