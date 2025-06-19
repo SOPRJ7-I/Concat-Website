@@ -3,43 +3,75 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use App\Models\User;
 
 class AccountController extends Controller
 {
+    // Toon eigen accountgegevens + lijst gebruikers als admin
     public function show()
     {
-        return view('account.show');
+        $user = auth()->user();
+        $users = [];
+
+        if ($user->role === 'admin') {
+            $users = User::where('id', '!=', $user->id)->get();
+        }
+
+        return view('account.show', compact('user', 'users'));
     }
 
-    // Toon formulier om gegevens te bewerken
+    // Bewerk eigen account
     public function edit()
     {
-        $user = Auth::user();
+        $user = auth()->user();
         return view('account.edit', compact('user'));
     }
 
-    // Verwerk de bewerking
+    // Update eigen account (email en wachtwoord)
     public function update(Request $request)
     {
-        $user = Auth::user();
+        $user = auth()->user();
 
-        $request->validate([
+        $validated = $request->validate([
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'current_password' => 'required_with:password|nullable|current_password',
-            'password' => 'nullable|min:8|confirmed',
+            'current_password' => 'nullable|required_with:password',
+            'password' => 'nullable|confirmed|min:8',
         ]);
 
-        $user->email = $request->email;
-
         if ($request->filled('password')) {
+            if (!Hash::check($request->current_password, $user->password)) {
+                return back()->withErrors(['current_password' => 'Huidig wachtwoord is incorrect'])->withInput();
+            }
             $user->password = Hash::make($request->password);
         }
 
+        $user->email = $validated['email'];
         $user->save();
 
         return redirect()->route('account.show')->with('success', 'Gegevens succesvol bijgewerkt');
     }
+
+    // ADMIN: update rol van andere gebruiker
+    public function updateUserRole(Request $request, User $user)
+    {
+        // Verwijder de Gate-check en vervang door simpele rolcheck
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Alleen admins kunnen rollen aanpassen.');
+        }
+
+        if ($user->id === auth()->id()) {
+            return redirect()->back()->withErrors('Je kunt je eigen rol niet wijzigen.');
+        }
+
+        $request->validate([
+            'role' => 'required|in:student,admin',
+        ]);
+
+        $user->role = $request->role;
+        $user->save();
+
+        return redirect()->route('account.show')->with('success', 'Rechten succesvol aangepast');
+    }
+
 }

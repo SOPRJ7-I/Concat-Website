@@ -84,7 +84,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/account', [AccountController::class, 'show'])->name('account.show');
     Route::get('/account/edit', [AccountController::class, 'edit'])->name('account.edit');
     Route::post('/account/update', [AccountController::class, 'update'])->name('account.update');
+
+    // accounts beheren (alleen bereikbaar voor admin, via controller check)
+    Route::get('/account/users-management', [AccountController::class, 'usersManagement'])->name('account.usersManagement');
+    Route::post('/account/users/{user}/update-role', [AccountController::class, 'updateUserRole'])->name('account.updateUserRole');
 });
+
 
 // assignments
 Route::resource('/assignments', AssignmentController::class);
