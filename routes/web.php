@@ -14,6 +14,7 @@ use App\Http\Controllers\RegistrationsController;
 use App\Http\Controllers\RoostersController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\AccountController;
 
 // routes/web.php
 
@@ -64,8 +65,6 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // announcements
-
-
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 
 //newsletters
@@ -80,8 +79,15 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+// account
+Route::middleware('auth')->group(function () {
+    Route::get('/account', [AccountController::class, 'show'])->name('account.show');
+    Route::get('/account/edit', [AccountController::class, 'edit'])->name('account.edit');
+    Route::post('/account/update', [AccountController::class, 'update'])->name('account.update');
+});
+
 // assignments
-Route::resource('/assignments',AssignmentController::class);
+Route::resource('/assignments', AssignmentController::class);
 
 //about us
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about-us.index');
@@ -91,18 +97,19 @@ Route::get('/board-members/{id}/edit', [AboutUsController::class, 'edit_board_me
 Route::put('/board-members/{id}', [AboutUsController::class, 'update_board_member'])->name('board-members.update');
 
 // PreviousBoard
-
 Route::get('/previous-boards/{id}/edit', [AboutUsController::class, 'edit_previous_board'])->name('previous-boards.edit');
 Route::put('/previous-boards/{id}', [AboutUsController::class, 'update_previous_board'])->name('previous-boards.update');
 
 //PROBLEMEN MET AUTHENTICATIE KIJK ERNAAR!!!
 Route::middleware('auth')->group(function () {
-    Route::group(['middleware' => function ($request, $next) {
-        if (auth()->user()->role !== 'admin') {
-            abort(403, 'Access denied');
+    Route::group([
+        'middleware' => function ($request, $next) {
+            if (auth()->user()->role !== 'admin') {
+                abort(403, 'Access denied');
+            }
+            return $next($request);
         }
-        return $next($request);
-    }], function () {
+    ], function () {
         Route::get('/announcements/create', [AnnouncementController::class, 'create'])->name('announcements.create');
         Route::post('/announcements', [AnnouncementController::class, 'store'])->name('announcements.store');
         Route::get('/announcements/{announcement}/edit', [AnnouncementController::class, 'edit'])->name('announcements.edit');
