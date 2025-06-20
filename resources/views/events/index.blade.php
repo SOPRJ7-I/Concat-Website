@@ -65,6 +65,7 @@
 
         {{-- Eventslijst --}}
         <div class="flex flex-col flex-wrap my-4">
+            
             <div class="grid sm:grid-cols-2 gap-8 lg:gap-6 mx-auto">
                 @foreach($events as $event)
                     <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
@@ -82,6 +83,28 @@
                         </a>
 
                         <div class="p-5">
+                            @auth
+                                @if(auth()->user()->role === 'admin')
+                                    <div class="flex justify-end mb-4 gap-2 pt-2 pr-2">
+                                        <a href="{{ route('events.edit', $event->id) }}"
+                                        class="bg-[#3129FF] rounded-lg text-white py-1.5 px-3 hover:bg-[#E39FF6] transition text-sm">
+                                            <i class="fa-solid fa-pencil mr-1" aria-hidden="true"></i>
+                                            Bewerken
+                                        </a>
+                                        <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                    onclick="return confirm('Weet je zeker dat je dit evenement wilt verwijderen?');"
+                                                    class="bg-red-500 text-white py-1.5 px-3 rounded-lg hover:bg-red-600 transition text-sm">
+                                                <i class="fa-solid fa-trash mr-1" aria-hidden="true"></i>
+                                                Verwijderen
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endif
+                            @endauth
+
                             {{-- Categorie --}}
                             @if(isset($event->categorie))
                                 <span class="inline-block mb-2 bg-purple-100 text-purple-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
