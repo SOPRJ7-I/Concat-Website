@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 class CommunityNight extends Model
 {
     protected $guarded = [];
-
+    
     use HasFactory;
 
     // TODO: Fix this function
@@ -54,13 +54,6 @@ class CommunityNight extends Model
     {
         return Attribute::make(
             get: fn() => Carbon::parse($this->attributes['updated_at'])->format('d-m-Y'),
-        );
-    }
-
-    public function formattedCapacity(): Attribute
-    {
-        return Attribute::make(
-            get: fn() => $this->attributes['capacity'] === null ? 'Onbeperkt' : (string)$this->attributes['capacity'],
         );
     }
 }

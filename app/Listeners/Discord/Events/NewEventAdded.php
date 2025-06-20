@@ -15,19 +15,18 @@ class NewEventAdded
     public $location;
     public $spotsAvailable;
     public $url;
-    public $imageUrl;
     public $type;
 
-    public function __construct(string $title, string $description, ?string $startDate, ?string $startTime, ?string $location, ?int $spotsAvailable, string $url, ?string $imageUrl = null)
+    public function __construct(string $title, string $description, string $startDate, string $startTime, string $location, int $spotsAvailable, string $url)
     {
-        $this->title = $title ?? 'Geen titel';
-        $this->description = $description ?? 'Geen beschrijving beschikbaar';
-        $this->startDate = $startDate ?? 'Datum nog niet bekend';
-        $this->startTime = $startTime ?? 'Tijd nog niet bekend';
-        $this->location = $location ?? 'Locatie nog niet bekend';
-        $this->spotsAvailable = $spotsAvailable === null ? 'Onbeperkt' : (string)$spotsAvailable;
+        $this->title = $title;
+        $this->description = $description;
+        $this->startDate = $startDate;
+        $this->startTime = $startTime;
+        $this->location = $location;
+        $this->spotsAvailable = $spotsAvailable;
         $this->url = $url;
-        $this->imageUrl = $imageUrl;
         $this->type = 'event';
     }
 }
+

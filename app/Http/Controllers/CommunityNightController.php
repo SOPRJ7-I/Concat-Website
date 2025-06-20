@@ -17,7 +17,7 @@ class CommunityNightController extends Controller
     public function index()
     {
         return view('community-nights.index', [
-            'communityNights' => CommunityNight::orderBy('created_at', 'desc')->paginate(10)
+           'communityNights' => CommunityNight::orderBy('created_at', 'desc')->paginate(10)
         ]);
     }
 
@@ -65,22 +65,15 @@ class CommunityNightController extends Controller
             'capacity' => $communityNight->input('capacity')
         ]);
 
-        // In de store method, vervang het event() deel met:
-        $imageUrl = null;
-        if ($newCommunityNight->image) {
-            $imageUrl = asset('storage/' . $newCommunityNight->image);
-        }
-
         // Gebruik de juiste velden van het model
         event(new NewCommunityNightAdded(
             $newCommunityNight->title,
             $newCommunityNight->description,
-            $newCommunityNight->start_time ? date('d-m-Y', strtotime($newCommunityNight->start_time)) : null,
-            $newCommunityNight->start_time ? date('H:i', strtotime($newCommunityNight->start_time)) : null,
-            $newCommunityNight->location ?? null,
-            $newCommunityNight->capacity,
-            route('community-nights.show', $newCommunityNight->id),
-            $imageUrl // Voeg de afbeelding URL toe
+            $newCommunityNight->start_time ? date('d-m-Y', strtotime($newCommunityNight->start_time)) : null, // Alleen datum
+            $newCommunityNight->start_time ? date('H:i', strtotime($newCommunityNight->start_time)) : null, // Alleen tijd
+            $newCommunityNight->location ?? null, // Locatie
+            $newCommunityNight->capacity ?? null, // Beschikbare plekken
+            route('community-nights.show', $newCommunityNight->id) // Gebruik het ID van het nieuwe model
         ));
 
         return redirect()->route('community-nights.index');
@@ -88,13 +81,13 @@ class CommunityNightController extends Controller
 
     public function show(CommunityNight $communityNight)
     {
-        return view('community-nights.detail', ['communityNight' => $communityNight]);
+        return view('community-nights.detail' , ['communityNight' => $communityNight]);
     }
 
     public function edit(CommunityNight $communityNight)
     {
         $this->authorize('update', $communityNight);
-        return view('community-nights.edit', ['communityNight' => $communityNight]);
+        return view('community-nights.edit' , ['communityNight' => $communityNight]);
     }
 
     public function update(Request $request, CommunityNight $communityNight)
@@ -108,18 +101,18 @@ class CommunityNightController extends Controller
             'start_time' => 'required',
             'end_time' => 'required',
             'location' => 'required',
-            'link' => 'nullable',
+            'link'=> 'nullable',
             'capacity' => 'nullable|integer|min:0',
 
         ],
-            [
-                'title.required' => 'Titel is verplicht.',
-                'description.required' => 'Beschrijving is verplicht.',
-                'description.min' => 'Beschrijving moet minimaal 10 tekens bevatten.',
-                'start_time.required' => 'Starttijd is verplicht.',
-                'end_time.required' => 'Eindtijd is verplicht.',
-                'location.required' => 'Locatie is verplicht.',
-            ]);
+        [
+            'title.required' => 'Titel is verplicht.',
+            'description.required' => 'Beschrijving is verplicht.',
+            'description.min' => 'Beschrijving moet minimaal 10 tekens bevatten.',
+            'start_time.required' => 'Starttijd is verplicht.',
+            'end_time.required' => 'Eindtijd is verplicht.',
+            'location.required' => 'Locatie is verplicht.',
+        ]);
 
 
         $communityNight->title = $validated['title'];
@@ -145,7 +138,7 @@ class CommunityNightController extends Controller
 
         // Redirect naar de detailpagina of een andere gewenste pagina
         return redirect()->route('community-nights.edit', $communityNight->id)
-            ->with('success', 'Community avond succesvol bijgewerkt!');
+                 ->with('success', 'Community avond succesvol bijgewerkt!');
 
     }
 
@@ -160,7 +153,7 @@ class CommunityNightController extends Controller
         $communityNight->delete();
 
         return redirect()->route('community-nights.index')
-            ->with('success', 'Community Avond succesvol verwijderd.');
+        ->with('success', 'Community Avond succesvol verwijderd.');
     }
 
     public function latest()

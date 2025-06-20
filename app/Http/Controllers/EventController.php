@@ -54,12 +54,6 @@ class EventController extends Controller
 
         $event = Events::create($data);
 
-        // In de store method, vervang het event() deel met:
-        $imageUrl = null;
-        if ($event->afbeelding) {
-            $imageUrl = asset('storage/' . $event->afbeelding);
-        }
-
         // Dispatch het event
         event(new NewEventAdded(
             $event->titel,
@@ -68,8 +62,7 @@ class EventController extends Controller
             $event->starttijd,
             $event->locatie,
             $event->aantal_beschikbare_plekken,
-            route('events.show', $event->id),
-            $imageUrl // Voeg de afbeelding URL toe
+            route('events.show', $event->id) // Gebruik de show route voor de URL
         ));
 
 
@@ -246,3 +239,4 @@ public function DownloadAllICS()
 
 
 }
+

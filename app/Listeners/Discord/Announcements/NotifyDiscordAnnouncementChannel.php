@@ -2,6 +2,7 @@
 
 namespace App\Listeners\Discord\Announcements;
 
+use App\Listeners\Discord\Announcements\NewAnnouncementAdded;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 
@@ -10,8 +11,7 @@ class NotifyDiscordAnnouncementChannel
     public function handle(NewAnnouncementAdded $event): void
     {
         $announcementWebhookUrl = env('DISCORD_WEBHOOK_ANNOUNCEMENTS');
-        $description = $event->description ?? 'Geen beschrijving beschikbaar';
-        $quotedDescription = '> ' . str_replace("\n", "\n> ", $description);
+        $quotedDescription = '> ' . str_replace("\n", "\n> ", $event->description);
 
         if (!$announcementWebhookUrl) {
             Log::error('Discord webhook URL ontbreekt! Controleer .env bestand.');
@@ -29,7 +29,7 @@ class NotifyDiscordAnnouncementChannel
                     ],
 
                     'title' => null,
-                    'description' => "# [{$event->title} ➜](" . ($event->url ?? route('announcements.index')) . ")\n\n{$quotedDescription}",
+                    'description' => "# [{$event->title} ➜](" . route('announcements.index') . ")\n\n{$quotedDescription}",
                     'color' => 7506394,
                 ],
             ],
