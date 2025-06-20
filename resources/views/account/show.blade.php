@@ -3,7 +3,8 @@
 
         {{-- Mijn Account --}}
         <div class="bg-white p-6 rounded-xl shadow-lg">
-            <h1 class="text-2xl font-bold text-purple-800 border-b-4 border-purple-500 inline-block pb-1">Mijn account</h1>
+            <h1 class="text-2xl font-bold text-purple-800 border-b-4 border-purple-500 inline-block pb-1">Mijn account
+            </h1>
 
             @if(session('success'))
                 <div class="text-green-700 bg-green-100 border border-green-300 p-4 rounded-lg mt-4 font-medium">
@@ -11,7 +12,15 @@
                 </div>
             @endif
 
+
+
             <div class="mt-6 space-y-4 text-base">
+
+                <div>
+                    <span class="block font-semibold">Naam:</span>
+                    <span class="text-purple-700">{{ $user->name }}</span>
+                </div>
+
                 <div>
                     <span class="block font-semibold">E-mailadres:</span>
                     <span class="text-purple-700">{{ $user->email }}</span>
@@ -26,7 +35,7 @@
 
             <div class="mt-6">
                 <a href="{{ route('account.edit') }}"
-                   class="inline-block bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 transition font-semibold">
+                    class="inline-block bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 transition font-semibold">
                     Bewerk gegevens
                 </a>
             </div>
@@ -35,7 +44,8 @@
         {{-- Gebruikersbeheer voor admins --}}
         @if($user->role === 'admin')
             <div class="bg-white p-6 rounded-xl shadow-lg">
-                <h2 class="text-xl font-bold text-purple-800 border-b-4 border-purple-500 inline-block pb-1 mb-4">Gebruikersbeheer</h2>
+                <h2 class="text-xl font-bold text-purple-800 border-b-4 border-purple-500 inline-block pb-1 mb-4">
+                    Gebruikersbeheer</h2>
 
                 @if(session('success'))
                     <div class="text-green-700 bg-green-100 border border-green-300 p-4 rounded-lg mb-4 font-medium">
@@ -68,13 +78,15 @@
                                     <td class="px-4 py-2">{{ $otherUser->email }}</td>
                                     <td class="px-4 py-2">{{ ucfirst($otherUser->role) }}</td>
                                     <td class="px-4 py-2">
-                                        <form action="{{ route('account.updateUserRole', $otherUser) }}" method="POST" class="flex items-center space-x-2">
+                                        <form action="{{ route('account.updateUserRole', $otherUser) }}" method="POST"
+                                            class="flex items-center space-x-2">
                                             @csrf
                                             <select name="role" class="border rounded px-3 py-1" required>
                                                 <option value="student" @selected($otherUser->role === 'student')>Student</option>
                                                 <option value="admin" @selected($otherUser->role === 'admin')>Beheerder</option>
                                             </select>
-                                            <button type="submit" class="bg-red-500 text-white px-4 py-1.5 rounded hover:bg-red-600 transition">Opslaan</button>
+                                            <button type="submit"
+                                                class="bg-red-500 text-white px-4 py-1.5 rounded hover:bg-red-600 transition">Opslaan</button>
                                         </form>
                                     </td>
                                 </tr>

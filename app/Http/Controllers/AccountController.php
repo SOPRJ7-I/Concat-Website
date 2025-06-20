@@ -34,6 +34,7 @@ class AccountController extends Controller
         $user = auth()->user();
 
         $validated = $request->validate([
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'current_password' => 'nullable|required_with:password',
             'password' => 'nullable|confirmed|min:8',
@@ -46,6 +47,7 @@ class AccountController extends Controller
             $user->password = Hash::make($request->password);
         }
 
+        $user->name = $validated['name'];
         $user->email = $validated['email'];
         $user->save();
 
