@@ -1,58 +1,64 @@
 <x-layout>
-    <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-3xl mt-5 mb-5">
+    <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-3xl mt-5 mb-5 mx-auto">
         <h1 class="text-2xl font-bold border-b-4 border-purple-500 inline-block pb-1">Gegevens bewerken</h1>
 
-        <form method="POST" action="{{ route('account.update') }}" class="mt-4 space-y-4">
+        <form method="POST" action="{{ route('account.update') }}" class="mt-6 space-y-6" novalidate>
             @csrf
 
             <div>
-                <label for="name" class="block text-l font-bold">Naam*</label>
+                <label for="name" class="block text-lg font-bold mb-1">Naam<span class="text-red-600">*</span></label>
                 <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}"
-                    class="w-full p-2 {{ $errors->has('name') ? 'bg-red-100 border-red-300 text-red-700' : 'bg-purple-100 border-purple-300 text-purple-700' }} rounded-lg outline-none border focus:ring-2 focus:ring-purple-500">
+                    class="w-full p-2 rounded-lg border outline-none focus:ring-2 focus:ring-purple-500
+                           {{ $errors->has('name') ? 'bg-red-100 border-red-300 text-red-700' : 'bg-purple-100 border-purple-300 text-purple-700' }}">
                 @error('name')
-                    <div class="text-red-500 text-l mt-1 font-bold">{{ $message }}</div>
+                    <p class="text-red-600 text-sm mt-1 font-semibold" role="alert">{{ $message }}</p>
                 @enderror
             </div>
 
             <div>
-                <label for="email" class="block text-l font-bold">E-mailadres*</label>
+                <label for="email" class="block text-lg font-bold mb-1">E-mailadres<span class="text-red-600">*</span></label>
                 <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}"
-                    class="w-full p-2 {{ $errors->has('email') ? 'bg-red-100 border-red-300 text-red-700' : 'bg-purple-100 border-purple-300 text-purple-700' }} rounded-lg outline-none border focus:ring-2 focus:ring-purple-500">
+                    class="w-full p-2 rounded-lg border outline-none focus:ring-2 focus:ring-purple-500
+                           {{ $errors->has('email') ? 'bg-red-100 border-red-300 text-red-700' : 'bg-purple-100 border-purple-300 text-purple-700' }}">
                 @error('email')
-                    <div class="text-red-500 text-l mt-1 font-bold">{{ $message }}</div>
+                    <p class="text-red-600 text-sm mt-1 font-semibold" role="alert">{{ $message }}</p>
                 @enderror
             </div>
 
-            <div class="border-t pt-4">
-                <h2 class="text-lg font-bold">Wachtwoord wijzigen (optioneel)</h2>
+            <fieldset class="border-t pt-6 space-y-4">
+                <legend class="text-lg font-bold">Wachtwoord wijzigen (optioneel)</legend>
 
                 <div>
-                    <label for="current_password" class="block text-l font-bold">Huidig wachtwoord*</label>
+                    <label for="current_password" class="block text-lg font-bold mb-1">Huidig wachtwoord<span class="text-red-600">*</span></label>
                     <input type="password" name="current_password" id="current_password"
-                        class="w-full p-2 {{ $errors->has('current_password') ? 'bg-red-100 border-red-300 text-red-700' : 'bg-purple-100 border-purple-300 text-purple-700' }} rounded-lg outline-none border focus:ring-2 focus:ring-purple-500">
+                        class="w-full p-2 rounded-lg border outline-none focus:ring-2 focus:ring-purple-500
+                               {{ $errors->has('current_password') ? 'bg-red-100 border-red-300 text-red-700' : 'bg-purple-100 border-purple-300 text-purple-700' }}">
                     @error('current_password')
-                        <div class="text-red-500 text-l mt-1 font-bold">{{ $message }}</div>
+                        <p class="text-red-600 text-sm mt-1 font-semibold" role="alert">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div>
-                    <label for="password" class="block text-l font-bold">Nieuw wachtwoord</label>
+                    <label for="password" class="block text-lg font-bold mb-1">Nieuw wachtwoord</label>
                     <input type="password" name="password" id="password"
-                        class="w-full p-2 {{ $errors->has('password') ? 'bg-red-100 border-red-300 text-red-700' : 'bg-purple-100 border-purple-300 text-purple-700' }} rounded-lg outline-none border focus:ring-2 focus:ring-purple-500">
+                        class="w-full p-2 rounded-lg border outline-none focus:ring-2 focus:ring-purple-500
+                               {{ $errors->has('password') ? 'bg-red-100 border-red-300 text-red-700' : 'bg-purple-100 border-purple-300 text-purple-700' }}">
                     @error('password')
-                        <div class="text-red-500 text-l mt-1 font-bold">{{ $message }}</div>
+                        <p class="text-red-600 text-sm mt-1 font-semibold" role="alert">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div>
-                    <label for="password_confirmation" class="block text-l font-bold">Bevestig nieuw wachtwoord</label>
+                    <label for="password_confirmation" class="block text-lg font-bold mb-1">Bevestig nieuw wachtwoord</label>
                     <input type="password" name="password_confirmation" id="password_confirmation"
-                        class="w-full p-2 bg-purple-100 border-purple-300 text-purple-700 rounded-lg outline-none border focus:ring-2 focus:ring-purple-500">
+                        class="w-full p-2 rounded-lg border border-purple-300 bg-purple-100 text-purple-700 outline-none focus:ring-2 focus:ring-purple-500">
                 </div>
-            </div>
+            </fieldset>
 
-            <input type="submit" value="Opslaan"
-                class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer">
+            <button type="submit"
+                class="w-full bg-red-500 text-white p-3 rounded-lg hover:bg-red-600 transition font-semibold cursor-pointer">
+                Opslaan
+            </button>
         </form>
     </div>
 </x-layout>

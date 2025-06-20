@@ -9,13 +9,19 @@ use App\Models\User;
 class AccountController extends Controller
 {
     // Toon eigen accountgegevens + lijst gebruikers als admin
-    public function show()
+    public function show(Request $request)
     {
         $user = auth()->user();
         $users = [];
 
         if ($user->role === 'admin') {
-            $users = User::where('id', '!=', $user->id)->get();
+            $query = User::where('id', '!=', $user->id);
+
+            if ($request->has('search') && $request->search !== '') {
+                $query->where('email', 'like', '%' . $request->search . '%');
+            }
+
+            $users = $query->get();
         }
 
         return view('account.show', compact('user', 'users'));
