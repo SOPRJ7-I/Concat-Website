@@ -2,22 +2,20 @@
 
 namespace Tests\Browser;
 
-use Database\Factories\EventsFactory;
+use App\Models\Events;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
-use App\Models\Events;
-use App\Models\User;
-use DatabaseTransactions;
 
 class EventRegistrationTest extends DuskTestCase
 {
     use DatabaseMigrations;
-/** @test */
+
+    /** @test */
     public function link_zet_in_agenda_is_aanwezig_en_werkt()
     {
-        // Maak eerst een test-evenement aan in de database
-        $evenement = EventsFactory::factory()->create([
+        $evenement = Events::factory()->create([
             'titel' => 'Test Evenement Dusk',
             'datum' => '2025-03-07',
             'starttijd' => '18:00',
@@ -31,26 +29,124 @@ class EventRegistrationTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($evenement) {
             $href = route('events.ics', $evenement->id);
 
-            $browser->visit("/events/{$evenement->id}") // Pas URL aan naar je route voor event details
-                ->assertSeeLink('Zet in agenda') // Check dat linktekst zichtbaar is
-                ->assertAttribute('a[href="'.$href.'"]', 'href', $href) // Controleer of de link met href aanwezig is
-                ->clickLink('Zet in agenda'); // Klik op de link
+            $browser->visit("/events/{$evenement->id}")
+                ->assertSeeLink('Zet in agenda')
+                ->assertAttribute("a[href='{$href}']", 'href', $href)
+                ->clickLink('Zet in agenda');
         });
     }
-    /**
-     * A Dusk test example.
-     */
-    public function test_homepage_loads()
+    /** @test */
+    public function admin_can_update_an_event()
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/')
-                ->assertSee('Events'); // You can add another string from the homepage to help identify content
+        $admin = User::factory()->create([
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password123'),
+            'role' => 'admin',
+        ]);
+
+        $event = Events::factory()->create([
+            'titel' => 'Originele Titel',
+            'categorie' => 'blokborrel',
+            'datum' => '2025-07-20',
+            'einddatum' => '2025-07-21',
+            'starttijd' => '18:00',
+            'eindtijd' => '22:00',
+            'beschrijving' => 'Oude beschrijving',
+            'locatie' => 'Oude Locatie',
+        ]);
+
+        $this->browse(function (Browser $browser) use ($admin, $event) {
+            $browser->loginAs($admin)
+                ->visit(route('events.edit', $event->id))
+                ->assertInputValue('titel', 'Originele Titel')
+
+                ->within('form', function ($form) {
+                    $form->type('titel', 'Nieuwe Titel')
+                        ->type('datum', '2025-07-22')
+                        ->type('einddatum', '2025-07-23')
+                        ->type('starttijd', '17:00')
+                        ->type('eindtijd', '21:00')
+                        ->type('beschrijving', 'Nieuwe beschrijving')
+                        ->type('locatie', 'Nieuwe Locatie')
+                        ->press('Evenement opslaan');
+                });
         });
     }
 
+
     public function test_event_page_loads_and_registers()
     {
-        // Create a dummy event
+        $event = Events::factory()->create([
+            'titel' => 'Test Event',
+            'datum' => '2025-04-15',
+            'starttijd' => '18:00',
+            'einddatum' => '2025-04-15',
+            'eindtijd' => '20:00',
+            'locatie' => 'Testlocatie',
+            'beschrijving' => 'Test beschrijving',
+        ]);
+    }
+
+    public function test_event_page_loads_and_displays_elements()
+    {
+        $events = Events::factory()->count(5)->create();
+
+        $this->browse(function (Browser $browser) use ($events) {
+            $browser->visit('/events/index')
+                ->waitForText('Filter op categorie:', 3)
+                ->assertSee('Filter op categorie:')
+                ->assertPresent('select#categorie')
+                ->assertSee($events[0]->titel)
+                ->assertSee($events[1]->titel)
+                ->assertSee($events[2]->titel);
+        });
+    }
+
+    public function test_event_detail_page_loads_and_registration_modal_functionality()
+    {
+        $user = User::factory()->create([
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password123'),
+            'role' => 'admin',
+        ]);
+
+        $event = Events::factory()->create([
+            'titel' => 'Test Event',
+            'categorie' => 'Test Category',
+            'datum' => '2025-05-01',
+            'starttijd' => '18:00',
+            'einddatum' => '2025-05-01',
+            'eindtijd' => '22:00',
+            'locatie' => 'Test Location',
+            'beschrijving' => 'This is a test description for the event.',
+        ]);
+
+        $this->browse(function (Browser $browser) use ($user, $event) {
+            $browser->visit(route('events.show', $event->id))
+                ->waitForText($event->titel, 3)
+                ->assertSee($event->titel)
+                ->assertSee($event->categorie)
+                ->assertSee($event->locatie)
+                ->assertSee($event->beschrijving)
+                ->click('#openFormButton')
+                ->pause(500)
+                ->assertVisible('#popupModal')
+                ->assertSee('Inschrijven')
+                ->assertSee('Naam:')
+                ->assertSee('E-mail:')
+                ->click('#closePopup')
+                ->pause(500);
+        });
+    }
+
+    public function test_event_filter_dropdown_options()
+    {
+        $user = User::factory()->create([
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password123'),
+            'role' => 'admin',
+        ]);
+
         $event = Events::factory()->create([
             'titel' => 'Test Event',
             'datum' => '2025-04-15',
@@ -61,128 +157,22 @@ class EventRegistrationTest extends DuskTestCase
             'beschrijving' => 'Test beschrijving',
         ]);
 
-
-        $this->browse(function (Browser $browser) use ($event) {
-            // Login if necessary
-
-            // Visit event registration page
-            $browser->visit("/events/{$event->id}") // Ensure the event exists on this route
-                ->waitForText('Inschrijven')  // Wait for the 'Inschrijven' text to appear
-                ->assertSee('Inschrijven')  // Check that the registration button is visible
-                ->assertSee($event->titel)  // Verify event title is displayed
-                ->assertSee('Testlocatie')  // Verify the location is displayed
-                ->assertSee('Test beschrijving');  // Verify description is displayed
-
+        $this->browse(function (Browser $browser) use ($user, $event) {
+            $browser->loginAs($user)
+                ->visit('/events/index')
+                ->assertSelected('select#categorie', 'all')
+                ->assertPresent('select#myevents')
+                ->assertSelected('select#myevents', '0')
+                ->select('select#myevents', '1')
+                ->pause(500)
+                ->assertSelected('select#myevents', '1')
+                ->assertSee('Ingeschreven')
+                ->select('select#myevents', '0')
+                ->pause(500)
+                ->assertSelected('select#myevents', '0')
+                ->assertSee('Alles');
         });
     }
-    public function test_event_page_loads_and_displays_elements()
-    {
-
-
-    // Create some dummy events for testing
-    $events = Events::factory()->count(5)->create();
-
-    $this->browse(function (Browser $browser) use ($events) {
-        // Visit the page that displays the events
-        $browser->visit('/events/index')
-            // Assert the page title is correct
-            ->assertSee('Events')
-
-            // Assert the filter dropdown for categories is visible
-            ->assertSee('Filter op categorie:')
-            ->assertPresent('select#categorie')
-
-            // Assert the event titles are visible
-            ->assertSee($events[0]->titel)
-            ->assertSee($events[1]->titel)
-            ->assertSee($events[2]->titel);
-
-            // Assert the pagination links are present
-            });
-        }
-public function test_event_detail_page_loads_and_registration_modal_functionality()
-{
-    // Create the user with a password set for authentication
-    $user = User::factory()->create([
-        'email' => 'admin@example.com',
-        'password' => bcrypt('password123'), // Ensure password is set
-        'role' => 'admin', // Add the role field here
-    ]);
-
-    $event = Events::factory()->create([
-        'titel' => 'Test Event',
-        'categorie' => 'Test Category',
-        'datum' => '2025-05-01',
-        'starttijd' => '18:00',
-        'einddatum' => '2025-05-01',
-        'eindtijd' => '22:00',
-        'locatie' => 'Test Location',
-        'beschrijving' => 'This is a test description for the event.',
-    ]);
-
-    // Use the Dusk browser to interact with the page
-    $this->browse(function (Browser $browser) use ($user, $event) {
-        // Ensure the user is logged in
-        $browser->visit(route('events.show', $event->id))
-            // Assert event details are visible
-            ->assertSee($event->titel)
-            ->assertSee($event->categorie)
-            ->assertSee($event->locatie)
-            ->assertSee($event->beschrijving)
-            // Trigger modal display
-            ->click('#openFormButton')
-            ->pause(500)
-            // Assert modal is now visible
-            ->assertVisible('#popupModal')
-            // Assert modal content
-            ->assertSee('Inschrijven')
-            ->assertSee('Naam:')
-            ->assertSee('E-mail:')
-            // Close the modal and assert it's hidden again
-            ->click('#closePopup')
-            ->pause(500);
-    });
-}
-public function test_event_filter_dropdown_options()
-{
-    // Create a dummy user and event
-    $user = User::factory()->create([
-        'email' => 'admin@example.com',
-        'password' => bcrypt('password123'),
-        'role' => 'admin',
-    ]);
-
-    $event = Events::factory()->create([
-        'titel' => 'Test Event',
-        'datum' => '2025-04-15',
-        'starttijd' => '18:00',
-        'einddatum' => '2025-04-15',
-        'eindtijd' => '20:00',
-        'locatie' => 'Testlocatie',
-        'beschrijving' => 'Test beschrijving',
-    ]);
-
-    $this->browse(function (Browser $browser) use ($user, $event) {
-        // Ensure the user is logged in
-        $browser->loginAs($user)
-            ->visit('/events/index')
-
-            ->assertSelected('select#categorie', 'all')
-            ->assertPresent('select#myevents')
-            ->assertSelected('select#myevents', '0')
-
-            ->select('select#myevents', '1')
-            ->pause(500)
-            ->assertSelected('select#myevents', '1')
-
-            ->assertSee('Ingeschreven')
-
-            ->select('select#myevents', '0')
-            ->pause(500)
-            ->assertSelected('select#myevents', '0')
-            ->assertSee('Alles');
-    });
-}
 
 
 }

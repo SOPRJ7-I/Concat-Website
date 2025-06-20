@@ -203,39 +203,97 @@ class EventController extends Controller
         'Content-Disposition' => 'attachment; filename="evenement-'. $event->id .'.ics"',
     ]);
 }
-public function DownloadAllICS()
-{
-    $events = Events::all();
+    public function DownloadAllICS()
+    {
+        $events = Events::all();
 
-    $icalContent = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//YourApp//Event Calendar//EN\r\n";
+        $icalContent = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//YourApp//Event Calendar//EN\r\n";
 
-    foreach ($events as $event) {
-        $startDateTime = Carbon::parse($event->datum . ' ' . $event->starttijd);
-        $endDateTime = Carbon::parse($event->einddatum . ' ' . $event->eindtijd);
-        $dtstamp = optional($event->created_at)->format('Ymd\THis\Z') ?? now()->format('Ymd\THis\Z');
+        foreach ($events as $event) {
+            $startDateTime = Carbon::parse($event->datum . ' ' . $event->starttijd);
+            $endDateTime = Carbon::parse($event->einddatum . ' ' . $event->eindtijd);
+            $dtstamp = optional($event->created_at)->format('Ymd\THis\Z') ?? now()->format('Ymd\THis\Z');
 
-        $summary = addcslashes($event->titel ?? '', ",;\\\n\r");
-        $description = addcslashes($event->beschrijving ?? '', ",;\\\n\r");
-        $location = addcslashes($event->locatie ?? '', ",;\\\n\r");
+            $summary = addcslashes($event->titel ?? '', ",;\\\n\r");
+            $description = addcslashes($event->beschrijving ?? '', ",;\\\n\r");
+            $location = addcslashes($event->locatie ?? '', ",;\\\n\r");
 
-        $icalContent .= "BEGIN:VEVENT\r\n";
-        $icalContent .= "UID:{$event->id}@yourapp.com\r\n";
-        $icalContent .= "DTSTAMP:$dtstamp\r\n";
-        $icalContent .= "DTSTART:{$startDateTime->format('Ymd\THis')}\r\n";
-        $icalContent .= "DTEND:{$endDateTime->format('Ymd\THis')}\r\n";
-        $icalContent .= "SUMMARY:$summary\r\n";
-        $icalContent .= "DESCRIPTION:$description\r\n";
-        $icalContent .= "LOCATION:$location\r\n";
-        $icalContent .= "END:VEVENT\r\n";
+            $icalContent .= "BEGIN:VEVENT\r\n";
+            $icalContent .= "UID:{$event->id}@yourapp.com\r\n";
+            $icalContent .= "DTSTAMP:$dtstamp\r\n";
+            $icalContent .= "DTSTART:{$startDateTime->format('Ymd\THis')}\r\n";
+            $icalContent .= "DTEND:{$endDateTime->format('Ymd\THis')}\r\n";
+            $icalContent .= "SUMMARY:$summary\r\n";
+            $icalContent .= "DESCRIPTION:$description\r\n";
+            $icalContent .= "LOCATION:$location\r\n";
+            $icalContent .= "END:VEVENT\r\n";
+        }
+
+        $icalContent .= "END:VCALENDAR\r\n";
+
+        return response($icalContent)
+            ->header('Content-Type', 'text/calendar; charset=utf-8')
+            ->header('Content-Disposition', 'attachment; filename="alle-evenementen.ics"');
     }
-
-    $icalContent .= "END:VCALENDAR\r\n";
-
-    return response($icalContent)
-        ->header('Content-Type', 'text/calendar; charset=utf-8')
-        ->header('Content-Disposition', 'attachment; filename="alle-evenementen.ics"');
+    //edit
+    public function edit(Events $event)
+{
+    return view('events.edit', compact('event'));
 }
 
+public function update(Request $request, Events $event)
+{
+    $data = $request->validate([
+        'titel' => 'required|string|max:255',
+        'categorie' => 'required|in:blokborrel,education',
+        'datum' => 'required|date',
+        'einddatum' => 'required|date',
+        'starttijd' => 'required|regex:/^\d{2}:\d{2}$/',
+        'eindtijd' => 'required|regex:/^\d{2}:\d{2}$/',
+        'beschrijving' => 'required|string',
+        'locatie' => 'required|string|max:255',
+        'aantal_beschikbare_plekken' => 'nullable|integer',
+        'betaal_link' => 'nullable|string',
+        'afbeelding' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+    ], [
+        'titel.required' => 'Titel is verplicht.',
+        'categorie.required' => 'Categorie is verplicht.',
+        'categorie.in' => 'Categorie moet "blokborrel" of "education" zijn.',
+        'datum.required' => 'Datum is verplicht.',
+        'datum.date' => 'Datum moet een geldige datum zijn.',
+        'einddatum.required' => 'Einddatum is verplicht.',
+        'einddatum.date' => 'Einddatum moet een geldige datum zijn.',
+        'starttijd.required' => 'Starttijd is verplicht.',
+        'starttijd.regex' => 'Starttijd moet het formaat HH:MM hebben.',
+        'eindtijd.required' => 'Eindtijd is verplicht.',
+        'eindtijd.regex' => 'Eindtijd moet het formaat HH:MM hebben.',
+        'beschrijving.required' => 'Beschrijving is verplicht.',
+        'locatie.required' => 'Locatie is verplicht.',
+        'locatie.max' => 'Locatie mag niet langer zijn dan 255 tekens.',
+        'aantal_beschikbare_plekken.integer' => 'Aantal beschikbare plekken moet een getal zijn.',
+        'betaal_link.string' => 'Betaallink moet een geldige URL zijn.',
+        'afbeelding.image' => 'Afbeelding moet een geldig afbeeldingsbestand zijn.',
+        'afbeelding.mimes' => 'Afbeelding moet een van de volgende extensies hebben: jpeg, png, jpg, gif.',
+        'afbeelding.max' => 'Afbeelding mag maximaal 2MB groot zijn.']);
+
+    if ($request->hasFile('afbeelding')) {
+        $data['afbeelding'] = $request->file('afbeelding')->store('event_images', 'public');
+    }
+
+    $event->update($data);
+
+    return redirect()->route('events.index')->with('success', 'Event bijgewerkt!');
+}
+//delete
+public function destroy(Events $event)
+{
+    try {
+        $event->delete();
+        return redirect()->route('events.index')->with('success', 'Evenement succesvol verwijderd!');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Fout bij verwijderen: ' . $e->getMessage());
+    }
+}
 
 
 }
