@@ -65,8 +65,9 @@
                 <div class="max-h-48 overflow-y-auto">
                     @foreach($roosters as $rooster)
                         @php
-                            $shortName = substr($rooster->ical_url, -10);
-                            $color = $klasColors[$rooster->klas] ?? '#999999';
+    $urlParts = parse_url($rooster->ical_url);
+    parse_str($urlParts['query'] ?? '', $queryParams);
+    $shortName = $queryParams['value'] ?? 'onbekend';                            $color = $klasColors[$rooster->klas] ?? '#999999';
                         @endphp
                         <div class="flex items-center justify-between mb-2 border rounded p-2" data-dusk="calendar-item-{{ $shortName }}">
                             <label class="inline-flex items-center cursor-pointer" aria-label="Rooster {{ $shortName }} selectievakje">
@@ -135,7 +136,9 @@
         @php
             $eventColor = '#999999'; 
             foreach($roosters as $r) {
-                $shortName = substr($r->ical_url, -10);
+$urlParts = parse_url($r->ical_url);
+parse_str($urlParts['query'] ?? '', $queryParams);
+$shortName = $queryParams['value'] ?? 'onbekend';
                 if($shortName === $event['calendar_name']) {
                     $eventColor = $klasColors[$r->klas] ?? '#999999';
                     break;
