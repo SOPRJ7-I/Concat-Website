@@ -69,7 +69,7 @@ class AccountController extends Controller
         }
 
         if ($user->id === auth()->id()) {
-            return redirect()->back()->withErrors('Je kunt je eigen rol niet wijzigen.');
+            return redirect()->back()->withErrors(['role' => 'Je kunt je eigen rol niet wijzigen.']);
         }
 
         $request->validate([
