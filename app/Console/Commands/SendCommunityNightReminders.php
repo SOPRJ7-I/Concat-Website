@@ -32,11 +32,10 @@ class SendCommunityNightReminders extends Command
     {
          $this->info('Controleren op aankomende community avonden...');
 
-        // Haal alle community avonden op die precies over 3 dagen plaatsvinden
-        // We vergelijken alleen de datum, niet de tijd, voor "3 dagen van tevoren"
+
         $targetDate = Carbon::today()->addDays(3)->toDateString();
 
-        $communityAvonden = CommunityNight::whereDate('start_time', $targetDate) // <-- HIER IS DE WIJZIGING
+        $communityAvonden = CommunityNight::whereDate('start_time', $targetDate)
                                             ->get();
 
         if ($communityAvonden->isEmpty()) {
@@ -47,13 +46,10 @@ class SendCommunityNightReminders extends Command
         $this->info(count($communityAvonden) . ' community avond(en) gevonden voor ' . $targetDate . '.');
 
         foreach ($communityAvonden as $avond) {
-            // Haal de studenten op die de notificatie moeten ontvangen
-            // Dit is een placeholder. Pas dit aan op basis van hoe je studenten beheert.
-            // Bijvoorbeeld: alle gebruikers, of gebruikers met een specifieke rol.
-            $students = User::all(); // Of User::where('role', 'student')->get();
+            
+            $students = User::all();
 
             foreach ($students as $student) {
-                // Verstuur de e-mail
                 try {
                     Mail::to($student->email)->send(new CommunityNightNotification($avond));
                     $this->info('E-mail verstuurd voor "' . $avond->title . '" naar ' . $student->email);
