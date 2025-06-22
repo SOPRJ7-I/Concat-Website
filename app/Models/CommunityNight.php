@@ -56,4 +56,11 @@ class CommunityNight extends Model
             get: fn() => Carbon::parse($this->attributes['updated_at'])->format('d-m-Y'),
         );
     }
+
+    public function fullStartTime(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => Carbon::parse($this->attributes['start_time']),
+        );
+    }
 }
