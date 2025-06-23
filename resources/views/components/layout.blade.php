@@ -41,28 +41,31 @@
                 <div class="flex" id="menu-links">
                     <x-nav-link href="/events/index">Evenementen</x-nav-link>
                     <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
-                    <x-nav-link href="/gallery">Galerij</x-nav-link>
-                    <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
-                    <x-nav-link href="/newsletters">Nieuwsbrief</x-nav-link>
-                    <x-nav-link href="{{ route('assignments.index') }}">Opdrachten</x-nav-link>
-                    <x-nav-link href="/about-us">Over ons</x-nav-link>
+                    <x-nav-link href="/gallery"><i class="text-xl fa-solid fa-image"></i></x-nav-link>
+                    <x-nav-link href="{{ route('sponsors.index')  }}"><i
+                            class="text-xl fa-solid fa-handshake"></i></x-nav-link>
+                    <x-nav-link href="/newsletters"><i class="text-xl fa-solid fa-envelope"></i></x-nav-link>
+                    <x-nav-link href="{{ route('assignments.index') }}"><i
+                            class="text-xl fa-solid fa-briefcase"></i></x-nav-link>
+                    <x-nav-link href="/about-us"><i class="text-xl fa-solid fa-users"></i></x-nav-link>
+                    <x-nav-link href="/account"><i class="text-xl fa-solid fa-user"></i></x-nav-link>
 
-                    <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/">Webshop</a>
+                    <a href="https://sv-concat.myspreadshop.nl/" redirect="https://sv-concat.myspreadshop.nl/"><i
+                            class="text-xl fa-solid fa-cart-shopping"></i></a>
 
                     @guest
                         <!-- <x-nav-link href="/register">Registreren</x-nav-link> -->
                         <x-nav-link href="/login"><i class="text-2xl fa-solid fa-right-to-bracket"></i></x-nav-link>
                     @endguest
                     @auth
-                        <x-nav-link href="/roosters">Rooster</x-nav-link>
+                        <x-nav-link href="/roosters"><i class="text-xl fa-solid fa-calendar-days"></i></x-nav-link>
 
                     @endauth
 
                     @auth
                         <form action="{{ route('logout') }}" method="POST" style="display:flex;">
                             @csrf
-                            <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
-                                class="x-nav-link">
+                            <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="x-nav-link">
                                 <i class="text-2xl fa-solid fa-right-from-bracket"></i>
                             </a>
                         </form>
@@ -81,22 +84,27 @@
                 </a>
                 <x-nav-link href="/events/index">Evenementen</x-nav-link>
                 <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
-                <x-nav-link href="/gallery">Galerij</x-nav-link>
-                <x-nav-link href="{{ route('sponsors.index')  }}">Sponsoren</x-nav-link>
-                <x-nav-link href="/newsletters">Nieuwsbrief</x-nav-link>
-                <x-nav-link href="{{ route('assignments.index') }}">Opdrachten</x-nav-link>
-                <x-nav-link href="/about-us">Over ons</x-nav-link>
-                <a href="https://sv-concat.myspreadshop.nl/">Webshop</a>
+                <x-nav-link href="/gallery"><i class="text-xl fa-solid fa-image"></i></x-nav-link>
+                <x-nav-link href="{{ route('sponsors.index')  }}"><i
+                        class="text-xl fa-solid fa-handshake"></i></x-nav-link>
+                <x-nav-link href="/newsletters"><i class="text-xl fa-solid fa-envelope"></i></x-nav-link>
+                <x-nav-link href="{{ route('assignments.index') }}"><i
+                        class="text-xl fa-solid fa-briefcase"></i></x-nav-link>
+                <x-nav-link href="/about-us"><i class="text-xl fa-solid fa-users"></i></x-nav-link>
+                <x-nav-link href="/account"><i class="text-xl fa-solid fa-user"></i></x-nav-link>
 
                 @guest
                     <x-nav-link href="/login">Inloggen</x-nav-link>
                 @endguest
+                @auth
+                    <x-nav-link href="/roosters"><i class="text-xl fa-solid fa-calendar-days"></i></x-nav-link>
+
+                @endauth
 
                 @auth
                     <form action="{{ route('logout') }}" method="POST" style="display:flex;">
                         @csrf
-                        <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
-                           class="x-nav-link">
+                        <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="x-nav-link">
                             Uitloggen
                         </a>
                     </form>
@@ -105,10 +113,10 @@
         </div>
         <div class="overlay"></div>
         <a href="{{ route('announcements.index') }}" id="bell-icon"
-        class="absolute right-[2%] z-50 flex items-center justify-center h-16 w-16 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-105"
-        title="Bekijk aankondigingen" aria-label="Aankondigingen">
-        <i class="fa-solid fa-bell text-gray-700 text-xl"></i>
-        <!-- Notificatie indicator
+            class="absolute right-[2%] z-50 flex items-center justify-center h-16 w-16 bg-white rounded-full shadow-md hover:shadow-lg transition-all hover:scale-105"
+            title="Bekijk aankondigingen" aria-label="Aankondigingen">
+            <i class="fa-solid fa-bell text-gray-700 text-xl"></i>
+            <!-- Notificatie indicator
         <span class="absolute -top-1 -right-1 bg-red-500 text-xs text-white rounded-full px-2 py-1"></span>-->
         </a>
 
@@ -119,7 +127,8 @@
 
 
 
-    <div id="page-content" class="flex justify-center items-center p-6 lg:mt-200 opacity-0 translate-y-4 transition-all duration-700 ease-out">
+    <div id="page-content"
+        class="flex justify-center items-center p-6 lg:mt-200 opacity-0 translate-y-4 transition-all duration-700 ease-out">
         {{ $slot }}
     </div>
 
@@ -158,7 +167,8 @@
                     <span class="hidden md:inline">|</span>
                     <a href="mailto:info@svconcat.nl" class="hover:text-gray-400">info@svconcat.nl</a>
                     <span class="hidden md:inline">|</span>
-                    <a href="{{ asset('storage/pdfs/statutensvconcat.pdf') }}" class="hover:text-gray-400">Regels en statuten</a>
+                    <a href="{{ asset('storage/pdfs/statutensvconcat.pdf') }}" class="hover:text-gray-400">Regels en
+                        statuten</a>
                 </div>
             </div>
         </div>
