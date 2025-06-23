@@ -101,18 +101,23 @@
                     <div class="flex items-center text-gray-500 mb-4" aria-label="Informatie over beschikbare en ingeschreven plekken">
                         <i class="fa-solid fa-users text-3xl flex-shrink-0" aria-hidden="true"></i>
                         <div class="ml-2">
-                            <div class="text-lg font-bold">
-                                Totaal aantal plekken:
-                                @if($availableSpots > 0)
-                                    {{ $availableSpots }} plekken
-                                @else
-                                    Geen plaatsen beschikbaar
-                                @endif
-                            </div>
-
-                            @if(auth()->user() && auth()->user()->is_admin)
+                            @if(auth()->user() && auth()->user()->isAdmin())
                                 <div class="text-lg font-bold">
-                                    Aantal ingeschreven: {{ $registeredCount }}
+                                    Inschrijvingen:
+                                    @if(true)
+                                        {{ $registeredCount }} / {{ $availableSpots }}
+                                    @else
+                                        Geen plaatsen beschikbaar
+                                    @endif
+                                </div>
+                            @else
+                                <div class="text-lg font-bold">
+                                    Totaal aantal plekken:
+                                    @if($availableSpots > 0)
+                                        {{ $availableSpots }} plekken
+                                    @else
+                                        Geen plaatsen beschikbaar
+                                    @endif
                                 </div>
                             @endif
                         </div>

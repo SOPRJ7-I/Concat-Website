@@ -100,20 +100,23 @@
                                            alt="Aantal inschrijvingen evenement" aria-hidden="true"></i>
                                         <div class="ml-2">
                                             <!-- Totaal aantal plekken -->
-                                            <div class="text-lg font-bold">
-                                                Totaal aantal plekken:
-                                                @if($availableSpots > 0)
-                                                    {{ $availableSpots }} plekken
-                                                @else
-                                                    Geen plaatsen beschikbaar
-                                                @endif
-                                            </div>
-
-                                            <!-- Aantal ingeschreven -->
-                                            @if(auth()->user() && auth()->user()->is_admin)
-                                                <!-- Check if the user is admin -->
+                                            @if(auth()->user() && auth()->user()->isAdmin())
                                                 <div class="text-lg font-bold">
-                                                    Aantal ingeschreven: {{ $registeredCount }}
+                                                    Inschrijvingen:
+                                                    @if(true)
+                                                        {{ $registeredCount }} / {{ $availableSpots }}
+                                                    @else
+                                                        Geen plaatsen beschikbaar
+                                                    @endif
+                                                </div>
+                                            @else
+                                                <div class="text-lg font-bold">
+                                                    Totaal aantal plekken:
+                                                    @if($availableSpots > 0)
+                                                        {{ $availableSpots }} plekken
+                                                    @else
+                                                        Geen plaatsen beschikbaar
+                                                    @endif
                                                 </div>
                                             @endif
                                         </div>
