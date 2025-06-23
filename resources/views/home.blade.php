@@ -38,7 +38,7 @@
                             <a href="{{ route('events.show', $event->id) }}"
                                class="block w-full aspect-square relative overflow-hidden"
                                aria-label="Details bekijken van {{ $event->titel }}">
-                                @if(isset($event->afbeelding) && isset($event->start_datum) && isset($event->einddatum) && isset($event->locatie))
+                                @if(isset($event->afbeelding))
                                     <img src="{{ $event->afbeelding }}"
                                          alt="Afbeelding van {{ $event->titel }}. Datum: {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}"
                                          class="w-full object-cover">
@@ -123,7 +123,7 @@
                                     <a href="{{ route('events.show', $event->id) }}"
                                        class="inline-flex items-center text-sm text-center bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold"
                                        aria-label="Lees meer over {{ $event->titel }}. Datum van {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}">
-                                        Lees meer over {{ $event->titel }}
+                                        Lees meer...
                                     </a>
                                 </div>
                             </div>

@@ -153,7 +153,7 @@
                             <a href="{{ route('events.show', $event->id) }}"
                                class="inline-flex items-center text-sm text-center bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold"
                                aria-label="Lees meer over {{ $event->titel }}. Datum van {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}">
-                                Lees meer over {{ $event->titel }}
+                                Lees meer...
                             </a>
                         </div>
                     </div>

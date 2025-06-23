@@ -24,7 +24,7 @@ class EventsSeeder extends Seeder
             'eindtijd' => '18:00:00',
             'aantal_beschikbare_plekken' => 500,
             'betaal_link' => 'https://techconference2025.com/tickets',
-            'afbeelding' => 'event_images/6815821700_8224103d9e.jpg',
+            'afbeelding' => 'event_images/54537061890_9efd6b8a74.jpg',
         ]);
 
         Events::create([
