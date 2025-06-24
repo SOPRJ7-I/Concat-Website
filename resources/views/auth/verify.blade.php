@@ -22,9 +22,9 @@
             <div class="mt-4 pt-4 border-t border-gray-200">
                 <p class="text-gray-600 mb-4">Geen e-mail ontvangen?</p>
                 
-                <form method="POST" action="{{ route('verification.send') }}" class="inline">
+                <form method="POST" action="{{ route('verification.send') }}" class="inline" class="inline" aria-label="Formulier voor opnieuw verzenden verificatie-e-mail">
                     @csrf
-                    <button type="submit" class="bg-purple-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-purple-700 transition duration-300">
+                    <button type="submit" class="bg-purple-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-purple-700 transition duration-300" aria-label="Verstuur de verificatie-e-mail opnieuw">
                         <i class="fa-solid fa-paper-plane mr-2"></i> Stuur opnieuw
                     </button>
                 </form>
