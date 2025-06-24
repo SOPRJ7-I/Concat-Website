@@ -44,7 +44,10 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('home');
+        // return redirect()->route('home');
+        
+        return redirect()->route('verification.notice');
+
     }
 
     public function login(Request $request)

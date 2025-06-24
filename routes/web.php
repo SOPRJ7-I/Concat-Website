@@ -15,6 +15,9 @@ use App\Http\Controllers\RoostersController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\AboutUsController;
 
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+
 // routes/web.php
 
 // Community Nights
@@ -44,8 +47,13 @@ Route::get('/community-nights/{id}/edit', [CommunityNightController::class, 'edi
 Route::put('/community-nights/{communityNight}/update', [CommunityNightController::class, 'update'])->name('community-nights.update');
 
 
-Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
+// Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show'); // hier moet het verified gedeelte 
 
+Route::get('/events/{event}', [EventController::class, 'show'])
+     ->middleware(['auth', 'verified'])
+     ->name('events.show');
+
+     
 //galerij
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
 Route::middleware(['auth'])->group(function () {
@@ -62,6 +70,23 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('show.login');
 Route::post('/register', [AuthController::class, 'Register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+
+Route::get('/email/verify', function () {
+        return view('auth.verify');
+    })->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect('/');
+    })->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('message', 'Een nieuwe verificatielink is gestuurd!');
+    })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
 
 // announcements
 
