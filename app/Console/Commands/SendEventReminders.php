@@ -48,7 +48,7 @@ class SendEventReminders extends Command
 
         foreach ($events as $event) {
             if ($event->registrations->isEmpty()) {
-                $this->line('  -> Evenement "' . $event->name . '" heeft geen inschrijvingen. Wordt overgeslagen.');
+                $this->line('  -> Evenement "' . $event->titel . '" heeft geen inschrijvingen. Wordt overgeslagen.');
                 continue;
             }
 
@@ -65,7 +65,7 @@ class SendEventReminders extends Command
                 }
 
                 try {
-                    Mail::to($recipientEmail)->send(new EventNotification($event, $registration));
+                    Mail::to($recipientEmail)->send(new EventNotification($event));
                     $this->line('      - Herinnering verstuurd naar ' . $recipientEmail . ' (' . $recipientName . ')');
                 } catch (\Exception $e) {
                     $this->error('      - FOUT bij versturen naar ' . $recipientEmail . ': ' . $e->getMessage());

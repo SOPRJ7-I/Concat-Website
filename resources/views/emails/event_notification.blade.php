@@ -8,7 +8,7 @@
 
     <p>Beste student,</p>
 
-    <p>Dit is een herinnering voor de aankomende evenement:</p>
+    <p>Dit is een herinnering voor het aankomende evenement:</p>
 
     <ul>
         <li><strong>Titel:</strong> {{ $event->titel }}</li>
