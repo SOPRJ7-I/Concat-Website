@@ -39,7 +39,7 @@
                                class="block w-full aspect-square relative overflow-hidden"
                                aria-label="Details bekijken van {{ $event->titel }}">
                                 @if(isset($event->afbeelding))
-                                    <img src="{{ $event->afbeelding }}"
+                                    <img src="{{ asset('storage/' . $event->afbeelding) }}"
                                          alt="Afbeelding van {{ $event->titel }}. Datum: {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}"
                                          class="w-full object-cover">
                                 @else
