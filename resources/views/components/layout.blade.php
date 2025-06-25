@@ -57,9 +57,11 @@
                         <!-- <x-nav-link href="/register">Registreren</x-nav-link> -->
                         <x-nav-link href="/login"><i class="text-2xl fa-solid fa-right-to-bracket"></i></x-nav-link>
                     @endguest
-                    @auth
-                        <x-nav-link href="/roosters"><i class="text-xl fa-solid fa-calendar-days"></i></x-nav-link>
 
+                    @auth
+                        @if(Auth::user()->isAdmin())
+                            <x-nav-link href="/roosters"><i class="text-xl fa-solid fa-calendar-days"></i></x-nav-link>
+                        @endif
                     @endauth
 
                     @auth
@@ -122,8 +124,9 @@
                     </x-nav-link>
                 @endguest
                 @auth
-                    <x-nav-link href="/roosters"><i class="text-xl fa-solid fa-calendar-days"></i></x-nav-link>
-
+                    @if(Auth::user()->isAdmin())
+                        <x-nav-link href="/roosters"><i class="text-xl fa-solid fa-calendar-days"></i></x-nav-link>
+                    @endif
                 @endauth
 
                 @auth
