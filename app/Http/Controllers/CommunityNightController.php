@@ -72,7 +72,7 @@ class CommunityNightController extends Controller
             $newCommunityNight->start_time ? date('d-m-Y', strtotime($newCommunityNight->start_time)) : null, // Alleen datum
             $newCommunityNight->start_time ? date('H:i', strtotime($newCommunityNight->start_time)) : null, // Alleen tijd
             $newCommunityNight->location ?? null, // Locatie
-            $newCommunityNight->capacity ?? null, // Beschikbare plekken
+            $newCommunityNight->capacity ?? 0, // Beschikbare plekken
             route('community-nights.show', $newCommunityNight->id) // Gebruik het ID van het nieuwe model
         ));
 
@@ -137,7 +137,7 @@ class CommunityNightController extends Controller
         $communityNight->save();
 
         // Redirect naar de detailpagina of een andere gewenste pagina
-        return redirect()->route('community-nights.edit', $communityNight->id)
+        return redirect()->route('community-nights.index')
                  ->with('success', 'Community avond succesvol bijgewerkt!');
 
     }
