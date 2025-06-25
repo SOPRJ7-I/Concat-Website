@@ -47,7 +47,7 @@
                 <img
                     src="{{ Storage::url($member['photo']) }}"
                     alt="Foto van {{ $member['name'] }}"
-                    class="w-32 h-32 object-cover rounded-lg shadow"
+                    class="w-64 h-64 object-cover rounded-lg shadow"
                 >
             </div>
             {{-- Volledige bio --}}
