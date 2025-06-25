@@ -103,7 +103,7 @@
                                             @if(auth()->user() && auth()->user()->isAdmin())
                                                 <div class="text-lg font-bold">
                                                     Inschrijvingen:
-                                                    @if(true)
+                                                    @if($availableSpots > 0)
                                                         {{ $registeredCount }} / {{ $availableSpots }}
                                                     @else
                                                         Geen plaatsen beschikbaar
