@@ -6,11 +6,11 @@
 </head>
 
 <x-layout>
-    <div class="lg:my-12 max-w-4xl border-2 mx-auto shadow-xl rounded-lg overflow-hidden bg-white" role="main">
+    <div class="lg:my-12 w-full max-w-5xl border-2 mx-auto shadow-xl rounded-lg overflow-hidden bg-white" role="main">
 
         <!-- Header met afbeelding of titel -->
         <div class="relative bg-gray-200 overflow-hidden">
-            @if(isset($event->afbeelding) && $event->afbeelding && Storage::exists($event->afbeelding))
+            @if(isset($event->afbeelding))
                 <div class="lg:h-64">
                     <img src="{{ Storage::url($event->afbeelding) }}" alt="Afbeelding van evenement: {{ $event->titel }}" class="w-full h-full object-cover" />
                 </div>
@@ -23,7 +23,7 @@
 
         <!-- Hoofdinhoud van het evenement -->
         <div class="p-6 md:p-14 ">
-            <div class="flex flex-col lg:flex-row gap-8 mr-11">
+            <div class="flex flex-col lg:flex-row gap-8">
 
                 <div class="flex-1" aria-labelledby="eventTitle">
                     @if(session('success'))
@@ -65,9 +65,9 @@
                         <div class="flex items-center text-gray-500 mb-4">
                             <i class="fa-solid fa-calendar text-3xl flex-shrink-0" aria-hidden="true"></i>
                             <span class="text-lg font-bold ml-2">
-                                Datum start: {{ \Carbon\Carbon::parse($event->datum)->format('d-m-Y') ?? 'Datum onbekend' }}, 
+                                Datum start: {{ \Carbon\Carbon::parse($event->datum)->format('d-m-Y') ?? 'Datum onbekend' }},
                                 {{ \Carbon\Carbon::parse($event->starttijd)->format('H:i') ?? 'Tijd onbekend' }} <br>
-                                Datum einde: {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') ?? 'Einddatum onbekend' }}, 
+                                Datum einde: {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') ?? 'Einddatum onbekend' }},
                                 {{ \Carbon\Carbon::parse($event->eindtijd)->format('H:i') ?? 'Eindtijd onbekend' }}
                             </span>
                         </div>
@@ -101,18 +101,23 @@
                     <div class="flex items-center text-gray-500 mb-4" aria-label="Informatie over beschikbare en ingeschreven plekken">
                         <i class="fa-solid fa-users text-3xl flex-shrink-0" aria-hidden="true"></i>
                         <div class="ml-2">
-                            <div class="text-lg font-bold">
-                                Totaal aantal plekken: 
-                                @if($availableSpots > 0)
-                                    {{ $availableSpots }} plekken
-                                @else
-                                    Geen plaatsen beschikbaar
-                                @endif
-                            </div>
-
-                            @if(auth()->user() && auth()->user()->is_admin)
+                            @if(auth()->user() && auth()->user()->isAdmin())
                                 <div class="text-lg font-bold">
-                                    Aantal ingeschreven: {{ $registeredCount }}
+                                    Inschrijvingen:
+                                    @if($availableSpots > 0)
+                                        {{ $registeredCount }} / {{ $availableSpots }}
+                                    @else
+                                        Geen plaatsen beschikbaar
+                                    @endif
+                                </div>
+                            @else
+                                <div class="text-lg font-bold">
+                                    Totaal aantal plekken:
+                                    @if($availableSpots > 0)
+                                        {{ $availableSpots }} plekken
+                                    @else
+                                        Geen plaatsen beschikbaar
+                                    @endif
                                 </div>
                             @endif
                         </div>
@@ -124,7 +129,7 @@
                     </button>
 
                     <!-- Link 'Zet in agenda' -->
-                    <div class="text-center -mt-5 -mb-7">
+                    <div class="text-center -mb-7">
                         <a href="{{ route('events.ics', $event->id) }}"
                             class="text-sm text-purple-600 hover:underline font-medium transition duration-200"
                             aria-label="Download evenement {{ $event->titel }} en voeg het toe aan je agenda">

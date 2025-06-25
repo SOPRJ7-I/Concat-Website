@@ -65,19 +65,20 @@
 
         {{-- Eventslijst --}}
         <div class="flex flex-col flex-wrap my-4">
-            
+
             <div class="grid sm:grid-cols-2 gap-8 lg:gap-6 mx-auto">
                 @foreach($events as $event)
                     <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
                         <a href="{{ route('events.show', $event->id) }}"
+                           class="block w-full aspect-square relative overflow-hidden"
                            aria-label="Details bekijken van {{ $event->titel }}">
-                            @if(isset($event->afbeelding) && isset($event->start_datum) && isset($event->einddatum) && isset($event->locatie))
-                                <img src="{{ $event->afbeelding }}"
+                            @if(isset($event->afbeelding))
+                                <img src="{{ asset('storage/' . $event->afbeelding) }}"
                                      alt="Afbeelding van {{ $event->titel }}. Datum: {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}"
-                                     class="h-44 w-full object-cover">
+                                     class="aspect-square object-cover w-full h-full">
                             @else
-                                <div class="p-5 sm:h-44 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500" aria-hidden="true">
-                                    <h1 class="text-white text-3xl font-bold">{{ $event->titel }}</h1>
+                                <div class="p-5 flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-500 w-full h-full" aria-hidden="true">
+                                    <h1 class="text-white text-3xl font-bold text-center w-full break-words">{{ $event->titel }}</h1>
                                 </div>
                             @endif
                         </a>
@@ -152,7 +153,7 @@
                             <a href="{{ route('events.show', $event->id) }}"
                                class="inline-flex items-center text-sm text-center bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold"
                                aria-label="Lees meer over {{ $event->titel }}. Datum van {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}">
-                                Lees meer over {{ $event->titel }}
+                                Lees meer...
                             </a>
                         </div>
                     </div>
