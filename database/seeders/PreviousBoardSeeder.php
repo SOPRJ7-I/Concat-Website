@@ -46,14 +46,14 @@ class PreviousBoardSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'FromYear' => '2020-09-01',
-                'ToYear' => '2021-07-01',
-                'members' => 'Emma, Lars, Sophie, Noah',
-                'photo' => 'about-us/personal/board/testfoto.png',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+//            [
+//                'FromYear' => '2020-09-01',
+//                'ToYear' => '2021-07-01',
+//                'members' => 'Emma, Lars, Sophie, Noah',
+//                'photo' => 'about-us/personal/board/testfoto.png',
+//                'created_at' => now(),
+//                'updated_at' => now(),
+//            ],
         ]);
     }
 }
