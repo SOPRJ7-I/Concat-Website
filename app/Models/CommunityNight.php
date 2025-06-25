@@ -63,4 +63,11 @@ class CommunityNight extends Model
             get: fn() => $this->attributes['capacity'] === null ? 'Onbeperkt' : (string)$this->attributes['capacity'],
         );
     }
+
+    public function fullStartTime(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => Carbon::parse($this->attributes['start_time']),
+        );
+    }
 }
