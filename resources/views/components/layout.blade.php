@@ -84,17 +84,42 @@
                 </a>
                 <x-nav-link href="/events/index">Evenementen</x-nav-link>
                 <x-nav-link href="/community-nights">Community Avonden</x-nav-link>
-                <x-nav-link href="/gallery"><i class="text-xl fa-solid fa-image"></i></x-nav-link>
-                <x-nav-link href="{{ route('sponsors.index')  }}"><i
-                        class="text-xl fa-solid fa-handshake"></i></x-nav-link>
-                <x-nav-link href="/newsletters"><i class="text-xl fa-solid fa-envelope"></i></x-nav-link>
-                <x-nav-link href="{{ route('assignments.index') }}"><i
-                        class="text-xl fa-solid fa-briefcase"></i></x-nav-link>
-                <x-nav-link href="/about-us"><i class="text-xl fa-solid fa-users"></i></x-nav-link>
-                <x-nav-link href="/account"><i class="text-xl fa-solid fa-user"></i></x-nav-link>
+
+                <x-nav-link href="/gallery">
+                    <i class="text-xl fa-solid fa-image"></i>
+                    <span class="ml-2">Galerij</span>
+                </x-nav-link>
+
+                <x-nav-link href="{{ route('sponsors.index')  }}">
+                    <i class="text-xl fa-solid fa-handshake"></i>
+                    <span class="ml-2">Sponsoren</span>
+                </x-nav-link>
+
+                <x-nav-link href="/newsletters">
+                    <i class="text-xl fa-solid fa-envelope"></i>
+                    <span class="ml-2">Nieuwsbrief</span>
+                </x-nav-link>
+
+                <x-nav-link href="{{ route('assignments.index') }}">
+                    <i class="text-xl fa-solid fa-briefcase"></i>
+                    <span class="ml-2">Opdrachten</span>
+                </x-nav-link>
+
+                <x-nav-link href="/about-us">
+                    <i class="text-xl fa-solid fa-users"></i>
+                    <span class="ml-2">About Us</span>
+                </x-nav-link>
+
+                <x-nav-link href="/account">
+                    <i class="text-xl fa-solid fa-user"></i>
+                    <span class="ml-2">Account</span>
+                </x-nav-link>
 
                 @guest
-                    <x-nav-link href="/login">Inloggen</x-nav-link>
+                    <x-nav-link href="/login">
+                        <i class="text-xl fa-solid fa-right-to-bracket"></i>
+                        <span class="ml-2">Inloggen</span>
+                    </x-nav-link>
                 @endguest
                 @auth
                     <x-nav-link href="/roosters"><i class="text-xl fa-solid fa-calendar-days"></i></x-nav-link>
