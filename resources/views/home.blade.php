@@ -38,8 +38,8 @@
                             <a href="{{ route('events.show', $event->id) }}"
                                class="block w-full aspect-square relative overflow-hidden"
                                aria-label="Details bekijken van {{ $event->titel }}">
-                                @if(isset($event->afbeelding) && isset($event->start_datum) && isset($event->einddatum) && isset($event->locatie))
-                                    <img src="{{ $event->afbeelding }}"
+                                @if(isset($event->afbeelding))
+                                    <img src="{{ asset('storage/' . $event->afbeelding) }}"
                                          alt="Afbeelding van {{ $event->titel }}. Datum: {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}"
                                          class="w-full object-cover">
                                 @else
@@ -100,20 +100,23 @@
                                            alt="Aantal inschrijvingen evenement" aria-hidden="true"></i>
                                         <div class="ml-2">
                                             <!-- Totaal aantal plekken -->
-                                            <div class="text-lg font-bold">
-                                                Totaal aantal plekken:
-                                                @if($availableSpots > 0)
-                                                    {{ $availableSpots }} plekken
-                                                @else
-                                                    Geen plaatsen beschikbaar
-                                                @endif
-                                            </div>
-
-                                            <!-- Aantal ingeschreven -->
-                                            @if(auth()->user() && auth()->user()->is_admin)
-                                                <!-- Check if the user is admin -->
+                                            @if(auth()->user() && auth()->user()->isAdmin())
                                                 <div class="text-lg font-bold">
-                                                    Aantal ingeschreven: {{ $registeredCount }}
+                                                    Inschrijvingen:
+                                                    @if($availableSpots > 0)
+                                                        {{ $registeredCount }} / {{ $availableSpots }}
+                                                    @else
+                                                        Geen plaatsen beschikbaar
+                                                    @endif
+                                                </div>
+                                            @else
+                                                <div class="text-lg font-bold">
+                                                    Totaal aantal plekken:
+                                                    @if($availableSpots > 0)
+                                                        {{ $availableSpots }} plekken
+                                                    @else
+                                                        Geen plaatsen beschikbaar
+                                                    @endif
                                                 </div>
                                             @endif
                                         </div>
@@ -123,7 +126,7 @@
                                     <a href="{{ route('events.show', $event->id) }}"
                                        class="inline-flex items-center text-sm text-center bg-[#3129FF] text-white py-2 px-4 rounded-lg hover:bg-[#E39FF6] transition font-semibold"
                                        aria-label="Lees meer over {{ $event->titel }}. Datum van {{ \Carbon\Carbon::parse($event->start_datum)->format('d-m-Y') }} tot {{ \Carbon\Carbon::parse($event->einddatum)->format('d-m-Y') }} in {{ $event->locatie }}">
-                                        Lees meer over {{ $event->titel }}
+                                        Lees meer...
                                     </a>
                                 </div>
                             </div>

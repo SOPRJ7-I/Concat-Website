@@ -24,7 +24,7 @@ class EventsSeeder extends Seeder
             'eindtijd' => '18:00:00',
             'aantal_beschikbare_plekken' => 500,
             'betaal_link' => 'https://techconference2025.com/tickets',
-            'afbeelding' => 'tech_conferentie.jpg',
+            'afbeelding' => 'event_images/54537061890_9efd6b8a74.jpg',
         ]);
 
         Events::create([
@@ -38,7 +38,7 @@ class EventsSeeder extends Seeder
             'eindtijd' => '23:00:00',
             'aantal_beschikbare_plekken' => 1000,
             'betaal_link' => 'https://foodfestivalamsterdam.com/tickets',
-            'afbeelding' => 'food_festival.jpg',
+            'afbeelding' => 'event_images/6970631088_f8a396cc6a.jpg',
         ]);
 
         Events::create([
@@ -52,7 +52,7 @@ class EventsSeeder extends Seeder
             'eindtijd' => '18:00:00',
             'aantal_beschikbare_plekken' => 300,
             'betaal_link' => 'https://artexpo2025.com/tickets',
-            'afbeelding' => 'kunst_expo.jpg',
+            'afbeelding' => 'event_images/8054431317_b18f235087.jpg',
         ]);
 
         Events::create([
@@ -66,7 +66,7 @@ class EventsSeeder extends Seeder
             'eindtijd' => '23:00:00',
             'aantal_beschikbare_plekken' => 400,
             'betaal_link' => 'https://filmfestivalleiden.com/tickets',
-            'afbeelding' => 'film_festival.jpg',
+            'afbeelding' => 'event_images/8245735846_7edf33b44f.jpg',
         ]);
 
         Events::create([
@@ -80,7 +80,7 @@ class EventsSeeder extends Seeder
             'eindtijd' => '01:00:00',
             'aantal_beschikbare_plekken' => 700,
             'betaal_link' => 'https://musicfestivalthehague.com/tickets',
-            'afbeelding' => 'muziek_festival.jpg',
+            'afbeelding' => 'event_images/8477361580_6e1f3fd6ce.jpg',
         ]);
 
         Events::create([
@@ -94,7 +94,7 @@ class EventsSeeder extends Seeder
             'eindtijd' => '20:00:00',
             'aantal_beschikbare_plekken' => 2000,
             'betaal_link' => 'https://christmasmarketmaastricht.com/tickets',
-            'afbeelding' => 'kerstmarkt.jpg',
+            'afbeelding' => 'event_images/28091025389_41df4f7c99.jpg',
         ]);
 
         Events::create([
@@ -108,7 +108,7 @@ class EventsSeeder extends Seeder
             'eindtijd' => '22:00:00',
             'aantal_beschikbare_plekken' => 600,
             'betaal_link' => 'https://summerbeachparty.com/tickets',
-            'afbeelding' => 'strandfeest.jpg',
+            'afbeelding' => 'event_images/30193245810_7b7ff74cd5.jpg',
         ]);
 
         Events::create([
@@ -122,7 +122,7 @@ class EventsSeeder extends Seeder
             'eindtijd' => '20:00:00',
             'aantal_beschikbare_plekken' => 800,
             'betaal_link' => 'https://dancefestivalrotterdam.com/tickets',
-            'afbeelding' => 'dansfestival.jpg',
+            'afbeelding' => 'event_images/30212993894_85351f21ba.jpg',
         ]);
 
         Events::create([
@@ -136,7 +136,7 @@ class EventsSeeder extends Seeder
             'eindtijd' => '23:00:00',
             'aantal_beschikbare_plekken' => 300,
             'betaal_link' => 'https://filmfestivalleiden.com/tickets',
-            'afbeelding' => 'film_festival.jpg',
+            'afbeelding' => 'event_images/36289482971_a3a77b523c.jpg',
         ]);
     }
 }
