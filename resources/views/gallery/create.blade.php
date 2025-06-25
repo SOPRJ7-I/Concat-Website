@@ -114,9 +114,9 @@
             const submitBtn = document.getElementById('submitBtn');
             const form = document.getElementById('galleryForm');
 
-            // Maximum upload grootte in bytes
-            const MAX_TOTAL_SIZE = 20 * 1024 * 1024; // 20MB
-            const MAX_FILE_SIZE = 5 * 1024 * 1024;   // 5MB per bestand
+            // Verhoog de limieten om overeen te komen met je controller
+            const MAX_TOTAL_SIZE = 50 * 1024 * 1024; // 50MB totaal
+            const MAX_FILE_SIZE = 5 * 1024 * 1024;   // 5MB per bestand (match met controller)
 
             fileInput.addEventListener('change', function() {
                 const files = this.files;

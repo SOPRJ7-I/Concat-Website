@@ -34,17 +34,17 @@ class GalleryController extends Controller
             'date' => 'required|date',
             'type' => 'required|in:blokborrel,education',
             'images' => 'required|array',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:1000',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:5120', // 5MB per bestand
             'evenementen' => 'nullable|array',
             'evenementen.*' => 'exists:events,id',
         ], [
             'title.required' => 'De titel is verplicht.',
             'date.required' => 'De datum is verplicht.',
             'type.required' => 'Het type evenement is verplicht.',
-            'image.required' => 'De afbeelding is verplicht.',
-            'image.image' => 'De afbeelding moet een geldig beeldbestand zijn.',
-            'image.mimes' => 'De afbeelding moet een van de volgende formaten hebben: jpeg, png, jpg, gif.',
-            'image.max' => 'De afbeelding mag niet groter zijn dan 1MB.'
+            'images.required' => 'Er moet minimaal één afbeelding worden geüpload.',
+            'images.*.image' => 'Alle bestanden moeten geldige afbeeldingen zijn.',
+            'images.*.mimes' => 'Afbeeldingen moeten een van de volgende formaten hebben: jpeg, png, jpg, gif.',
+            'images.*.max' => 'Elke afbeelding mag niet groter zijn dan 5MB.'
         ]);
 
         foreach ($request->file('images') as $image) {
