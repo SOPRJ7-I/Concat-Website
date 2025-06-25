@@ -35,12 +35,15 @@ public function index()
             foreach ($ical->events() as $event) {
                 $start = Carbon::parse($event->dtstart)->setTimezone('Europe/Amsterdam');
                 $end = Carbon::parse($event->dtend)->setTimezone('Europe/Amsterdam');
+                $urlParts = parse_url($rooster->ical_url);
+                parse_str($urlParts['query'] ?? '', $params);
+                $shortName = $params['value'] ?? 'onbekend';
 
                 $events[] = [
                     'title' => $event->summary,
                     'start' => $start->format('d-m-Y H:i'),
                     'end' => $end->format('d-m-Y H:i'),
-                    'calendar_name' => substr($rooster->ical_url, -10),
+                    'calendar_name' => $shortName,
                     'color' => $color,
                     'klas' => $rooster->klas,
                 ];
