@@ -124,9 +124,24 @@
                     </div>
 
                     <!-- Button om formulier te openen -->
-                    <button id="openFormButton" class="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mb-6" alt="Inschrijven voor event">
+                    <!-- <button id="openFormButton" class="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mb-6" alt="Inschrijven voor event">
                         Inschrijven
-                    </button>
+                    </button> -->
+
+
+                    <!-- Conditionele Inschrijfknop (alleen op verificatie) -->
+
+                    @if (Auth::check() && !Auth::user()->hasVerifiedEmail())
+                        <a href="{{ route('verification.notice') }}" 
+                        title="Je moet je e-mailadres verifiëren om je te kunnen inschrijven."
+                        class="block text-center bg-yellow-500 text-white py-3 px-6 rounded-lg hover:bg-yellow-600 w-full mb-6">
+                            Verifieer je e-mail om in te schrijven
+                        </a>
+                    @else
+                        <button id="openFormButton" class="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mb-6" alt="Inschrijven voor event">
+                            Inschrijven
+                        </button>
+                    @endif
 
                     <!-- Link 'Zet in agenda' -->
                     <div class="text-center -mb-7">
