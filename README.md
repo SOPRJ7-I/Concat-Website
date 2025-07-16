@@ -121,4 +121,5 @@ Append the related issue ID to the branch name to make it easier to identity and
 _Important Info: You might see a warning like: `Warning: TTY mode is not supported on Windows platform.`, This is normal and can be safely ignored, the tests should still run correctly._
 
 ## Comments
-TBD
+Webhooks:
+- Webhooks for the discord forwarding can be set inside of the ``.env`` file
