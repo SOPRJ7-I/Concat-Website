@@ -121,10 +121,12 @@ Append the related issue ID to the branch name to make it easier to identity and
 _Important Info: You might see a warning like: `Warning: TTY mode is not supported on Windows platform.`, This is normal and can be safely ignored, the tests should still run correctly._
 
 ## Comments
-Webhooks:
-- Webhooks for the discord forwarding can be set inside of the ``.env`` file:
+
+### Webhooks
+Webhooks for the discord forwarding can be set inside of the ``.env`` file:
 ```php
 DISCORD_WEBHOOK_EVENTS=https://discord.com/api/webhooks/... 
 DISCORD_WEBHOOK_ANNOUNCEMENTS=https://discord.com/api/webhooks/... 
 DISCORD_WEBHOOK_COMMUNITY_NIGHTS=https://discord.com/api/webhooks/... 
 ```
+Replace the existing links with the webhook links from desired channels. 
