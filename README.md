@@ -122,4 +122,9 @@ _Important Info: You might see a warning like: `Warning: TTY mode is not support
 
 ## Comments
 Webhooks:
-- Webhooks for the discord forwarding can be set inside of the ``.env`` file
+- Webhooks for the discord forwarding can be set inside of the ``.env`` file:
+```php
+DISCORD_WEBHOOK_EVENTS=https://discord.com/api/webhooks/... 
+DISCORD_WEBHOOK_ANNOUNCEMENTS=https://discord.com/api/webhooks/... 
+DISCORD_WEBHOOK_COMMUNITY_NIGHTS=https://discord.com/api/webhooks/... 
+```
